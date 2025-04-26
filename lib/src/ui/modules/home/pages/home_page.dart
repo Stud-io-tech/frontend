@@ -73,11 +73,18 @@ class _HomePageState extends State<HomePage> {
             ),
           )),
       drawer: DrawerMenu(
-        firstOnPressed: () => Navigator.of(context).pushReplacementNamed('/'),
-        secoundOnPressed: () =>
-            Navigator.of(context).pushReplacementNamed('/product'),
-        thirdOnPressed: () =>
-            Navigator.of(context).pushReplacementNamed('/store'),
+        firstOnPressed: () {
+          controller.onItemTapped(0);
+          Navigator.of(context).pop();
+        },
+        secoundOnPressed: () {
+          controller.onItemTapped(1);
+          Navigator.of(context).pop();
+        },
+        thirdOnPressed: () {
+          controller.onItemTapped(2);
+          Navigator.of(context).pop();
+        },
         fourthOnPressed: () {
           if (authController.user == null) {
             Navigator.of(context).pushReplacementNamed('/login');
