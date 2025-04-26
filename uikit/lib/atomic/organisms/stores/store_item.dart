@@ -21,17 +21,16 @@ class StoreItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius: BorderRadius. circular(
+      borderRadius: BorderRadius.circular(
         SizeToken.xxs,
       ),
       child: Container(
         decoration: BoxDecoration(
-            border: Border.all(
-                color: ColorToken.neutral, width: 1.5),
-            borderRadius: BorderRadius.circular(
-              SizeToken.xs,
-            ),),
-            padding: const EdgeInsets.symmetric(horizontal: SizeToken.sm),
+          borderRadius: BorderRadius.circular(
+            SizeToken.xs,
+          ),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: SizeToken.xxs),
         child: ListTile(
           contentPadding: EdgeInsets.zero,
           title: TextLabelL2Dark(
@@ -53,7 +52,7 @@ class StoreItem extends StatelessWidget {
               height: 45,
               width: 45,
               child: Image.network(
-                image != null? image! : '',
+                image != null ? image! : '',
                 fit: BoxFit.contain,
               ),
             ),

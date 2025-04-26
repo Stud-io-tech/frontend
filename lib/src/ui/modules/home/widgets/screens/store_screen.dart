@@ -69,9 +69,7 @@ class _StoreScreenState extends State<StoreScreen> {
                   text: TextConstant.storeNotFound);
             }
             return ListView.separated(
-              separatorBuilder: (context, index) => const SizedBox(
-                height: SizeToken.xs,
-              ),
+              separatorBuilder: (context, index) => const DividerDefault(),
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               itemCount: storeController.stores?.length ?? 0,
