@@ -1,5 +1,5 @@
 final class TextConstant {
-  static String welcome = 'Bem-vindo ao My Fome.';
+  static String welcome = 'Bem-vindo ao MyFome.';
   static String home = 'Home';
   static String products = 'Produtos';
   static String stores = 'Lojas';
@@ -90,7 +90,7 @@ final class TextConstant {
   static String actives = "Ativos";
   static const String search = 'Pesquisar...';
   static String save = 'Salvar';
-  static String serverError = 'O My Fome está fora do ar!';
+  static String serverError = 'O MyFome está fora do ar!';
   static String fieldError = "Campo obrigarório!";
   static String minCaractersPhone = 'O mínimo de caracters é 11!';
   static String maxCaractersPhone = 'O máximo de caracters é 11!';

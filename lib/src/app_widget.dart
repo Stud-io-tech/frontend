@@ -92,7 +92,7 @@ class AppWidget extends StatelessWidget {
       ],
       builder: (context, routes, flutterGetItNavObserver) {
         return MaterialApp(
-          title: 'My Fome',
+          title: 'MyFome',
           debugShowCheckedModeBanner: false,
           theme: theme,
           navigatorKey: navigatorKey,
