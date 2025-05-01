@@ -13,6 +13,7 @@ final class IconConstant {
   static const String remove = 'assets/icons/remove.svg';
   static const String restore = 'assets/icons/restore.svg';
   static const String search = 'assets/icons/search.svg';
+  static const String filter = 'assets/icons/filter.svg';
   static const String storeAdd = 'assets/icons/store_add.svg';
   static const String store = 'assets/icons/store.svg';
   static const String success = 'assets/icons/success.svg';

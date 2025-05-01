@@ -60,9 +60,12 @@ class _ProductByStorePageState extends State<ProductByStorePage> {
                     height: SizeToken.lg,
                   ),
                   InputSearch(
-                      onChanged: productController.filterProducts,
-                      hintText: TextConstant.search,
-                      icon: IconConstant.search),
+                    onChanged: productController.filterProducts,
+                    hintText: TextConstant.search,
+                    prefixIcon: IconConstant.search,
+                    sufixIcon: IconConstant.filter,
+                    sufixOnTap: () {},
+                  ),
                   const SizedBox(
                     height: SizeToken.xxs,
                   ),

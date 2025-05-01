@@ -4,8 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:uikit/uikit.dart';
 
 class InputDefault extends StatelessWidget {
-  final String? icon;
+  final String? prefixIcon;
   final String? prefix;
+  final String? sufixIcon;
   final void Function()? onTap;
   final TextInputType? keyBoardType;
   final String hintText;
@@ -16,11 +17,14 @@ class InputDefault extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   final void Function(String)? onChanged;
+  final void Function()? sufixOnTap;
   final double? paddingLeftPrefix;
+  final double? paddingLeftSufix;
   const InputDefault({
     super.key,
-    this.icon,
+    this.prefixIcon,
     this.prefix,
+    this.sufixIcon,
     this.onTap,
     this.keyBoardType,
     required this.hintText,
@@ -32,6 +36,8 @@ class InputDefault extends StatelessWidget {
     this.controller,
     this.onChanged,
     this.paddingLeftPrefix,
+    this.paddingLeftSufix,
+    this.sufixOnTap,
   });
 
   @override
@@ -54,13 +60,26 @@ class InputDefault extends StatelessWidget {
         isDense: true,
         prefix: prefix != null ? TextBodyB1Dark(text: prefix!) : null,
         prefixIconConstraints: const BoxConstraints(),
+        suffixIconConstraints: const BoxConstraints(),
+        suffixIcon: Padding(
+          padding: EdgeInsets.only(
+              right: sufixIcon != null ? SizeToken.xs : SizeToken.sm,
+              left: sufixIcon != null ? 0 : SizeToken.xxs),
+          child: sufixIcon != null
+              ? IconLargeSemiDark(
+                  onTap: sufixOnTap,
+                  icon: sufixIcon!,
+                  padding: SizeToken.xs,
+                )
+              : const SizedBox.shrink(),
+        ),
         prefixIcon: Padding(
           padding: EdgeInsets.only(
               right: paddingLeftPrefix != null ? paddingLeftPrefix! : 0,
               left: SizeToken.xxs),
-          child: icon != null
+          child: prefixIcon != null
               ? IconLargeSemiDark(
-                  icon: icon!,
+                  icon: prefixIcon!,
                   padding: SizeToken.xs,
                 )
               : const SizedBox.shrink(),
