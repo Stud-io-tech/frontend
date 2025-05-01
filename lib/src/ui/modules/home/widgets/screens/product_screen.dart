@@ -34,9 +34,12 @@ class _ProductScreenState extends State<ProductScreen> {
             height: SizeToken.md,
           ),
           InputSearch(
-              onChanged: productController.filterProducts,
-              hintText: TextConstant.search,
-              icon: IconConstant.search),
+            onChanged: productController.filterProducts,
+            hintText: TextConstant.search,
+            prefixIcon: IconConstant.search,
+            sufixIcon: IconConstant.filter,
+            sufixOnTap: () {},
+          ),
           const SizedBox(
             height: SizeToken.xxs,
           ),
@@ -59,11 +62,11 @@ class _ProductScreenState extends State<ProductScreen> {
               );
             }
             if (productController.isServerError) {
-                return BannerError(
-                  image: ImageErrorConstant.serverError,
-                  text: TextConstant.serverError,
-                );
-              }
+              return BannerError(
+                image: ImageErrorConstant.serverError,
+                text: TextConstant.serverError,
+              );
+            }
             if (productController.productFilterListActive!.isEmpty) {
               return BannerError(
                   image: ImageErrorConstant.empty,
@@ -82,7 +85,8 @@ class _ProductScreenState extends State<ProductScreen> {
               ),
               itemCount: productController.productFilterListActive?.length ?? 0,
               itemBuilder: (context, index) {
-                final product = productController.productFilterListActive?[index];
+                final product =
+                    productController.productFilterListActive?[index];
                 return ProductItem(
                   image: product!.image,
                   name: product.name,

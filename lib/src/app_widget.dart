@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:my_fome/src/constants/navigator/navigator_global.dart';
 import 'package:my_fome/src/data/repositories/products/produtc_repository_impl.dart';
 import 'package:my_fome/src/data/repositories/stores/store_repository_impl.dart';
 import 'package:my_fome/src/data/repositories/users/user_repository_impl.dart';
@@ -31,13 +32,15 @@ class AppWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
     return FlutterGetIt(
       bindingsBuilder: () {
         return [
           Bind.singleton<LocalStorageService>((i) => LocalStorageServiceImpl()),
           Bind.singleton<ResultMessageService>(
-              (i) => ResultMessageServiceImpl(navigatorKey: navigatorKey)),
+            (i) => ResultMessageServiceImpl(
+              navigatorKey: NavigatorGlobal.navigatorKey,
+            ),
+          ),
           Bind.singleton<ClientService>((i) => ClientServiceImpl(i())),
           Bind.singleton<AuthGoogleService>((i) => AuthGoogleServiceImpl()),
           Bind.singleton<UserRepository>(
@@ -95,7 +98,7 @@ class AppWidget extends StatelessWidget {
           title: 'MyFome',
           debugShowCheckedModeBanner: false,
           theme: theme,
-          navigatorKey: navigatorKey,
+          navigatorKey: NavigatorGlobal.navigatorKey,
           navigatorObservers: [flutterGetItNavObserver],
           routes: routes,
         );
