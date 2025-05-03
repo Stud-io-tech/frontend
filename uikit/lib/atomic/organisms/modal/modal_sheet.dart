@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:uikit/uikit.dart';
+import 'package:go_router/go_router.dart';
 
 class ModalSheet extends StatelessWidget {
   final String iconBack;
@@ -33,8 +34,7 @@ class ModalSheet extends StatelessWidget {
           children: [
             Row(
               children: [
-                IconButtonLargeDark(
-                    onTap: () => Navigator.of(context).pop(), icon: iconBack),
+                IconButtonLargeDark(onTap: () => context.pop(), icon: iconBack),
                 const SizedBox(
                   width: SizeToken.sm,
                 ),
@@ -59,7 +59,7 @@ class ModalSheet extends StatelessWidget {
                 Expanded(
                     child: ButtonCancel(
                   text: cancelText,
-                  onPressed: () => Navigator.of(context).pop(),
+                  onPressed: () => context.pop(),
                 )),
                 const SizedBox(
                   width: SizeToken.sm,

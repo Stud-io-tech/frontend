@@ -120,7 +120,6 @@ class ProdutcRepositoryImpl implements ProdutcRepository {
     }
   }
 
-
   @override
   AsyncResult<List<ProductDetailDto>> listActiveByStore(String id) async {
     try {
@@ -139,9 +138,9 @@ class ProdutcRepositoryImpl implements ProdutcRepository {
       );
     }
   }
-  
+
   @override
-  AsyncResult<List<ProductDetailDto>> listInactiveByStore(String id) async{
+  AsyncResult<List<ProductDetailDto>> listInactiveByStore(String id) async {
     try {
       final Response response = await clientService
           .get("${ApiConstant.product}/disabled/$id", requiresAuth: true);
@@ -155,6 +154,25 @@ class ProdutcRepositoryImpl implements ProdutcRepository {
         RestException(
             message: TextConstant.errorListProductsMessage,
             statusCode: e.response?.statusCode ?? 500),
+      );
+    }
+  }
+
+  @override
+  AsyncResult<ProductDetailDto> detail(String id) async {
+    try {
+      final Response response =
+          await clientService.get("${ApiConstant.product}/$id");
+
+      final ProductDetailDto resultProduct =
+          ProductDetailDto.fromMap(response.data['product']);
+      return Success(resultProduct);
+    } on DioException catch (e) {
+      return Failure(
+        RestException(
+          message: TextConstant.errorDetailsProductMessage,
+          statusCode: e.hashCode,
+        ),
       );
     }
   }

@@ -12,6 +12,7 @@ import 'package:my_fome/src/ui/modules/home/widgets/screens/store_screen.dart';
 import 'package:uikit/uikit.dart';
 // ignore: depend_on_referenced_packages
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -75,25 +76,25 @@ class _HomePageState extends State<HomePage> {
       drawer: DrawerMenu(
         firstOnPressed: () {
           controller.onItemTapped(0);
-          Navigator.of(context).pop();
+          context.pop();
         },
         secoundOnPressed: () {
           controller.onItemTapped(1);
-          Navigator.of(context).pop();
+          context.pop();
         },
         thirdOnPressed: () {
           controller.onItemTapped(2);
-          Navigator.of(context).pop();
+          context.pop();
         },
         fourthOnPressed: () {
           if (authController.user == null) {
-            Navigator.of(context).pushReplacementNamed('/login');
+            context.push('/login');
             return;
           }
           if (authController.store != null) {
-            Navigator.of(context).pushReplacementNamed('/store/my');
+            context.push('/store/my');
           } else {
-            Navigator.of(context).pushReplacementNamed('/store/register');
+            context.push('/store/register');
           }
         },
         logoutOnPressed: () {
@@ -109,8 +110,8 @@ class _HomePageState extends State<HomePage> {
                 continueText: TextConstant.yes,
                 continueOnTap: () {
                   authController.logout();
-                  Navigator.of(context).pop();
-                  Navigator.of(context).pop();
+                  context.pop();
+                  context.pop();
                 },
               ),
             );

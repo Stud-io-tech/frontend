@@ -86,7 +86,7 @@ class _StoreScreenState extends State<StoreScreen> {
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => StoreDetailScreenWidget(
-                        store: store,
+                        storeModel: store,
                       ),
                     ),
                   ),

@@ -11,6 +11,7 @@ abstract interface class ProdutcRepository {
   AsyncResult<ProductUpdateDto> update(String id, ProductUpdateDto product,
       {XFile? image});
   AsyncResult<ProductDetailDto> toggleActive(String id);
+  AsyncResult<ProductDetailDto> detail(String id);
   AsyncResult<List<ProductDetailDto>> listActiveByStore(String id);
   AsyncResult<List<ProductDetailDto>> listInactiveByStore(String id);
 }

@@ -18,6 +18,9 @@ abstract class ProductControllerBase with Store {
   });
 
   @computed
+  ProductDetailDto? get product => productViewModel.product;
+
+  @computed
   int get activeFounds => productViewModel.foundActive;
 
   @computed
@@ -28,7 +31,7 @@ abstract class ProductControllerBase with Store {
 
   @computed
   bool get isLoading => productViewModel.isLoading;
-  
+
   @computed
   bool get isServerError => productViewModel.serverError;
 
@@ -72,5 +75,9 @@ abstract class ProductControllerBase with Store {
     await productViewModel.toggleActive(productId);
     await listProductsActiveByStore(storeId);
     await listProductsInactiveByStore(storeId);
+  }
+
+  detailProduct(String id) async {
+    await productViewModel.detail(id);
   }
 }

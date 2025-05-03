@@ -10,6 +10,7 @@ import 'package:my_fome/src/constants/image_error_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:my_fome/src/ui/modules/product/widgets/screen/my_product_detail_screen.dart';
+import 'package:go_router/go_router.dart';
 
 class ProductInactiveByStoreScreenWidget extends StatefulWidget {
   final String storeId;
@@ -86,7 +87,7 @@ class _ProductInactiveScreenWidgetState
                   continueOnTap: () {
                     productController.toggleActive(
                         product.id, storeController.store!.id);
-                    Navigator.of(context).pop();
+                    context.pop();
                   },
                 ),
               ),

@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uikit/uikit.dart';
+import 'package:go_router/go_router.dart';
+
 
 class DrawerMenu extends StatelessWidget {
   final void Function() firstOnPressed;
@@ -60,7 +62,7 @@ class DrawerMenu extends StatelessWidget {
                     children: [
                       IconButtonLargeDark(
                         icon: menuIcon,
-                        onTap: () => Navigator.of(context).pop(),
+                        onTap: () => context.pop(),
                       ),
                       const SizedBox(
                         width: 15,
