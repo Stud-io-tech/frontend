@@ -108,7 +108,7 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
                   onTap: () => Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) =>
-                          ProductDetailScreenWidget(product: product),
+                          ProductDetailScreenWidget(productModel: product),
                     ),
                   ),
                 );

@@ -10,6 +10,7 @@ import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
 import 'package:my_fome/src/ui/modules/product/widgets/screen/my_product_detail_screen.dart';
 import 'package:uikit/uikit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:go_router/go_router.dart';
 
 class MyStorePage extends StatefulWidget {
   const MyStorePage({
@@ -54,11 +55,11 @@ class _MyStorePageState extends State<MyStorePage> {
                   return ImageDetail(
                     image: store.image,
                     iconLeft: IconConstant.arrowLeft,
-                    onTapIconLeft: () =>
-                        Navigator.of(context).pushReplacementNamed('/'),
+                    onTapIconLeft: () => context.push('/'),
                     iconRigth: IconConstant.edit,
                     onTapIconRight: () => Navigator.of(context)
-                        .pushReplacementNamed('/store/update', arguments: store),
+                        .pushReplacementNamed('/store/update',
+                            arguments: store),
                   );
                 }),
                 const SizedBox(
@@ -164,9 +165,9 @@ class _MyStorePageState extends State<MyStorePage> {
                                     continueText: TextConstant.yes,
                                     isLoading: productController.isLoading,
                                     continueOnTap: () {
-                                      productController.toggleActive(
-                                          product.id, storeController.store!.id);
-                                      Navigator.of(context).pop();
+                                      productController.toggleActive(product.id,
+                                          storeController.store!.id);
+                                      context.pop();
                                     },
                                   ),
                                 ),

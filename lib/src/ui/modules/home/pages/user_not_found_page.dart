@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/image_error_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
@@ -40,8 +41,7 @@ class _UserNotFoundPageState extends State<UserNotFoundPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     IconButtonLargeDark(
-                        onTap: () =>
-                            Navigator.of(context).pushReplacementNamed('/'),
+                        onTap: () => context.push('/'),
                         icon: IconConstant.arrowLeft),
                     const SizedBox(
                       width: SizeToken.sm,
@@ -78,9 +78,9 @@ class _UserNotFoundPageState extends State<UserNotFoundPage> {
             await authController.load();
             if (authController.user != null) {
               if (authController.store != null) {
-                Navigator.of(context).pushReplacementNamed('/store/my');
+                context.push('/store/my');
               } else {
-                Navigator.of(context).pushReplacementNamed('/store/register');
+                context.push('/store/register');
               }
             }
           },

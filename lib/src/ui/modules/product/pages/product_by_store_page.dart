@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/image_error_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
@@ -44,8 +45,7 @@ class _ProductByStorePageState extends State<ProductByStorePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 IconButtonLargeDark(
-                    onTap: () =>
-                        Navigator.of(context).pushReplacementNamed('/'),
+                    onTap: () => context.push('/'),
                     icon: IconConstant.arrowLeft),
                 const SizedBox(
                   width: SizeToken.sm,
@@ -130,7 +130,7 @@ class _ProductByStorePageState extends State<ProductByStorePage> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       ProductDetailScreenWidget(
-                                          product: product)),
+                                          id: product.id)),
                             ),
                           );
                         },

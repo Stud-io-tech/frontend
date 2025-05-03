@@ -41,6 +41,9 @@ abstract class ProductViewModelBase with Store {
   List<ProductDetailDto>? productFilterListActiveByStore;
 
   @observable
+  ProductDetailDto? product;
+
+  @observable
   int foundActive = 0;
 
   @observable
@@ -189,6 +192,21 @@ abstract class ProductViewModelBase with Store {
       serverError = true;
       resultMessageService
           .showMessageError(TextConstant.errorListProductsMessage);
+    });
+    isLoading = false;
+  }
+
+  @action
+  Future detail(String id) async {
+    isLoading = true;
+    final result = await productRepository.detail(id);
+    result.fold((success) {
+      serverError = false;
+      product = success;
+    }, (failure) {
+      serverError = true;
+      resultMessageService
+          .showMessageError(TextConstant.errorDetailsStoreMessage);
     });
     isLoading = false;
   }

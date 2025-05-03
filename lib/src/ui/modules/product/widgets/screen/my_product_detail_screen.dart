@@ -10,6 +10,7 @@ import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/store_detail_screen_widget.dart';
 import 'package:uikit/uikit.dart';
+import 'package:go_router/go_router.dart';
 
 class MyProductDetailScreen extends StatefulWidget {
   final ProductDetailDto product;
@@ -47,7 +48,7 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
                   arguments: widget.product),
               image: widget.product.image,
               iconLeft: IconConstant.arrowLeft,
-              onTapIconLeft: () => Navigator.of(context).pop(),
+              onTapIconLeft: () => context.pop(),
             ),
             const SizedBox(
               height: SizeToken.lg,
@@ -96,7 +97,7 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => StoreDetailScreenWidget(
-                            store: store,
+                            storeModel: store,
                           ),
                         ),
                       ),

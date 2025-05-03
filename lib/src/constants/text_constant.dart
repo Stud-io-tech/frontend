@@ -57,8 +57,10 @@ final class TextConstant {
       'Houve um erro ao encontrar o usuário.';
 
   static String errorDetailsStoreMessage = 'Houve um erro ao encontrar a loja.';
+  static String errorDetailsProductMessage = 'Houve um erro ao encontrar o produto.';
   static String errorExecutingProductMessage =
       'Houve um erro de execeução! Tente novamente.';
+  
 
   static String yes = 'Sim';
   static String no = 'Não';

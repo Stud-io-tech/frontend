@@ -9,6 +9,7 @@ import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
 import 'package:my_fome/src/ui/modules/home/controllers/order/order_controller.dart';
+import 'package:go_router/go_router.dart';
 
 class AlertOrder extends StatelessWidget {
   final ProductDetailDto product;
@@ -38,7 +39,7 @@ class AlertOrder extends StatelessWidget {
             ),
             IconButtonMediumDark(
               isBackgroundColor: false,
-              onTap: () => Navigator.of(context).pop(),
+              onTap: () => context.pop(),
               icon: IconConstant.close,
             ),
           ],
