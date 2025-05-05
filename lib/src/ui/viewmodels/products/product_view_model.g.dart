@@ -129,6 +129,22 @@ mixin _$ProductViewModel on ProductViewModelBase, Store {
     });
   }
 
+  late final _$productAtom =
+      Atom(name: 'ProductViewModelBase.product', context: context);
+
+  @override
+  ProductDetailDto? get product {
+    _$productAtom.reportRead();
+    return super.product;
+  }
+
+  @override
+  set product(ProductDetailDto? value) {
+    _$productAtom.reportWrite(value, super.product, () {
+      super.product = value;
+    });
+  }
+
   late final _$foundActiveAtom =
       Atom(name: 'ProductViewModelBase.foundActive', context: context);
 
@@ -228,6 +244,14 @@ mixin _$ProductViewModel on ProductViewModelBase, Store {
         .run(() => super.listInactiveByStore(id));
   }
 
+  late final _$detailAsyncAction =
+      AsyncAction('ProductViewModelBase.detail', context: context);
+
+  @override
+  Future<dynamic> detail(String id) {
+    return _$detailAsyncAction.run(() => super.detail(id));
+  }
+
   late final _$ProductViewModelBaseActionController =
       ActionController(name: 'ProductViewModelBase', context: context);
 
@@ -252,6 +276,7 @@ productsListActiveByStore: ${productsListActiveByStore},
 productFilterListActive: ${productFilterListActive},
 productFilterListInactiveByStore: ${productFilterListInactiveByStore},
 productFilterListActiveByStore: ${productFilterListActiveByStore},
+product: ${product},
 foundActive: ${foundActive},
 foundActiveByStore: ${foundActiveByStore},
 foundInactiveByStore: ${foundInactiveByStore},

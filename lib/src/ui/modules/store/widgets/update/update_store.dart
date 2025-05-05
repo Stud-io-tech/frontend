@@ -2,19 +2,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
-import 'package:my_fome/src/domain/dtos/stores/store_update_dto.dart';
-import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
-import 'package:my_fome/src/ui/modules/store/widgets/update/store_update_form.dart';
+import 'package:go_router/go_router.dart';
 import 'package:uikit/uikit.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
+import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
+import 'package:my_fome/src/domain/dtos/stores/store_update_dto.dart';
+import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
 import 'package:my_fome/src/ui/controllers/uploads/upload_controller.dart';
+import 'package:my_fome/src/ui/modules/store/widgets/update/store_update_form.dart';
 
 class UpdateStore extends StatefulWidget {
-  const UpdateStore({super.key});
-
+  final StoreDetailDto store;
+  const UpdateStore({
+    super.key,
+    required this.store,
+  });
   @override
   State<UpdateStore> createState() => _UpdateStoreState();
 }
@@ -29,16 +33,13 @@ class _UpdateStoreState extends State<UpdateStore> {
   final storeController = Injector.get<StoreController>();
   final uploadController = Injector.get<UploadController>();
 
-  late StoreDetailDto store;
-
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    store = ModalRoute.of(context)!.settings.arguments as StoreDetailDto;
-    nameEC.text = store.name;
-    descriptionEC.text = store.description;
+  void initState() {
+    super.initState();
+    nameEC.text = widget.store.name;
+    descriptionEC.text = widget.store.description;
     whatsappEC.text =
-        MaskToken.formatPhoneNumber(store.whatsapp.replaceFirst("+55", ""));
+        MaskToken.formatPhoneNumber(widget.store.whatsapp.replaceFirst("+55", ""));
   }
 
   @override
@@ -64,8 +65,7 @@ class _UpdateStoreState extends State<UpdateStore> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButtonLargeDark(
-                        onTap: () => Navigator.of(context)
-                            .pushReplacementNamed('/store/my'),
+                        onTap: () => context.pop(),
                         icon: IconConstant.arrowLeft,
                       ),
                       const SizedBox(width: SizeToken.sm),
@@ -76,7 +76,7 @@ class _UpdateStoreState extends State<UpdateStore> {
               ),
               const SizedBox(height: SizeToken.lg),
               StoreUpdateForm(
-                image: store.image,
+                image: widget.store.image,
                 nameEC: nameEC,
                 descriptionEC: descriptionEC,
                 whatsappEC: whatsappEC,
@@ -102,12 +102,12 @@ class _UpdateStoreState extends State<UpdateStore> {
                 whatsapp: whatsapp,
               );
               try {
-                await storeController.update(store.id, model,
+                await storeController.update(widget.store.id, model,
                     image: uploadController.imageFile);
               } finally {
                 if (storeController.isLoading == false) {
                   uploadController.removeImage();
-                  Navigator.of(context).pushReplacementNamed('/store/my');
+                  context.push('/store/my/${widget.store.id}');
                 }
               }
             }

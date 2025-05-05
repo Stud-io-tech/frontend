@@ -40,6 +40,5 @@ abstract class AuthGoogleControllerBase with Store {
 
   load() async {
     await authViewModel.details();
-    await authViewModel.getStore();
   }
 }

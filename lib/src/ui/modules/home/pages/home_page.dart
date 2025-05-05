@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -58,6 +60,9 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.all(3.5),
                   child: Observer(builder: (_) {
+                    if (authController.isLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
                     if (authController.user?.image != null) {
                       return ClipRRect(
                           borderRadius: BorderRadius.circular(SizeToken.lg),
@@ -90,11 +95,14 @@ class _HomePageState extends State<HomePage> {
           if (authController.user == null) {
             context.push('/login');
             return;
-          }
-          if (authController.store != null) {
-            context.push('/store/my');
           } else {
-            context.push('/store/register');
+            if (authController.store == null) {
+              context.push('/store/register');
+              return;
+            } else {
+              context.push('/store/my/${authController.store!.id}');
+              return;
+            }
           }
         },
         logoutOnPressed: () {

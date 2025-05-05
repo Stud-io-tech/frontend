@@ -1,8 +1,12 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
+import 'package:uikit/uikit.dart';
+
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/products/product_register_dto.dart';
@@ -11,10 +15,13 @@ import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
 import 'package:my_fome/src/ui/controllers/uploads/upload_controller.dart';
 import 'package:my_fome/src/ui/modules/product/widgets/register/product_register_form.dart';
-import 'package:uikit/uikit.dart';
 
 class RegisterProduct extends StatefulWidget {
-  const RegisterProduct({super.key});
+  final StoreDetailDto store;
+  const RegisterProduct({
+    super.key,
+    required this.store,
+  });
 
   @override
   State<RegisterProduct> createState() => _RegisterStoreState();
@@ -36,13 +43,6 @@ class _RegisterStoreState extends State<RegisterProduct> {
   final uploadController = Injector.get<UploadController>();
 
   final storeController = Injector.get<StoreController>();
-
-  late StoreDetailDto store;
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    store = ModalRoute.of(context)!.settings.arguments as StoreDetailDto;
-  }
 
   @override
   void dispose() {
@@ -68,9 +68,8 @@ class _RegisterStoreState extends State<RegisterProduct> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButtonLargeDark(
-                        onTap: () => Navigator.of(context).pushReplacementNamed(
-                            '/product/my',
-                            arguments: store),
+                        onTap: () =>
+                            context.push('/product/my', extra: widget.store),
                         icon: IconConstant.arrowLeft,
                       ),
                       const SizedBox(width: SizeToken.sm),
@@ -106,7 +105,7 @@ class _RegisterStoreState extends State<RegisterProduct> {
                 description: descriptionEC.text,
                 price: price,
                 amount: amountEC.text,
-                storeId: store.id,
+                storeId: widget.store.id,
               );
 
               try {
@@ -115,8 +114,7 @@ class _RegisterStoreState extends State<RegisterProduct> {
               } finally {
                 if (productController.isLoading == false) {
                   uploadController.removeImage();
-                  Navigator.of(context)
-                      .pushReplacementNamed('/product/my', arguments: store);
+                  context.push('/product/my', extra: widget.store);
                 }
               }
             }

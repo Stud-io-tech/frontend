@@ -1,4 +1,5 @@
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:my_fome/src/constants/navigator/navigator_global.dart';
 import 'package:my_fome/src/data/repositories/products/produtc_repository_impl.dart';
 import 'package:my_fome/src/data/repositories/stores/store_repository_impl.dart';
@@ -25,7 +26,7 @@ import 'package:my_fome/src/ui/viewmodels/users/auth_view_model.dart';
 class AppBindings extends ApplicationBindings {
   @override
   List<Bind<Object>> bindings() => [
-    Bind.singleton<LocalStorageService>((i) => LocalStorageServiceImpl()),
+    Bind.singleton<LocalStorageService>((i) => LocalStorageServiceImpl(storage: const FlutterSecureStorage())),
           Bind.singleton<ResultMessageService>(
             (i) => ResultMessageServiceImpl(
               navigatorKey: NavigatorGlobal.navigatorKey,

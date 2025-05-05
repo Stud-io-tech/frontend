@@ -12,8 +12,9 @@ class ClientServiceImpl implements ClientService {
   ClientServiceImpl(
     this.localStorageService,
   ) : dio = Dio() {
-    dio.interceptors
-        .add(AuthInterceptor(localStorageService: localStorageService));
+    dio.interceptors.add(
+      AuthInterceptor(localStorageService: localStorageService, dio: dio),
+    );
   }
 
   @override

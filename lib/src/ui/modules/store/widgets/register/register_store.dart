@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_register_dto.dart';
@@ -58,7 +59,7 @@ class _RegisterStoreState extends State<RegisterStore> {
                     children: [
                       IconButtonLargeDark(
                         onTap: () =>
-                            Navigator.of(context).pushReplacementNamed('/'),
+                            context.push('/'),
                         icon: IconConstant.arrowLeft,
                       ),
                       const SizedBox(width: SizeToken.sm),
@@ -102,10 +103,9 @@ class _RegisterStoreState extends State<RegisterStore> {
                   uploadController.removeImage();
                   await authController.load();
                   if (authController.store != null) {
-                    Navigator.of(context).pushReplacementNamed('/store/my');
+                    context.push('/store/my', extra: authController.store);
                   } else {
-                    Navigator.of(context)
-                        .pushReplacementNamed('/store/register');
+                    context.push('/store/register');
                   }
                 }
               }

@@ -2,6 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
+import 'package:uikit/uikit.dart';
+
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
@@ -9,28 +12,18 @@ import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:my_fome/src/ui/modules/product/controller/button_navigator/button_navigator_menu_controller.dart';
 import 'package:my_fome/src/ui/modules/product/widgets/screen/product_active_by_store_screen_widget.dart';
 import 'package:my_fome/src/ui/modules/product/widgets/screen/product_inactive_by_store_screen_widget.dart';
-import 'package:uikit/uikit.dart';
 
-class ProductByMyStorePage extends StatefulWidget {
-  const ProductByMyStorePage({
+class ProductByMyStorePage extends StatelessWidget {
+  final StoreDetailDto store;
+
+  ProductByMyStorePage({
     super.key,
+    required this.store,
   });
 
-  @override
-  State<ProductByMyStorePage> createState() => _ProductByMyStorePageState();
-}
-
-class _ProductByMyStorePageState extends State<ProductByMyStorePage> {
   final productController = Injector.get<ProductController>();
 
   final controller = ButtonNavigatorMenuController();
-
-  late StoreDetailDto store;
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    store = ModalRoute.of(context)!.settings.arguments as StoreDetailDto;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,8 +43,7 @@ class _ProductByMyStorePageState extends State<ProductByMyStorePage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         IconButtonLargeDark(
-                            onTap: () => Navigator.of(context)
-                                .pushReplacementNamed('/store/my'),
+                            onTap: () => context.push('/store/my/${store.id}'),
                             icon: IconConstant.arrowLeft),
                         const SizedBox(
                           width: SizeToken.sm,
@@ -62,9 +54,8 @@ class _ProductByMyStorePageState extends State<ProductByMyStorePage> {
                     IconButtonLargeDark(
                       key: const Key("goToProductRegister"),
                       isBackgroundColor: false,
-                      onTap: () => Navigator.of(context).pushReplacementNamed(
-                          '/product/register',
-                          arguments: store),
+                      onTap: () =>
+                          context.push('/product/register', extra: store),
                       icon: IconConstant.add,
                     )
                   ],
@@ -73,12 +64,12 @@ class _ProductByMyStorePageState extends State<ProductByMyStorePage> {
                   height: SizeToken.lg,
                 ),
                 InputSearch(
-                    onChanged: productController.filterProducts,
-                    hintText: TextConstant.search,
-                    prefixIcon: IconConstant.search,
-                    sufixIcon: IconConstant.filter,
-                    sufixOnTap: (){},
-                    ),
+                  onChanged: productController.filterProducts,
+                  hintText: TextConstant.search,
+                  prefixIcon: IconConstant.search,
+                  sufixIcon: IconConstant.filter,
+                  sufixOnTap: () {},
+                ),
                 const SizedBox(
                   height: SizeToken.xxs,
                 ),

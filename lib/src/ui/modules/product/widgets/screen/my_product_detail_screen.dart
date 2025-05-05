@@ -43,9 +43,9 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
           children: [
             ImageDetail(
               iconRigth: IconConstant.edit,
-              onTapIconRight: () => Navigator.of(context).pushReplacementNamed(
+              onTapIconRight: () => context.push(
                   '/product/update',
-                  arguments: widget.product),
+                  extra: widget.product),
               image: widget.product.image,
               iconLeft: IconConstant.arrowLeft,
               onTapIconLeft: () => context.pop(),

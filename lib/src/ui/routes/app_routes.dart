@@ -1,5 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/constants/navigator/navigator_global.dart';
+import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
+import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
 import 'package:my_fome/src/ui/modules/home/pages/home_page.dart';
 import 'package:my_fome/src/ui/modules/home/pages/user_not_found_page.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/product_detail_screen_widget.dart';
@@ -40,19 +42,25 @@ sealed class AppRoutes {
     ),
     GoRoute(
       path: '/product/my',
-      builder: (context, state) => const ProductByMyStorePage(),
+      builder: (context, state) => ProductByMyStorePage(
+        store: state.extra as StoreDetailDto,
+      ),
     ),
     GoRoute(
       path: '/product/register',
-      builder: (context, state) => const RegisterProduct(),
+      builder: (context, state) => RegisterProduct(
+        store: state.extra as StoreDetailDto,
+      ),
     ),
     GoRoute(
       path: '/product/update',
-      builder: (context, state) => const UpdateProduct(),
+      builder: (context, state) => UpdateProduct(
+        product: state.extra as ProductDetailDto,
+      ),
     ),
     GoRoute(
-      path: '/store/my',
-      builder: (context, state) => const MyStorePage(),
+      path: '/store/my/:id',
+      builder: (context, state) => MyStorePage(id: state.pathParameters['id']),
     ),
     GoRoute(
       path: '/store/register',
@@ -60,7 +68,9 @@ sealed class AppRoutes {
     ),
     GoRoute(
       path: '/store/update',
-      builder: (context, state) => const UpdateStore(),
+      builder: (context, state) => UpdateStore(
+        store: state.extra as StoreDetailDto,
+      ),
     ),
   ]);
 }

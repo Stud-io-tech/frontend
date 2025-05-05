@@ -12,6 +12,7 @@ import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/data/services/auth/auth_google_service.dart';
 import 'package:my_fome/src/data/services/local/local_storage_service.dart';
 import 'package:my_fome/src/domain/dtos/users/user_login_dto.dart';
+import 'package:my_fome/src/domain/dtos/users/user_token_dto.dart';
 import 'package:my_fome/src/domain/repositories/users/user_repository.dart';
 import 'package:result_dart/result_dart.dart';
 
@@ -57,9 +58,10 @@ abstract class AuthViewModelBase with Store {
       (success) async {
         serverError = false;
         await localStorageService.put(
-          LocalStorageConstant.accesstoken,
-          result.getOrThrow().token,
+          LocalStorageConstant.token,
+          result.getOrThrow(),
         );
+
         resultMessageService.showMessageSuccess(
             TextConstant.sucessLoggingAccountTitle,
             TextConstant.sucessLoggingAccountMessage,
@@ -109,9 +111,9 @@ abstract class AuthViewModelBase with Store {
   @action
   Future logout() async {
     isLoading = true;
-    await localStorageService.delete(LocalStorageConstant.accesstoken);
+    await localStorageService.delete(LocalStorageConstant.token);
     await authGoogleService.logout();
-    await localStorageService.get(LocalStorageConstant.accesstoken);
+    await localStorageService.get(LocalStorageConstant.token);
     myStore = null;
     userDetailDto = null;
     isLoading = false;
@@ -124,14 +126,53 @@ abstract class AuthViewModelBase with Store {
     final result = await userRepository.detail();
     serverError = false;
 
-    result.fold((success) {
+    result.fold((success) async {
       serverError = false;
       userDetailDto = success;
-    }, (failure) {
+      await getStore();
+    }, (failure) async {
       if (failure is RestException && failure.statusCode == 500) {
         serverError = true;
       }
+      await updateToken();
     });
+
+    isLoading = false;
+  }
+
+  @action
+  Future updateToken() async {
+    isLoading = true;
+
+    final tokenData = await localStorageService.get(LocalStorageConstant.token);
+
+    if (tokenData != null) {
+      final userToken = UserTokenDto.fromJson(tokenData);
+
+      if (userToken.refreshToken != null) {
+        final result =
+            await userRepository.updateToken(userToken.refreshToken!);
+
+        serverError = false;
+
+        result.fold((success) async {
+          serverError = false;
+
+          await localStorageService.put(
+            LocalStorageConstant.token,
+            UserTokenDto(
+                accessToken: result.getOrThrow(),
+                refreshToken: userToken.refreshToken),
+          );
+          await details();
+        }, (failure) async {
+          if (failure is RestException && (failure.statusCode == 500)) {
+            serverError = true;
+          }
+          await logout();
+        });
+      }
+    }
 
     isLoading = false;
   }
@@ -150,7 +191,7 @@ abstract class AuthViewModelBase with Store {
       } else if (success is StoreDetailDto) {
         myStore = success;
       }
-    }, (failure) {
+    }, (failure) async {
       if (failure is RestException && failure.statusCode == 500) {
         serverError = true;
       }

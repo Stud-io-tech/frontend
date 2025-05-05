@@ -2,20 +2,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
+import 'package:uikit/uikit.dart';
+
+import 'package:my_fome/src/constants/icon_constant.dart';
+import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
 import 'package:my_fome/src/domain/dtos/products/product_update_dto.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
-import 'package:my_fome/src/ui/modules/product/widgets/update/product_update_form.dart';
-import 'package:uikit/uikit.dart';
-
-import 'package:my_fome/src/constants/icon_constant.dart';
-import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/ui/controllers/uploads/upload_controller.dart';
+import 'package:my_fome/src/ui/modules/product/widgets/update/product_update_form.dart';
 
 class UpdateProduct extends StatefulWidget {
-  const UpdateProduct({super.key});
+  const UpdateProduct({
+    super.key,
+    required this.product,
+  });
+  final ProductDetailDto product;
 
   @override
   State<UpdateProduct> createState() => _UpdateProductState();
@@ -36,18 +41,15 @@ class _UpdateProductState extends State<UpdateProduct> {
 
   final uploadController = Injector.get<UploadController>();
 
-  late ProductDetailDto product;
-
   late StoreDetailDto store;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    product = ModalRoute.of(context)!.settings.arguments as ProductDetailDto;
-    nameEC.text = product.name;
-    descriptionEC.text = product.description;
-    priceEC.text = product.price;
-    amountEC.text = product.amount.toString();
+  void initState() {
+    super.initState();
+    nameEC.text = widget.product.name;
+    descriptionEC.text = widget.product.description;
+    priceEC.text = widget.product.price;
+    amountEC.text = widget.product.amount.toString();
     store = storeController.store!;
   }
 
@@ -86,7 +88,7 @@ class _UpdateProductState extends State<UpdateProduct> {
               ),
               const SizedBox(height: SizeToken.lg),
               ProductUpdateForm(
-                image: product.image,
+                image: widget.product.image,
                 nameEC: nameEC,
                 descriptionEC: descriptionEC,
                 priceEC: priceEC,
@@ -112,16 +114,15 @@ class _UpdateProductState extends State<UpdateProduct> {
                 description: descriptionEC.text,
                 price: price,
                 amount: amountEC.text,
-                storeId: product.storeId,
+                storeId: widget.product.storeId,
               );
               try {
-                await productController.update(product.id, model,
+                await productController.update(widget.product.id, model,
                     image: uploadController.imageFile);
               } finally {
                 if (productController.isLoading == false) {
                   uploadController.removeImage();
-                  Navigator.of(context)
-                      .pushReplacementNamed('/store/my', arguments: store);
+                  context.push('/store/my/${store.id}');
                 }
               }
             }
