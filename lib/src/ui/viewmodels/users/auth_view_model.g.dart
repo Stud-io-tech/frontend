@@ -121,6 +121,14 @@ mixin _$AuthViewModel on AuthViewModelBase, Store {
     return _$detailsAsyncAction.run(() => super.details());
   }
 
+  late final _$updateTokenAsyncAction =
+      AsyncAction('AuthViewModelBase.updateToken', context: context);
+
+  @override
+  Future<dynamic> updateToken() {
+    return _$updateTokenAsyncAction.run(() => super.updateToken());
+  }
+
   late final _$getStoreAsyncAction =
       AsyncAction('AuthViewModelBase.getStore', context: context);
 

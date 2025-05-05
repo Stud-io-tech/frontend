@@ -33,6 +33,9 @@ class ButtonNavigatorMenu extends StatelessWidget {
         currentIndex: currentIndex,
         showSelectedLabels: true,
         showUnselectedLabels: false,
+        selectedLabelStyle: Style.l4(
+          color: ColorToken.danger,
+        ),
         items: [
           BottomNavigationBarItem(
               icon: currentIndex != 0

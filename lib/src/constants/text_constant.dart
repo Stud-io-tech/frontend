@@ -12,7 +12,7 @@ final class TextConstant {
   static String sucessCreatingStoreTitle = 'Loja Criada!';
   static String sucessCreatingProductTitle = 'Produto Criado!';
   static String sucessUpdatingStoreTitle = 'Loja Atualizada!';
-  static String sucessUpdatingProductTitle = 'Produto Atualizada!';
+  static String sucessUpdatingProductTitle = 'Produto Atualizado!';
 
   static String sucessSuspendingProductTitle = 'Produto Suspenso!';
   static String sucessRestoreProductTitle = 'Produto Restaurado!';

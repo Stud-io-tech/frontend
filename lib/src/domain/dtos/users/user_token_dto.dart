@@ -1,35 +1,29 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class UserTokenDto {
-  final String token;
+  final String? accessToken;
+  final String? refreshToken;
   UserTokenDto({
-    required this.token,
+    this.accessToken,
+    this.refreshToken,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'token': token,
+      'access_token': accessToken,
+      'refresh_token': refreshToken,
     };
   }
 
   factory UserTokenDto.fromMap(Map<String, dynamic> map) {
     return UserTokenDto(
-      token: map['token'] as String,
+      accessToken: map['access_token'] != null ? map['access_token'] as String : null,
+      refreshToken: map['refresh_token'] != null ? map['refresh_token'] as String : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
   factory UserTokenDto.fromJson(String source) => UserTokenDto.fromMap(json.decode(source) as Map<String, dynamic>);
-
-  @override
-  bool operator ==(covariant UserTokenDto other) {
-    if (identical(this, other)) return true;
-  
-    return 
-      other.token == token;
-  }
-
-  @override
-  int get hashCode => token.hashCode;
 }

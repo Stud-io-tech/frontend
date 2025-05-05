@@ -1,20 +1,23 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
+import 'package:uikit/uikit.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
-import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
 import 'package:my_fome/src/ui/modules/product/widgets/screen/my_product_detail_screen.dart';
-import 'package:uikit/uikit.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'package:go_router/go_router.dart';
 
 class MyStorePage extends StatefulWidget {
+  final String? id;
   const MyStorePage({
     super.key,
+    this.id,
   });
 
   @override
@@ -24,14 +27,14 @@ class MyStorePage extends StatefulWidget {
 class _MyStorePageState extends State<MyStorePage> {
   final productController = Injector.get<ProductController>();
 
-  final authController = Injector.get<AuthGoogleController>();
-
   final storeController = Injector.get<StoreController>();
 
   @override
   void initState() {
     super.initState();
-    storeController.detailStore(authController.store!.id);
+    if (widget.id != null) {
+      storeController.detailStore(widget.id!);
+    }
   }
 
   @override
@@ -57,9 +60,8 @@ class _MyStorePageState extends State<MyStorePage> {
                     iconLeft: IconConstant.arrowLeft,
                     onTapIconLeft: () => context.push('/'),
                     iconRigth: IconConstant.edit,
-                    onTapIconRight: () => Navigator.of(context)
-                        .pushReplacementNamed('/store/update',
-                            arguments: store),
+                    onTapIconRight: () =>
+                        context.push('/store/update', extra: store),
                   );
                 }),
                 const SizedBox(
@@ -104,9 +106,8 @@ class _MyStorePageState extends State<MyStorePage> {
                           LinkSeeMore(
                             key: const Key("goToMyProducts"),
                             text: TextConstant.seeMore,
-                            onTap: () => Navigator.of(context)
-                                .pushReplacementNamed('/product/my',
-                                    arguments: store),
+                            onTap: () =>
+                                (context).push('/product/my', extra: store),
                           )
                         ],
                       ),

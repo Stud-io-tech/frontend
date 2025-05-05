@@ -1,3 +1,3 @@
 final class LocalStorageConstant {
-  static const String accesstoken = "authKey";
+  static const String token = "authKey";
 }

@@ -96,4 +96,19 @@ class UserRepositoryImpl implements UserRepository {
       );
     }
   }
+
+  @override
+  AsyncResult<String> updateToken(String token) async {
+    try {
+      final Response response =
+          await clientService.post(ApiConstant.refreshToken, {'refresh_token': token});
+      return Success(response.data['access_token']);
+    } on DioException catch (e) {
+      return Failure(
+        RestException(
+            message: TextConstant.errorLoggingAccountMessage,
+            statusCode: e.response?.statusCode ?? 500),
+      );
+    }
+  }
 }
