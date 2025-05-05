@@ -3,7 +3,7 @@ name: Flutter Unit Tests
 on:
   push:
     branches:
-      - feat/product
+      - dev
 
 jobs:
   Flutter_Tests:
