@@ -46,7 +46,7 @@ class SnackBarListview extends SnackBar {
                 text: subtitle,
                 overflow: true,
               ),
-              leading: IconCircular(
+              leading: IconLargerCircularDanger(
                 icon: iconLeading,
               ),
               trailing: IconButtonMediumDark(

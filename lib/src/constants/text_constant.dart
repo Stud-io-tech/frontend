@@ -1,3 +1,5 @@
+import 'package:my_fome/src/constants/deep_link_constant.dart';
+
 final class TextConstant {
   static String welcome = 'Bem-vindo ao MyFome.';
   static String home = 'Home';
@@ -57,10 +59,10 @@ final class TextConstant {
       'Houve um erro ao encontrar o usuário.';
 
   static String errorDetailsStoreMessage = 'Houve um erro ao encontrar a loja.';
-  static String errorDetailsProductMessage = 'Houve um erro ao encontrar o produto.';
+  static String errorDetailsProductMessage =
+      'Houve um erro ao encontrar o produto.';
   static String errorExecutingProductMessage =
       'Houve um erro de execeução! Tente novamente.';
-  
 
   static String yes = 'Sim';
   static String no = 'Não';
@@ -114,12 +116,24 @@ final class TextConstant {
 
   static String total = 'Total:';
 
+  static String share = 'Compartilhar';
   static String storeName = 'Nome da loja';
   static String storeDescription = 'Descrição da loja';
   static String storeWhatsappNumber = 'Whatsapp da loja';
 
+  static String copyLink = 'Copiar Link';
   static String productName = 'Nome do produto';
   static String productDescription = 'Descrição do produto';
   static String productPrice = 'Preço do produto';
   static String productAmount = 'Quantidade do produto';
+
+  static String shareTextProduct(
+          String id, String name, int amount, String price) =>
+      "$name | $amount restantes | R\$$price: ${DeepLinkConstant.productDetail}/$id";
+
+  static String shareTextStore(String id, String name) =>
+      "Loja $name: ${DeepLinkConstant.storeDetail}/$id";
+
+  static String successLinkCopiedTitle = "Link Copiado!";
+  static String successLinkCopiedMessage = "Link copiado com sucesso!";
 }

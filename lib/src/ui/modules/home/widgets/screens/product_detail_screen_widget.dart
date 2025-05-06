@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_fome/src/constants/deep_link_constant.dart';
 import 'package:my_fome/src/constants/image_error_constant.dart';
-import 'package:share_plus/share_plus.dart';
+import 'package:my_fome/src/data/services/share/share_service.dart';
 import 'package:uikit/uikit.dart';
 
-import 'package:my_fome/src/constants/deep_link_constant.dart';
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
@@ -33,6 +33,7 @@ class ProductDetailScreenWidget extends StatefulWidget {
 class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
   final productController = Injector.get<ProductController>();
   final storeController = Injector.get<StoreController>();
+  final shareService = Injector.get<ShareService>();
   late ProductDetailDto product;
   @override
   void initState() {
@@ -68,19 +69,26 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
                 iconLeft: IconConstant.arrowLeft,
                 onTapIconLeft: () =>
                     widget.id != null ? context.push('/') : context.pop(),
-                iconRigth: IconConstant.share,
-                onTapIconRight: () {
-                  SharePlus.instance.share(
-                    ShareParams(
-                      text:
-                          '${product.name} | ${product.amount} restantes | R\$${product.price}: ${DeepLinkConstant.productDetail}/${product.id}',
-                      sharePositionOrigin:
-                          (context.findRenderObject() as RenderBox?)!
-                                  .localToGlobal(Offset.zero) &
-                              (context.findRenderObject() as RenderBox).size,
+                widgetRigth: PopUpMenuShare(
+                  menuIcon: IconConstant.share,
+                  firstIcon: IconConstant.contentCopy,
+                  firstLabel: TextConstant.copyLink,
+                  firtOnTap: () => shareService.copyTextLink(
+                    "${DeepLinkConstant.productDetail}/${product.id}",
+                  ),
+                  secoundIcon: IconConstant.arrowOutward,
+                  secoundLabel: TextConstant.share,
+                  secoundOnTap: () async =>
+                      await shareService.shareImageTextLink(
+                    product.image,
+                    TextConstant.shareTextProduct(
+                      product.id,
+                      product.name,
+                      product.amount,
+                      product.price,
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
               const SizedBox(
                 height: SizeToken.lg,

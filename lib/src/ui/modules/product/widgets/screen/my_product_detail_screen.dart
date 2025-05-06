@@ -2,8 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:my_fome/src/constants/deep_link_constant.dart';
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
+import 'package:my_fome/src/data/services/share/share_service.dart';
 
 import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
@@ -25,7 +27,7 @@ class MyProductDetailScreen extends StatefulWidget {
 
 class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
   final storeController = Injector.get<StoreController>();
-
+  final shareService = Injector.get<ShareService>();
   final productController = Injector.get<ProductController>();
   @override
   void initState() {
@@ -42,13 +44,31 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ImageDetail(
-              iconRigth: IconConstant.edit,
-              onTapIconRight: () => context.push(
-                  '/product/update',
-                  extra: widget.product),
               image: widget.product.image,
               iconLeft: IconConstant.arrowLeft,
               onTapIconLeft: () => context.pop(),
+              widgetRigth: PopUpMenuShare(
+                menuIcon: IconConstant.share,
+                firstIcon: IconConstant.contentCopy,
+                firstLabel: TextConstant.copyLink,
+                firtOnTap: () => shareService.copyTextLink(
+                  "${DeepLinkConstant.productDetail}/${widget.product.id}",
+                ),
+                secoundIcon: IconConstant.arrowOutward,
+                secoundLabel: TextConstant.share,
+                secoundOnTap: () async => await shareService.shareImageTextLink(
+                  widget.product.image,
+                  TextConstant.shareTextProduct(
+                    widget.product.id,
+                    widget.product.name,
+                    widget.product.amount,
+                    widget.product.price,
+                  ),
+                ),
+              ),
+              iconDown: IconConstant.edit,
+              onTapIconDown: () =>
+                  context.push('/product/update', extra: widget.product),
             ),
             const SizedBox(
               height: SizeToken.lg,

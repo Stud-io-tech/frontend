@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_fome/src/constants/deep_link_constant.dart';
+import 'package:my_fome/src/data/services/share/share_service.dart';
 import 'package:uikit/uikit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -26,7 +28,7 @@ class MyStorePage extends StatefulWidget {
 
 class _MyStorePageState extends State<MyStorePage> {
   final productController = Injector.get<ProductController>();
-
+  final shareService = Injector.get<ShareService>();
   final storeController = Injector.get<StoreController>();
 
   @override
@@ -59,8 +61,26 @@ class _MyStorePageState extends State<MyStorePage> {
                     image: store.image,
                     iconLeft: IconConstant.arrowLeft,
                     onTapIconLeft: () => context.push('/'),
-                    iconRigth: IconConstant.edit,
-                    onTapIconRight: () =>
+                    widgetRigth: PopUpMenuShare(
+                      menuIcon: IconConstant.share,
+                      firstIcon: IconConstant.contentCopy,
+                      firstLabel: TextConstant.copyLink,
+                      firtOnTap: () => shareService.copyTextLink(
+                        "${DeepLinkConstant.storeDetail}/${store.id}",
+                      ),
+                      secoundIcon: IconConstant.arrowOutward,
+                      secoundLabel: TextConstant.share,
+                      secoundOnTap: () async =>
+                          await shareService.shareImageTextLink(
+                        store.image,
+                        TextConstant.shareTextStore(
+                          store.id,
+                          store.name,
+                        ),
+                      ),
+                    ),
+                    iconDown: IconConstant.edit,
+                    onTapIconDown: () =>
                         context.push('/store/update', extra: store),
                   );
                 }),

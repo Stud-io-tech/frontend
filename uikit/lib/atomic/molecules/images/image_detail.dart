@@ -6,15 +6,26 @@ class ImageDetail extends StatelessWidget {
   final String? image;
   final String iconLeft;
   final String? iconRigth;
+  final String? iconDown;
   final void Function() onTapIconLeft;
   final void Function()? onTapIconRight;
+  final void Function()? onTapIconDown;
+  final Widget? widgetDown;
+
+  final Widget? widgetLeft;
+  final Widget? widgetRigth;
   const ImageDetail({
     super.key,
     this.image,
     required this.iconLeft,
     this.iconRigth,
+    this.iconDown,
     required this.onTapIconLeft,
     this.onTapIconRight,
+    this.onTapIconDown,
+    this.widgetDown,
+    this.widgetLeft,
+    this.widgetRigth,
   });
 
   @override
@@ -39,19 +50,31 @@ class ImageDetail extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButtonLargeDark(
-                  onTap: onTapIconLeft,
-                  icon: iconLeft,
-                ),
-                iconRigth != null
-                    ? IconButtonLargeDark(
-                        key: const Key("goToEditing"),
-                        onTap: onTapIconRight!,
-                        icon: iconRigth!,
-                      )
-                    : const SizedBox.shrink()
+                widgetLeft ??
+                    IconButtonLargeDark(
+                      onTap: onTapIconLeft,
+                      icon: iconLeft,
+                    ),
+                widgetRigth ??
+                    (iconRigth != null
+                        ? IconButtonLargeDark(
+                            onTap: onTapIconRight!,
+                            icon: iconRigth!,
+                          )
+                        : const SizedBox.shrink()),
               ],
             ),
+          ),
+          Positioned(
+            bottom: SizeToken.md,
+            right: SizeToken.md,
+            child: widgetDown ??
+                (iconDown != null
+                    ? IconButtonLargeDark(
+                        onTap: onTapIconDown!,
+                        icon: iconDown!,
+                      )
+                    : const SizedBox.shrink()),
           ),
         ],
       ),

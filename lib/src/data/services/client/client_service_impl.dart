@@ -20,9 +20,10 @@ class ClientServiceImpl implements ClientService {
   @override
   Future get(String uri,
       {bool requiresAuth = false,
-      String contentType = Headers.jsonContentType}) async {
+      String contentType = Headers.jsonContentType, ResponseType? responseType}) async {
     return await dio.get(uri,
         options: Options(
+           responseType: responseType,
             extra: {'requiredAuth': requiresAuth}, contentType: contentType));
   }
 

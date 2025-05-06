@@ -2,25 +2,22 @@
 import 'package:flutter/material.dart';
 import 'package:uikit/uikit.dart';
 
-class IconButtonSmallDark extends StatelessWidget {
-  final void Function() onTap;
+class IconLargerCircularNeutral extends StatelessWidget {
   final String icon;
-  final bool isBackgroundColor;
-  const IconButtonSmallDark({
+  final double? padding;
+  const IconLargerCircularNeutral({
     super.key,
-    required this.onTap,
     required this.icon,
-    this.isBackgroundColor = true,
+    this.padding,
   });
 
   @override
   Widget build(BuildContext context) {
     return IconDefault(
-      padding: SizeToken.xxs,
-      onTap: onTap,
-      isBackgroundColor: isBackgroundColor,
+      padding:  SizeToken.sm,
+      isBackgroundColor: true,
       icon: icon,
-      height: 11,
+      height: 19,
       colorIcon: ColorToken.dark,
     );
   }
