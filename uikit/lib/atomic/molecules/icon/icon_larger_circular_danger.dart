@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 import 'package:uikit/uikit.dart';
 
-class IconCircular extends StatelessWidget {
+class IconLargerCircularDanger extends StatelessWidget {
   final String icon;
   final double? padding;
-  const IconCircular({
+  const IconLargerCircularDanger({
     super.key,
     required this.icon,
     this.padding,

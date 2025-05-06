@@ -6,13 +6,13 @@ import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/constants/deep_link_constant.dart';
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
+import 'package:my_fome/src/data/services/share/share_service.dart';
 
 import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/product_detail_screen_widget.dart';
 import 'package:my_fome/src/ui/modules/product/pages/product_by_store_page.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:uikit/uikit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -33,6 +33,8 @@ class StoreDetailScreenWidget extends StatefulWidget {
 class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
   final storeController = Injector.get<StoreController>();
   final productController = Injector.get<ProductController>();
+  final shareService = Injector.get<ShareService>();
+
   late StoreDetailDto store;
   @override
   void initState() {
@@ -67,19 +69,24 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                 iconLeft: IconConstant.arrowLeft,
                 onTapIconLeft: () =>
                     widget.id != null ? context.push('/') : context.pop(),
-                iconRigth: IconConstant.share,
-                onTapIconRight: () {
-                  SharePlus.instance.share(
-                    ShareParams(
-                      text:
-                          '${store.name}: ${DeepLinkConstant.storeDetail}/${store.id}',
-                      sharePositionOrigin:
-                          (context.findRenderObject() as RenderBox?)!
-                                  .localToGlobal(Offset.zero) &
-                              (context.findRenderObject() as RenderBox).size,
+                widgetRigth: PopUpMenuShare(
+                  menuIcon: IconConstant.share,
+                  firstIcon: IconConstant.contentCopy,
+                  firstLabel: TextConstant.copyLink,
+                  firtOnTap: () => shareService.copyTextLink(
+                    "${DeepLinkConstant.storeDetail}/${store.id}",
+                  ),
+                  secoundIcon: IconConstant.arrowOutward,
+                  secoundLabel: TextConstant.share,
+                  secoundOnTap: () async =>
+                      await shareService.shareImageTextLink(
+                    store.image,
+                    TextConstant.shareTextStore(
+                      store.id,
+                      store.name,
                     ),
-                  );
-                },
+                  ),
+                ),
               ),
               const SizedBox(
                 height: SizeToken.lg,

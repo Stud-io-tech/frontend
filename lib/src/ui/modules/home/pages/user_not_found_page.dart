@@ -78,7 +78,7 @@ class _UserNotFoundPageState extends State<UserNotFoundPage> {
             await authController.load();
             if (authController.user != null) {
               if (authController.store != null) {
-                context.push('/store/my', extra: authController.store?.id);
+                context.push('/store/my/${authController.store?.id}');
               } else {
                 context.push('/store/register');
               }

@@ -2,9 +2,11 @@ final class IconConstant {
   static const String add = 'assets/icons/add.svg';
   static const String address = 'assets/icons/address.svg';
   static const String arrowLeft = 'assets/icons/arrow_left.svg';
+  static const String arrowOutward = 'assets/icons/arrow_outward.svg';
   static const String cart = 'assets/icons/cart.svg';
   static const String chevronRigth = 'assets/icons/chevron_rigth.svg';
   static const String close = 'assets/icons/close.svg';
+  static const String contentCopy = 'assets/icons/content_copy.svg';
   static const String edit = 'assets/icons/edit.svg';
   static const String error = 'assets/icons/error.svg';
   static const String filter = 'assets/icons/filter.svg';
@@ -23,4 +25,6 @@ final class IconConstant {
   static const String upload = 'assets/icons/upload.svg';
   static const String user = 'assets/icons/user.svg';
   static const String whatsapp = 'assets/icons/whatsapp.svg';
+
+
 }

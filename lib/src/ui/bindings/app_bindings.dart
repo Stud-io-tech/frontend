@@ -12,6 +12,8 @@ import 'package:my_fome/src/data/services/local/local_storage_service.dart';
 import 'package:my_fome/src/data/services/local/local_storage_service_impl.dart';
 import 'package:my_fome/src/data/services/messages/result_message_service.dart';
 import 'package:my_fome/src/data/services/messages/result_message_service_impl.dart';
+import 'package:my_fome/src/data/services/share/share_service.dart';
+import 'package:my_fome/src/data/services/share/share_service_impl.dart';
 import 'package:my_fome/src/domain/repositories/products/produtc_repository.dart';
 import 'package:my_fome/src/domain/repositories/stores/store_repository.dart';
 import 'package:my_fome/src/domain/repositories/users/user_repository.dart';
@@ -26,56 +28,62 @@ import 'package:my_fome/src/ui/viewmodels/users/auth_view_model.dart';
 class AppBindings extends ApplicationBindings {
   @override
   List<Bind<Object>> bindings() => [
-    Bind.singleton<LocalStorageService>((i) => LocalStorageServiceImpl(storage: const FlutterSecureStorage())),
-          Bind.singleton<ResultMessageService>(
-            (i) => ResultMessageServiceImpl(
-              navigatorKey: NavigatorGlobal.navigatorKey,
-            ),
+        Bind.singleton<LocalStorageService>((i) =>
+            LocalStorageServiceImpl(storage: const FlutterSecureStorage())),
+        Bind.singleton<ResultMessageService>(
+          (i) => ResultMessageServiceImpl(
+            navigatorKey: NavigatorGlobal.navigatorKey,
           ),
-          Bind.singleton<ClientService>((i) => ClientServiceImpl(i())),
-          Bind.singleton<AuthGoogleService>((i) => AuthGoogleServiceImpl()),
-          Bind.singleton<UserRepository>(
-              (i) => UserRepositoryImpl(clientService: i())),
-          Bind.singleton((i) => AuthViewModel(
-              userRepository: i(),
-              authGoogleService: i(),
-              localStorageService: i(),
-              resultMessageService: i())),
-          Bind.singleton((i) => AuthGoogleController(authViewModel: i())),
-          Bind.lazySingleton<ProdutcRepository>(
-            (i) => ProdutcRepositoryImpl(
-              clientService: i(),
-            ),
+        ),
+        Bind.singleton<ClientService>((i) => ClientServiceImpl(i())),
+        Bind.singleton<AuthGoogleService>((i) => AuthGoogleServiceImpl()),
+        Bind.singleton<UserRepository>(
+            (i) => UserRepositoryImpl(clientService: i())),
+        Bind.singleton<ShareService>(
+          (i) => ShareServiceImpl(
+            clientService: i(), resultMessageService: i()
           ),
-          Bind.lazySingleton(
-            (i) => ProductViewModel(
-              productRepository: i(),
-              resultMessageService: i(),
-            ),
+        ),
+        Bind.singleton((i) => AuthViewModel(
+            userRepository: i(),
+            authGoogleService: i(),
+            localStorageService: i(),
+            resultMessageService: i())),
+        Bind.singleton((i) => AuthGoogleController(authViewModel: i())),
+        Bind.lazySingleton<ProdutcRepository>(
+          (i) => ProdutcRepositoryImpl(
+            clientService: i(),
           ),
-          Bind.lazySingleton(
-            (i) => ProductController(
-              productViewModel: i(),
-            ),
+        ),
+        Bind.lazySingleton(
+          (i) => ProductViewModel(
+            productRepository: i(),
+            resultMessageService: i(),
           ),
-          Bind.lazySingleton<StoreRepository>(
-            (i) => StoreRepositoryImpl(
-              clientService: i(),
-            ),
+        ),
+        Bind.lazySingleton(
+          (i) => ProductController(
+            productViewModel: i(),
           ),
-          Bind.lazySingleton(
-            (i) => StoreViewModel(
-              storeRepository: i(),
-              resultMessageService: i(),
-            ),
+        ),
+        Bind.lazySingleton<StoreRepository>(
+          (i) => StoreRepositoryImpl(
+            clientService: i(),
           ),
-          Bind.lazySingleton(
-            (i) => StoreController(
-              storeViewModel: i(),
-            ),
+        ),
+        Bind.lazySingleton(
+          (i) => StoreViewModel(
+            storeRepository: i(),
+            resultMessageService: i(),
           ),
-          Bind.lazySingleton(
-            (i) => UploadController(),
+        ),
+        Bind.lazySingleton(
+          (i) => StoreController(
+            storeViewModel: i(),
           ),
-  ];
+        ),
+        Bind.lazySingleton(
+          (i) => UploadController(),
+        ),
+      ];
 }

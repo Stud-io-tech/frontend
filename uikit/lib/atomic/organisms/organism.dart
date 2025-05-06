@@ -8,3 +8,4 @@ export 'stores/store_item.dart';
 export 'modal/modal_sheet.dart';
 export 'menu/menu_buttom_bar.dart';
 export 'banner/error/banner_error.dart';
+export 'popup/pop_up_menu_share.dart';
