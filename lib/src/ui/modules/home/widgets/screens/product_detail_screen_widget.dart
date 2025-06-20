@@ -160,16 +160,17 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
         key: const Key("openAlertOrder"),
         text: TextConstant.placeOrder,
         icon: IconConstant.cart,
-        onPressed: () => showDialog(
-          context: context,
-          builder: (context) => Observer(builder: (_) {
-            return AlertOrder(
-              product: product,
-              whatsapp: storeController.store?.whatsapp,
-              store: storeController.store?.name,
-            );
-          }),
-        ),
+        onPressed: () => storeController.store != null
+            ? showDialog(
+                context: context,
+                builder: (context) => Observer(builder: (_) {
+                  return AlertOrder(
+                    product: product,
+                    store: storeController.store!,
+                  );
+                }),
+              )
+            : null,
       ),
     );
   }

@@ -29,7 +29,7 @@ class ModalSheet extends StatelessWidget {
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: SizeToken.sm, vertical: SizeToken.md),
         child: Wrap(
           children: [
             Row(

@@ -60,9 +60,6 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: const EdgeInsets.all(3.5),
                   child: Observer(builder: (_) {
-                    if (authController.isLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
                     if (authController.user?.image != null) {
                       return ClipRRect(
                           borderRadius: BorderRadius.circular(SizeToken.lg),

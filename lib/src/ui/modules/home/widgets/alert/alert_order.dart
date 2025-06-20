@@ -1,9 +1,18 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:my_fome/src/data/services/files/file_service.dart';
+import 'package:my_fome/src/data/services/payments/payment_service.dart';
+import 'package:my_fome/src/domain/dtos/cartItem/cart_item_dto.dart';
+import 'package:my_fome/src/domain/dtos/order/order_dto.dart';
+import 'package:my_fome/src/domain/dtos/payments/payment_pix_dto.dart';
+import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
+import 'package:my_fome/src/domain/dtos/users/user_detail_dto.dart';
+import 'package:my_fome/src/domain/enum/type_payment_enum.dart';
+import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
 import 'package:uikit/atomic/molecules/molecule.dart';
 import 'package:uikit/tokens/token.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
@@ -13,17 +22,18 @@ import 'package:go_router/go_router.dart';
 
 class AlertOrder extends StatelessWidget {
   final ProductDetailDto product;
-  final String? whatsapp;
-  final String? store;
+  final StoreDetailDto store;
 
   AlertOrder({
     super.key,
     required this.product,
-    this.whatsapp,
-    this.store,
+    required this.store,
   });
 
   final orderController = OrderController();
+  final authController = Injector.get<AuthGoogleController>();
+  final fileService = Injector.get<FileService>();
+  final paymentService = Injector.get<PaymentService>();
 
   @override
   Widget build(BuildContext context) {
@@ -109,8 +119,54 @@ class AlertOrder extends StatelessWidget {
           key: const Key("finalizeOrder"),
           text: TextConstant.placeOrder,
           icon: IconConstant.success,
-          onPressed: () => launchUrlString(
-              'https://wa.me/$whatsapp?text=Olá, $store!%0A%0AEu gostaria de comprar *${orderController.value} ${product.name}*.%0A%0A*Valor Total:* ${TextConstant.monetaryValue(orderController.totalValue)}'),
+          onPressed: () async {
+            final List<CartItemDto> cartItens = [];
+
+            final cartItem = CartItemDto(
+              product: product,
+              amount: orderController.value,
+              storeId: store.id,
+            );
+
+            cartItens.add(cartItem);
+
+            final order = OrderDto(
+                code: "0069",
+                user: authController.user ??
+                    UserDetailDto(
+                      id: "123",
+                      name: "Lázaro Luis",
+                      email: "lazaroluis@gmail.com",
+                    ),
+                store: store,
+                typePayment: TypePaymentEnum.PIX,
+                cartItens: cartItens,
+                total: orderController.totalValue,
+                city: "Nova Cruz");
+
+            final payment = PaymentPixDto(
+                keyPix: 'lazaroalexandre2002@gmail.com',
+                name:
+                    'Lázaro Luis Martins Alexandre Lázaro Luis Martins Alexandre Lázaro Luis Martins Alexandre',
+                city: order.city,
+                bring: 10,
+                value: orderController.totalValue.toString(),
+               );
+
+            //final pixCopyPast = await paymentService.generateCopyPast(payment);
+            final pixQRCode = await paymentService.generateQRCode(payment);
+            final pathPdf = await fileService.generatePDFOrder(order, pixQrCode: pixQRCode,bring: payment.bring);
+
+            // ignore: use_build_context_synchronously
+            context.push(
+              '/order-pdf',
+              extra: {
+                'path': pathPdf,
+                'whatsapp': store.whatsapp,
+                'code': order.code
+              },
+            );
+          },
         ),
       ],
     );

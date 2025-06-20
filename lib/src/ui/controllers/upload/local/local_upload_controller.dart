@@ -2,17 +2,18 @@ import 'dart:io';
 
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
-part 'upload_controller.g.dart';
+part 'local_upload_controller.g.dart';
 
-class UploadController = UploadControllerBase with _$UploadController;
+class LocalUploadController = LocalUploadControllerBase
+    with _$LocalUploadController;
 
-abstract class UploadControllerBase with Store {
+abstract class LocalUploadControllerBase with Store {
   @observable
   XFile? imageFile;
 
   File? get selectedImageFile =>
       imageFile != null ? File(imageFile!.path) : null;
-      
+
   @action
   uploadImage() async {
     final ImagePicker picker = ImagePicker();

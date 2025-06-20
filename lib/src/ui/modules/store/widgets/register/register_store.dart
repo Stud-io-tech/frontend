@@ -9,7 +9,7 @@ import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_register_dto.dart';
 import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
-import 'package:my_fome/src/ui/controllers/uploads/upload_controller.dart';
+import 'package:my_fome/src/ui/controllers/upload/local/local_upload_controller.dart';
 import 'package:my_fome/src/ui/modules/store/widgets/register/store_register_form.dart';
 import 'package:uikit/uikit.dart';
 
@@ -31,7 +31,7 @@ class _RegisterStoreState extends State<RegisterStore> {
 
   final storeController = Injector.get<StoreController>();
 
-  final uploadController = Injector.get<UploadController>();
+  final uploadController = Injector.get<LocalUploadController>();
 
   final authController = Injector.get<AuthGoogleController>();
 
