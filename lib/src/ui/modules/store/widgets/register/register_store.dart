@@ -29,6 +29,8 @@ class _RegisterStoreState extends State<RegisterStore> {
 
   final whatsappEC = TextEditingController();
 
+  final pixKeyEC = TextEditingController();
+
   final storeController = Injector.get<StoreController>();
 
   final uploadController = Injector.get<LocalUploadController>();
@@ -40,6 +42,7 @@ class _RegisterStoreState extends State<RegisterStore> {
     nameEC.dispose();
     descriptionEC.dispose();
     whatsappEC.dispose();
+    pixKeyEC.dispose();
     super.dispose();
   }
 
@@ -58,8 +61,7 @@ class _RegisterStoreState extends State<RegisterStore> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButtonLargeDark(
-                        onTap: () =>
-                            context.push('/'),
+                        onTap: () => context.push('/'),
                         icon: IconConstant.arrowLeft,
                       ),
                       const SizedBox(width: SizeToken.sm),
@@ -70,10 +72,11 @@ class _RegisterStoreState extends State<RegisterStore> {
               ),
               const SizedBox(height: SizeToken.lg),
               StoreRegisterForm(
+                formKey: formKey,
                 nameEC: nameEC,
                 descriptionEC: descriptionEC,
                 whatsappEC: whatsappEC,
-                formKey: formKey,
+                pixKeyEC: pixKeyEC,
               ),
             ],
           ),
@@ -94,6 +97,7 @@ class _RegisterStoreState extends State<RegisterStore> {
                 name: nameEC.text,
                 description: descriptionEC.text,
                 whatsapp: whatsapp,
+                chavePix: pixKeyEC.text,
               );
               try {
                 await storeController.register(

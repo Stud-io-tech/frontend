@@ -9,7 +9,7 @@ abstract class ButtonNavigatorMenuControllerBase with Store {
   int currentIndex = 0;
 
   @action
-  onItemTapped(int index) {
+  void onItemTapped(int index) {
     currentIndex = index;
   }
 }

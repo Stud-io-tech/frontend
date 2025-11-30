@@ -12,9 +12,11 @@ final class IconConstant {
   static const String filter = 'assets/icons/filter.svg';
   static const String home = 'assets/icons/home.svg';
   static const String logout = 'assets/icons/logout.svg';
+  static const String media = 'assets/icons/media.svg';
   static const String menu = 'assets/icons/menu.svg';
   static const String minius = 'assets/icons/minius.svg';
   static const String order = 'assets/icons/order.svg';
+  static const String qrcode = 'assets/icons/qrcode.svg';
   static const String remove = 'assets/icons/remove.svg';
   static const String restore = 'assets/icons/restore.svg';
   static const String share = 'assets/icons/share.svg';
@@ -25,6 +27,4 @@ final class IconConstant {
   static const String upload = 'assets/icons/upload.svg';
   static const String user = 'assets/icons/user.svg';
   static const String whatsapp = 'assets/icons/whatsapp.svg';
-
-
 }

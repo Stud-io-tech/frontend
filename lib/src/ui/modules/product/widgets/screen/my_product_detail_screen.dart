@@ -49,13 +49,13 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
               onTapIconLeft: () => context.pop(),
               widgetRigth: PopUpMenuShare(
                 menuIcon: IconConstant.share,
-                firstIcon: IconConstant.contentCopy,
-                firstLabel: TextConstant.copyLink,
+                firstIcon: IconConstant.qrcode,
+                firstLabel: TextConstant.shareQRCode,
                 firtOnTap: () => shareService.copyTextLink(
                   "${DeepLinkConstant.productDetail}/${widget.product.id}",
                 ),
-                secoundIcon: IconConstant.arrowOutward,
-                secoundLabel: TextConstant.share,
+                secoundIcon: IconConstant.media,
+                secoundLabel: TextConstant.shareMidia,
                 secoundOnTap: () async => await shareService.shareImageTextLink(
                   widget.product.image,
                   TextConstant.shareTextProduct(

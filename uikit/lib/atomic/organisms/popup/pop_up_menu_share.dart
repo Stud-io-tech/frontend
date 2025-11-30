@@ -28,7 +28,7 @@ class PopUpMenuShare extends StatelessWidget {
       offset: const Offset(0, 60),
       menuPadding:
           const EdgeInsets.symmetric(horizontal: 0, vertical: SizeToken.xxs),
-      maxWidth: 188,
+      maxWidth: 230,
       icon: IconLargerCircularNeutral(icon: menuIcon),
       menuList: [
         PopupMenuItem(

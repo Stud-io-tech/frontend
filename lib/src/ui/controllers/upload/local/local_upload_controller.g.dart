@@ -29,7 +29,7 @@ mixin _$LocalUploadController on LocalUploadControllerBase, Store {
       AsyncAction('LocalUploadControllerBase.uploadImage', context: context);
 
   @override
-  Future uploadImage() {
+  Future<void> uploadImage() {
     return _$uploadImageAsyncAction.run(() => super.uploadImage());
   }
 
@@ -37,7 +37,7 @@ mixin _$LocalUploadController on LocalUploadControllerBase, Store {
       ActionController(name: 'LocalUploadControllerBase', context: context);
 
   @override
-  dynamic removeImage() {
+  void removeImage() {
     final _$actionInfo = _$LocalUploadControllerBaseActionController
         .startAction(name: 'LocalUploadControllerBase.removeImage');
     try {

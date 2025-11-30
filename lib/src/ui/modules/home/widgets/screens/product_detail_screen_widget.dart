@@ -71,13 +71,13 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
                     widget.id != null ? context.push('/') : context.pop(),
                 widgetRigth: PopUpMenuShare(
                   menuIcon: IconConstant.share,
-                  firstIcon: IconConstant.contentCopy,
-                  firstLabel: TextConstant.copyLink,
+                  firstIcon: IconConstant.qrcode,
+                  firstLabel: TextConstant.shareQRCode,
                   firtOnTap: () => shareService.copyTextLink(
                     "${DeepLinkConstant.productDetail}/${product.id}",
                   ),
-                  secoundIcon: IconConstant.arrowOutward,
-                  secoundLabel: TextConstant.share,
+                  secoundIcon: IconConstant.media,
+                  secoundLabel: TextConstant.shareMidia,
                   secoundOnTap: () async =>
                       await shareService.shareImageTextLink(
                     product.image,

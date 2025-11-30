@@ -117,7 +117,7 @@ mixin _$StoreViewModel on StoreViewModelBase, Store {
       AsyncAction('StoreViewModelBase.listFilterByName', context: context);
 
   @override
-  Future listFilterByName(String name) {
+  Future<void> listFilterByName(String name) {
     return _$listFilterByNameAsyncAction
         .run(() => super.listFilterByName(name));
   }

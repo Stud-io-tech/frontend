@@ -31,7 +31,7 @@ mixin _$ButtonNavigatorMenuController
           name: 'ButtonNavigatorMenuControllerBase', context: context);
 
   @override
-  dynamic onItemTapped(int index) {
+  void onItemTapped(int index) {
     final _$actionInfo = _$ButtonNavigatorMenuControllerBaseActionController
         .startAction(name: 'ButtonNavigatorMenuControllerBase.onItemTapped');
     try {

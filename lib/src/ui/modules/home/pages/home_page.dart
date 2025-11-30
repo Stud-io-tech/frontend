@@ -53,7 +53,9 @@ class _HomePageState extends State<HomePage> {
                 child: IconButtonLargeDark(
                     key: const Key('drawerButton'),
                     icon: IconConstant.menu,
-                    onTap: () => drawerKey.currentState?.openDrawer()),
+                    onTap: () {
+                      drawerKey.currentState?.openDrawer();
+                    }),
               ),
               centerTitle: true,
               actions: [

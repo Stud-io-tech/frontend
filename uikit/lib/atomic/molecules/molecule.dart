@@ -28,6 +28,7 @@ export 'button/button_progress.dart';
 export 'input/input_form.dart';
 export 'input/input_search.dart';
 export 'input/input_upload_image.dart';
+export 'input/input_copy.dart';
 
 export 'menu/menu_item.dart';
 

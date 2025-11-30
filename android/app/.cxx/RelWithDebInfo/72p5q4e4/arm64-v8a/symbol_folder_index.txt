@@ -1,1 +1,0 @@
-/home/lazaro/Documentos/B - MyFome/Mobile_MyFome/build/app/intermediates/cxx/RelWithDebInfo/72p5q4e4/obj/arm64-v8a

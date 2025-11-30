@@ -58,7 +58,7 @@ abstract class StoreViewModelBase with Store {
   }
 
   @action
-  listFilterByName(String name) async {
+  Future<void> listFilterByName(String name) async {
     if (name.isNotEmpty) {
       storeFilterList = storesList
           ?.where((element) =>

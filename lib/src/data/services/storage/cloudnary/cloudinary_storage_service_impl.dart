@@ -12,7 +12,7 @@ class CloudinaryStorageServiceImpl implements CloudinaryStorageService {
     cloudName: Env.cloudinaryCloudName,
   );
 
-  _uploadLocal(FileType fileType, CloudinaryResourceType cloudinaryType,
+  Future<String?>? _uploadLocal(FileType fileType, CloudinaryResourceType cloudinaryType,
       String folder, String path) async {
     final file = File(path);
     final bytes = await file.readAsBytes();

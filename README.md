@@ -12,14 +12,14 @@ Primeiramente, instale todas as configurações do flutter em sua máquina, caso
 
 Após a configuração, volte ao projeto e execute os seguintes comandos no terminal:
 
-- Modifcar o caminho do gradle (Somente após o clone):
-  - Vá até o arquivo chamado gradle.proerties:
-    - android/gradle/wrapper/gradle-wrapper.properties
+- Mude as variáveis de ambiente:
+    - Faça uma cópia do arquivo .env.exemplo
+    - Renomei o novo arquivo para .env
+    - Adicione os dados corretos para cada variável de ambiente
+    - Apague o arquivo lib/src/constants/env/env.g.dart
 
-  - Mude o caminho do distributionUrl para:
-    - distributionUrl=https\://services.gradle.org/distributions/gradle-8.3-all.zip
-
-- Baixar e instalar dependências (Somente após o clone):
+- Limpe, baixe e instale as dependências (Somente após o clone):
+    - flutter clean
     - flutter pub get
     - cd uikit/
     - flutter pub get

@@ -256,7 +256,7 @@ mixin _$ProductViewModel on ProductViewModelBase, Store {
       ActionController(name: 'ProductViewModelBase', context: context);
 
   @override
-  dynamic listFilterByName(String name) {
+  void listFilterByName(String name) {
     final _$actionInfo = _$ProductViewModelBaseActionController.startAction(
         name: 'ProductViewModelBase.listFilterByName');
     try {

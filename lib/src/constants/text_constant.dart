@@ -67,6 +67,7 @@ final class TextConstant {
 
   static String yes = 'Sim';
   static String no = 'Não';
+  static String send = 'Enviar';
   static String confirm = 'Confirmar';
   static String cancel = 'Cancelar';
   static String storeProducts = 'Produtos da Loja';
@@ -106,6 +107,7 @@ final class TextConstant {
   static String name = 'Nome';
   static String description = 'Descrição';
   static String amount = 'Quantidade';
+  static String pixKey = 'Chave pix';
   static String price = 'Preço';
   static String whatsapp = 'Whatsapp';
   static String costPerShipping = 'Custo por Frete';
@@ -120,11 +122,16 @@ final class TextConstant {
   static String total = 'Total:';
 
   static String share = 'Compartilhar';
+  static String shareStore = 'Compartilhar QRCode da Loja?';
+  static String shareProduct = 'Compartilhar QRCode do Produto?';
   static String storeName = 'Nome da loja';
   static String storeDescription = 'Descrição da loja';
+  static String storePixKey = 'Chave pix da loja';
   static String storeWhatsappNumber = 'Whatsapp da loja';
 
-  static String copyLink = 'Copiar Link';
+  static String shareMidia = 'Compartilhar Mídia';
+  static String shareQRCode = 'Compartilhar QRCode';
+
   static String productName = 'Nome do produto';
   static String productDescription = 'Descrição do produto';
   static String productPrice = 'Preço do produto';

@@ -47,37 +47,37 @@ abstract class ProductControllerBase with Store {
   List<ProductDetailDto>? get productFilterListActiveByStore =>
       productViewModel.productFilterListActiveByStore;
 
-  listProductsActive() async {
+  Future<void> listProductsActive() async {
     await productViewModel.listActive();
   }
 
-  filterProducts(String name) {
+  void filterProducts(String name) {
     productViewModel.listFilterByName(name);
   }
 
-  listProductsActiveByStore(String id) async {
+  Future<void> listProductsActiveByStore(String id) async {
     await productViewModel.listActiveByStore(id);
   }
 
-  listProductsInactiveByStore(String id) async {
+  Future<void> listProductsInactiveByStore(String id) async {
     await productViewModel.listInactiveByStore(id);
   }
 
-  register(ProductRegisterDto product, XFile image) async {
+  Future<void> register(ProductRegisterDto product, XFile image) async {
     await productViewModel.register(product, image);
   }
 
-  update(String id, ProductUpdateDto product, {XFile? image}) async {
+  Future<void> update(String id, ProductUpdateDto product, {XFile? image}) async {
     await productViewModel.update(id, product, image: image);
   }
 
-  toggleActive(String productId, String storeId) async {
+  Future<void> toggleActive(String productId, String storeId) async {
     await productViewModel.toggleActive(productId);
     await listProductsActiveByStore(storeId);
     await listProductsInactiveByStore(storeId);
   }
 
-  detailProduct(String id) async {
+  Future<void> detailProduct(String id) async {
     await productViewModel.detail(id);
   }
 }

@@ -33,7 +33,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
                     android:scheme="https"
-                    android:host="my-fome.netlify.app" />
+                    android:host="caprichaai.netlify.app" />
             </intent-filter>
 
 

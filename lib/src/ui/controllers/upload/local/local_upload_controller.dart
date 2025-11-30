@@ -15,7 +15,7 @@ abstract class LocalUploadControllerBase with Store {
       imageFile != null ? File(imageFile!.path) : null;
 
   @action
-  uploadImage() async {
+  Future<void> uploadImage() async {
     final ImagePicker picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
     if (pickedFile != null) {
@@ -24,7 +24,7 @@ abstract class LocalUploadControllerBase with Store {
   }
 
   @action
-  removeImage() {
+  void removeImage() {
     imageFile = null;
   }
 }

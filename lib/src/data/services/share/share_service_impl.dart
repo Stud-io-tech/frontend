@@ -2,7 +2,10 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'dart:ui' as ui;
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:path_provider/path_provider.dart';
@@ -43,5 +46,24 @@ class ShareServiceImpl implements ShareService {
           TextConstant.successLinkCopiedMessage,
           IconConstant.contentCopy);
     }
+  }
+
+  @override
+  Future<void> shareQrAsImage({required String title, required GlobalKey<State<StatefulWidget>> repaintKey, String? text}) async{
+     final boundary =
+      repaintKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+
+  final ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+  final byteData = await image.toByteData(format: ui.ImageByteFormat.png);
+
+  final pngBytes = byteData!.buffer.asUint8List();
+
+  final directory = await getTemporaryDirectory();
+  final path = "${directory.path}/qr_generated.png";
+  final file = File(path);
+  await file.writeAsBytes(pngBytes);
+
+  final params = ShareParams(text: text, files: [XFile(path)]);
+  await SharePlus.instance.share(params);
   }
 }

@@ -1,2 +1,0 @@
-/home/lazaro/Documentos/B - MyFome/Mobile_MyFome/android/app/.cxx/RelWithDebInfo/72p5q4e4/armeabi-v7a/CMakeFiles/edit_cache.dir
-/home/lazaro/Documentos/B - MyFome/Mobile_MyFome/android/app/.cxx/RelWithDebInfo/72p5q4e4/armeabi-v7a/CMakeFiles/rebuild_cache.dir
