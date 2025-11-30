@@ -1,10 +1,8 @@
-# MyFome
+# Capricha AÍ
 
-Este projeto tem como objetivo desenvolver a parte visual interativa de um sistema de catalogo de produtos chamado MyFome, a fim de simplificar o gerenciamento de lojas virtuais e inttroduzindo o micro e pequeno empresário no mercado digital. 
+Este projeto tem como objetivo desenvolver a parte visual interativa do Capricha AÍ, um aplicativo móvel voltado à comercialização digital de alimentos por vendedores informais e microempreendedores em cidades do interior. 
 
 Ao decorrer das branches, você poderá observar a presença da arquitetural MVVM até metodologias de design e testes de software, a fim de construir um sistema simples e escalável.
-
-Por fim, caso queira compartilhar sugestões sobre o projeto, entre em contato pelo e-mail: lazaroalexandre.dev@gmail.com ou crie uma nova issue.
 
 ## Inicialização
 
@@ -33,11 +31,3 @@ Após a configuração, volte ao projeto e execute os seguintes comandos no term
 
 - Rodar o aplicativo (Durante a execução do sistema):
   - flutter run -d _nome_do_dispositivo_
-
-## Autor
-
-Olá, sou o Lázaro Alexandre, um desenvolvedor full stack e futuro analista de sistemas apaixonado por transformar vidas através da inovação tecnológica.
-
-Para mais informações, acesse o meu portifólio: https://homolazarus.netlify.app/
-
-Estarei te aguardando ^-^
