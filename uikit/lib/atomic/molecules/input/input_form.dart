@@ -14,7 +14,6 @@ class InputForm extends StatelessWidget {
   final String? Function(String?)? validator;
   final String? prefix;
 
-
   const InputForm({
     super.key,
     required this.hintText,

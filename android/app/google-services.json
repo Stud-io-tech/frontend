@@ -7,6 +7,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:111489546155:android:606dd18057c695ff1d84ee",
+        "android_client_info": {
+          "package_name": "br.com.caprichaai.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111489546155-1k7bv0e2i81n2jugnee92645jvr7895n.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.caprichaai.app",
+            "certificate_hash": "fe8e4ca5d36e04af8b24e2338c5607e65fd66a17"
+          }
+        },
+        {
+          "client_id": "111489546155-4pfrvpv67pvo3kinjafdn54v0ahosocf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAg7isWmOXeI0TyVtoDteqZBG0smQuW6LM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111489546155-4pfrvpv67pvo3kinjafdn54v0ahosocf.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:111489546155:android:04d9b3707c24bd251d84ee",
         "android_client_info": {
           "package_name": "br.com.myfome.my_fome"
@@ -27,6 +64,14 @@
           "android_info": {
             "package_name": "br.com.myfome.my_fome",
             "certificate_hash": "7b639d06fb7a795f2157d41ec2b0ca81a2f91060"
+          }
+        },
+        {
+          "client_id": "111489546155-jph266m2qb8s0nju0g51te8f5ed5e0li.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.com.myfome.my_fome",
+            "certificate_hash": "fe8e4ca5d36e04af8b24e2338c5607e65fd66a17"
           }
         },
         {

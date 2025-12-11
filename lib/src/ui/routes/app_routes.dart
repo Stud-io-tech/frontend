@@ -4,6 +4,7 @@ import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
 import 'package:my_fome/src/ui/modules/home/pages/home_page.dart';
 import 'package:my_fome/src/ui/modules/home/pages/user_not_found_page.dart';
+import 'package:my_fome/src/ui/modules/home/widgets/screens/order_pdf_screen_widget.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/product_detail_screen_widget.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/store_detail_screen_widget.dart';
 import 'package:my_fome/src/ui/modules/product/pages/product_by_my_store_page.dart';
@@ -71,6 +72,17 @@ sealed class AppRoutes {
       builder: (context, state) => UpdateStore(
         store: state.extra as StoreDetailDto,
       ),
+    ),
+    GoRoute(
+      path: '/order-pdf',
+      builder: (context, state) {
+        final extras = state.extra as Map<String, String>;
+        return OrderPdfScreenWidget(
+          path: extras['path']!,
+          whatsapp: extras['whatsapp']!,
+          code: extras['code']!,
+        );
+      },
     ),
   ]);
 }

@@ -8,19 +8,26 @@ import 'package:my_fome/src/data/services/auth/auth_google_service.dart';
 import 'package:my_fome/src/data/services/auth/auth_google_service_impl.dart';
 import 'package:my_fome/src/data/services/client/client_service.dart';
 import 'package:my_fome/src/data/services/client/client_service_impl.dart';
+import 'package:my_fome/src/data/services/files/file_service.dart';
+import 'package:my_fome/src/data/services/files/file_service_impl.dart';
 import 'package:my_fome/src/data/services/local/local_storage_service.dart';
 import 'package:my_fome/src/data/services/local/local_storage_service_impl.dart';
 import 'package:my_fome/src/data/services/messages/result_message_service.dart';
 import 'package:my_fome/src/data/services/messages/result_message_service_impl.dart';
+import 'package:my_fome/src/data/services/payments/payment_service.dart';
+import 'package:my_fome/src/data/services/payments/payment_service_impl.dart';
 import 'package:my_fome/src/data/services/share/share_service.dart';
 import 'package:my_fome/src/data/services/share/share_service_impl.dart';
+import 'package:my_fome/src/data/services/storage/cloudnary/cloudinary_storage_service.dart';
+import 'package:my_fome/src/data/services/storage/cloudnary/cloudinary_storage_service_impl.dart';
 import 'package:my_fome/src/domain/repositories/products/produtc_repository.dart';
 import 'package:my_fome/src/domain/repositories/stores/store_repository.dart';
 import 'package:my_fome/src/domain/repositories/users/user_repository.dart';
 import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
-import 'package:my_fome/src/ui/controllers/uploads/upload_controller.dart';
+import 'package:my_fome/src/ui/controllers/upload/local/local_upload_controller.dart';
+import 'package:my_fome/src/ui/controllers/upload/remote/remote_upload_controller.dart';
 import 'package:my_fome/src/ui/viewmodels/products/product_view_model.dart';
 import 'package:my_fome/src/ui/viewmodels/stores/store_view_model.dart';
 import 'package:my_fome/src/ui/viewmodels/users/auth_view_model.dart';
@@ -40,9 +47,16 @@ class AppBindings extends ApplicationBindings {
         Bind.singleton<UserRepository>(
             (i) => UserRepositoryImpl(clientService: i())),
         Bind.singleton<ShareService>(
-          (i) => ShareServiceImpl(
-            clientService: i(), resultMessageService: i()
+          (i) =>
+              ShareServiceImpl(clientService: i(), resultMessageService: i()),
+        ),
+        Bind.singleton<PaymentService>(
+          (i) => PaymentServiceImpl(
+            clientService: i(),
           ),
+        ),
+        Bind.singleton<FileService>(
+          (i) => FileServiceImpl(paymentService: i(), shareService: i()),
         ),
         Bind.singleton((i) => AuthViewModel(
             userRepository: i(),
@@ -83,7 +97,15 @@ class AppBindings extends ApplicationBindings {
           ),
         ),
         Bind.lazySingleton(
-          (i) => UploadController(),
+          (i) => LocalUploadController(),
+        ),
+        Bind.lazySingleton<CloudinaryStorageService>(
+          (i) => CloudinaryStorageServiceImpl(),
+        ),
+        Bind.lazySingleton(
+          (i) => RemoteUploadController(
+            cloudinaryStorageService: i(),
+          ),
         ),
       ];
 }

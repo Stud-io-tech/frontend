@@ -1,6 +1,7 @@
 import 'env/env.dart';
 
 final class ApiConstant {
+  static const String basePix = "https://gerarqrcodepix.com.br/api/v1";
   static final String baseUrl = Env.baseUrl;
   static final String login = "$baseUrl/login";
   static final String product = "$baseUrl/product";

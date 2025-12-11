@@ -73,7 +73,7 @@ abstract class ProductViewModelBase with Store {
   }
 
   @action
-  listFilterByName(String name) {
+  void listFilterByName(String name) {
     if (name.isNotEmpty) {
       productFilterListActive = productsListActive
           ?.where((element) =>

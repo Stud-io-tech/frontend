@@ -1,14 +1,15 @@
+import 'package:intl/intl.dart';
 import 'package:my_fome/src/constants/deep_link_constant.dart';
 
 final class TextConstant {
-  static String welcome = 'Bem-vindo ao MyFome.';
+  static String welcome = 'Bem-vindo ao Capricha AÍ.';
   static String home = 'Home';
   static String products = 'Produtos';
   static String stores = 'Lojas';
   static String myStore = 'Minha Loja';
   static String logout = 'Sair';
   static String seeMore = 'ver mais';
-  static String sucessLoggingAccountTitle = 'Bem-vindo ao MyFome!';
+  static String sucessLoggingAccountTitle = 'Bem-vindo ao Capricha AÍ!';
   static String sucessLoggingOutAccountTitle = 'Conta Desvinculada!';
   static String sucessCreatingAccountTitle = 'Conta Criada!';
   static String sucessCreatingStoreTitle = 'Loja Criada!';
@@ -66,6 +67,9 @@ final class TextConstant {
 
   static String yes = 'Sim';
   static String no = 'Não';
+  static String send = 'Enviar';
+  static String confirm = 'Confirmar';
+  static String cancel = 'Cancelar';
   static String storeProducts = 'Produtos da Loja';
   static String newProduct = 'Novo Produto';
   static String newStore = 'Nova Loja';
@@ -94,7 +98,7 @@ final class TextConstant {
   static String actives = "Ativos";
   static const String search = 'Pesquisar...';
   static String save = 'Salvar';
-  static String serverError = 'O MyFome está fora do ar!';
+  static String serverError = 'O Capricha AÍ está fora do ar!';
   static String fieldError = "Campo obrigarório!";
   static String minCaractersPhone = 'O mínimo de caracters é 11!';
   static String maxCaractersPhone = 'O máximo de caracters é 11!';
@@ -103,6 +107,7 @@ final class TextConstant {
   static String name = 'Nome';
   static String description = 'Descrição';
   static String amount = 'Quantidade';
+  static String pixKey = 'Chave pix';
   static String price = 'Preço';
   static String whatsapp = 'Whatsapp';
   static String costPerShipping = 'Custo por Frete';
@@ -117,11 +122,16 @@ final class TextConstant {
   static String total = 'Total:';
 
   static String share = 'Compartilhar';
+  static String shareStore = 'Compartilhar QRCode da Loja?';
+  static String shareProduct = 'Compartilhar QRCode do Produto?';
   static String storeName = 'Nome da loja';
   static String storeDescription = 'Descrição da loja';
+  static String storePixKey = 'Chave pix da loja';
   static String storeWhatsappNumber = 'Whatsapp da loja';
 
-  static String copyLink = 'Copiar Link';
+  static String shareMidia = 'Compartilhar Mídia';
+  static String shareQRCode = 'Compartilhar QRCode';
+
   static String productName = 'Nome do produto';
   static String productDescription = 'Descrição do produto';
   static String productPrice = 'Preço do produto';
@@ -136,4 +146,18 @@ final class TextConstant {
 
   static String successLinkCopiedTitle = "Link Copiado!";
   static String successLinkCopiedMessage = "Link copiado com sucesso!";
+
+  static String pixPayment =
+      "Escaneie o QRCode de pagamento pix ao lado! Você também pode usar o Pix Copia e Cola ao copiar o código no painel de pedidos no aplicativo.";
+
+  static String orderConfirmation = "Confirmação de pedido";
+
+  static String thanks = "Obrigado por comprar no Capricha Aí!";
+  static String payment = "Pagamento:";
+
+  static String paymentOnDelivery = "Pagamento na Entrega.";
+  static String bringChange(double bring) =>
+      "Traga ${monetaryValue(bring)} de troco!";
+  static String formatDateTime(DateTime dateTime) =>
+      "${DateFormat('dd/MM/yyyy | HH:mm').format(dateTime)}h";
 }

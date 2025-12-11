@@ -28,17 +28,17 @@ abstract class AuthGoogleControllerBase with Store {
   @computed
   StoreDetailDto? get store => authViewModel.myStore;
 
-  login() async {
+  Future<void> login() async {
     await authViewModel.login();
     await load();
   }
 
-  logout() async {
+  Future<void> logout() async {
     await authViewModel.logout();
     await load();
   }
 
-  load() async {
+  Future<void> load() async {
     await authViewModel.details();
   }
 }

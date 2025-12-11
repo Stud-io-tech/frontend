@@ -19,11 +19,13 @@ void showCustomModalBottomSheet({
   bool isDismissible = true,
   ShapeBorder? shape,
   EdgeInsetsGeometry? padding,
+  Color? barrierColor,
 }) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: isScrollControlled,
     isDismissible: isDismissible,
+    barrierColor: barrierColor,
     shape: shape ??
         const RoundedRectangleBorder(
           borderRadius: BorderRadiusDirectional.only(

@@ -48,7 +48,7 @@ abstract class AuthViewModelBase with Store {
   bool serverError = false;
 
   @action
-  login() async {
+  Future<void> login() async {
     isLoading = true;
     googleCredentials = await authGoogleService.login();
     final user = UserLoginDto(email: googleCredentials!.email);

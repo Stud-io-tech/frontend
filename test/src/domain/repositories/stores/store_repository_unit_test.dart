@@ -135,6 +135,7 @@ void main() {
         name: "Nova Loja",
         description: "Descrição da nova loja",
         whatsapp: "123456789",
+        chavePix: "84992017118"
       );
 
       test("Deve registrar uma loja com sucesso.", () async {

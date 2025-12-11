@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:my_fome/src/domain/validators/stores/store_register_validator.dart';
+import 'package:my_fome/src/ui/controllers/upload/local/local_upload_controller.dart';
 import 'package:uikit/uikit.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
-import 'package:my_fome/src/ui/controllers/uploads/upload_controller.dart';
 import 'package:validatorless/validatorless.dart';
 
 class StoreRegisterForm extends StatelessWidget {
@@ -15,6 +15,8 @@ class StoreRegisterForm extends StatelessWidget {
   final TextEditingController nameEC;
   final TextEditingController descriptionEC;
   final TextEditingController whatsappEC;
+  final TextEditingController pixKeyEC;
+
 
   final FocusNode nameFocusNode = FocusNode();
   final FocusNode descriptionFocusNode = FocusNode();
@@ -26,8 +28,9 @@ class StoreRegisterForm extends StatelessWidget {
     required this.nameEC,
     required this.descriptionEC,
     required this.whatsappEC,
+    required this.pixKeyEC,
   });
-  final uploadController = Injector.get<UploadController>();
+  final uploadController = Injector.get<LocalUploadController>();
   final validator = StoreRegisterValidator();
 
   @override
@@ -82,6 +85,17 @@ class StoreRegisterForm extends StatelessWidget {
             controller: whatsappEC,
             textInputAction: TextInputAction.done,
             labelText: TextConstant.whatsapp,
+          ),
+          InputForm(
+            key: const Key("pixKeyStoreRegister"),
+            hintText: TextConstant.storePixKey,
+            maxLines: 1,
+            controller: pixKeyEC,
+            textInputAction: TextInputAction.next,
+            labelText: TextConstant.pixKey,
+            validator: Validatorless.required(
+              TextConstant.fieldError,
+            ),
           ),
         ],
       ),

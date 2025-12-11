@@ -3,7 +3,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
         
     <application
-        android:label="MyFome"
+        android:label="Capricha AÍ"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity
@@ -33,7 +33,7 @@
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
                     android:scheme="https"
-                    android:host="my-fome.netlify.app" />
+                    android:host="caprichaai.netlify.app" />
             </intent-filter>
 
 

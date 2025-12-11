@@ -9,7 +9,7 @@ import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_register_dto.dart';
 import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
-import 'package:my_fome/src/ui/controllers/uploads/upload_controller.dart';
+import 'package:my_fome/src/ui/controllers/upload/local/local_upload_controller.dart';
 import 'package:my_fome/src/ui/modules/store/widgets/register/store_register_form.dart';
 import 'package:uikit/uikit.dart';
 
@@ -29,9 +29,11 @@ class _RegisterStoreState extends State<RegisterStore> {
 
   final whatsappEC = TextEditingController();
 
+  final pixKeyEC = TextEditingController();
+
   final storeController = Injector.get<StoreController>();
 
-  final uploadController = Injector.get<UploadController>();
+  final uploadController = Injector.get<LocalUploadController>();
 
   final authController = Injector.get<AuthGoogleController>();
 
@@ -40,6 +42,7 @@ class _RegisterStoreState extends State<RegisterStore> {
     nameEC.dispose();
     descriptionEC.dispose();
     whatsappEC.dispose();
+    pixKeyEC.dispose();
     super.dispose();
   }
 
@@ -58,8 +61,7 @@ class _RegisterStoreState extends State<RegisterStore> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButtonLargeDark(
-                        onTap: () =>
-                            context.push('/'),
+                        onTap: () => context.push('/'),
                         icon: IconConstant.arrowLeft,
                       ),
                       const SizedBox(width: SizeToken.sm),
@@ -70,10 +72,11 @@ class _RegisterStoreState extends State<RegisterStore> {
               ),
               const SizedBox(height: SizeToken.lg),
               StoreRegisterForm(
+                formKey: formKey,
                 nameEC: nameEC,
                 descriptionEC: descriptionEC,
                 whatsappEC: whatsappEC,
-                formKey: formKey,
+                pixKeyEC: pixKeyEC,
               ),
             ],
           ),
@@ -94,6 +97,7 @@ class _RegisterStoreState extends State<RegisterStore> {
                 name: nameEC.text,
                 description: descriptionEC.text,
                 whatsapp: whatsapp,
+                chavePix: pixKeyEC.text,
               );
               try {
                 await storeController.register(

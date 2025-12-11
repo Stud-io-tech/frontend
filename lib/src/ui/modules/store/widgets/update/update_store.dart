@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_fome/src/ui/controllers/upload/local/local_upload_controller.dart';
 import 'package:uikit/uikit.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
@@ -10,7 +11,6 @@ import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_update_dto.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
-import 'package:my_fome/src/ui/controllers/uploads/upload_controller.dart';
 import 'package:my_fome/src/ui/modules/store/widgets/update/store_update_form.dart';
 
 class UpdateStore extends StatefulWidget {
@@ -31,7 +31,7 @@ class _UpdateStoreState extends State<UpdateStore> {
   final whatsappEC = TextEditingController();
 
   final storeController = Injector.get<StoreController>();
-  final uploadController = Injector.get<UploadController>();
+  final uploadController = Injector.get<LocalUploadController>();
 
   @override
   void initState() {

@@ -20,6 +20,7 @@ class InputDefault extends StatelessWidget {
   final void Function()? sufixOnTap;
   final double? paddingLeftPrefix;
   final double? paddingLeftSufix;
+  final bool isTextActive;
   const InputDefault({
     super.key,
     this.prefixIcon,
@@ -35,9 +36,10 @@ class InputDefault extends StatelessWidget {
     this.validator,
     this.controller,
     this.onChanged,
+    this.sufixOnTap,
     this.paddingLeftPrefix,
     this.paddingLeftSufix,
-    this.sufixOnTap,
+    this.isTextActive = false,
   });
 
   @override
@@ -66,22 +68,27 @@ class InputDefault extends StatelessWidget {
               right: sufixIcon != null ? SizeToken.xs : SizeToken.sm,
               left: sufixIcon != null ? 0 : SizeToken.xxs),
           child: sufixIcon != null
-              ? IconLargeSemiDark(
+              ? isTextActive?  IconLargeDark(
+                  onTap: sufixOnTap,
+                  icon: sufixIcon!,
+                  isNarrow: true,
+                ):  IconLargeSemiDark(
                   onTap: sufixOnTap,
                   icon: sufixIcon!,
                   padding: SizeToken.xs,
                 )
               : const SizedBox.shrink(),
         ),
-        prefixIcon: Padding(
+        prefixIcon: isTextActive? const Padding(padding: EdgeInsetsGeometry.only(right: SizeToken.sm)) : Padding(
           padding: EdgeInsets.only(
               right: paddingLeftPrefix != null ? paddingLeftPrefix! : 0,
               left: SizeToken.xxs),
           child: prefixIcon != null
-              ? IconLargeSemiDark(
-                  icon: prefixIcon!,
-                  padding: SizeToken.xs,
-                )
+              ?
+                   IconLargeSemiDark(
+                      icon: prefixIcon!,
+                      padding: SizeToken.xs,
+                    )
               : const SizedBox.shrink(),
         ),
         focusedBorder: const OutlineInputBorder(
@@ -121,7 +128,8 @@ class InputDefault extends StatelessWidget {
           borderSide: BorderSide.none,
         ),
         hintText: hintText,
-        hintStyle: Style.b1(color: ColorToken.semiDark),
+        hintStyle: Style.b1(
+            color: isTextActive ? ColorToken.dark : ColorToken.semiDark),
       ),
       onChanged: onChanged,
     );

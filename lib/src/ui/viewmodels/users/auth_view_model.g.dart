@@ -93,7 +93,7 @@ mixin _$AuthViewModel on AuthViewModelBase, Store {
       AsyncAction('AuthViewModelBase.login', context: context);
 
   @override
-  Future login() {
+  Future<void> login() {
     return _$loginAsyncAction.run(() => super.login());
   }
 

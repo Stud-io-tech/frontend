@@ -32,23 +32,23 @@ abstract class StoreControllerBase with Store {
   @computed
   StoreDetailDto? get store => storeViewModel.store;
 
-  listStore() async {
+  Future<void> listStore() async {
     await storeViewModel.list();
   }
 
-  filterStores(String name) {
+  void filterStores(String name) {
     storeViewModel.listFilterByName(name);
   }
 
-  detailStore(String id) async {
+  Future<void> detailStore(String id) async {
     await storeViewModel.detail(id);
   }
 
-  register(StoreRegisterDto store, XFile image) async {
+  Future<void> register(StoreRegisterDto store, XFile image) async {
     await storeViewModel.register(store, image);
   }
 
-  update(String id, StoreUpdateDto store, {XFile? image}) async {
+  Future<void> update(String id, StoreUpdateDto store, {XFile? image}) async {
     await storeViewModel.update(id, store, image: image);
     await detailStore(id);
   }

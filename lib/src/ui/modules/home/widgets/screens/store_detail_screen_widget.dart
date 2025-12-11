@@ -34,6 +34,7 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
   final storeController = Injector.get<StoreController>();
   final productController = Injector.get<ProductController>();
   final shareService = Injector.get<ShareService>();
+  static final GlobalKey repaintKey = GlobalKey();
 
   late StoreDetailDto store;
   @override
@@ -70,23 +71,42 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                 onTapIconLeft: () =>
                     widget.id != null ? context.push('/') : context.pop(),
                 widgetRigth: PopUpMenuShare(
-                  menuIcon: IconConstant.share,
-                  firstIcon: IconConstant.contentCopy,
-                  firstLabel: TextConstant.copyLink,
-                  firtOnTap: () => shareService.copyTextLink(
-                    "${DeepLinkConstant.storeDetail}/${store.id}",
-                  ),
-                  secoundIcon: IconConstant.arrowOutward,
-                  secoundLabel: TextConstant.share,
-                  secoundOnTap: () async =>
-                      await shareService.shareImageTextLink(
-                    store.image,
-                    TextConstant.shareTextStore(
-                      store.id,
-                      store.name,
+                      menuIcon: IconConstant.share,
+                      secoundIcon: IconConstant.qrcode,
+                      secoundLabel: TextConstant.shareQRCode,
+                      secoundOnTap: () {
+                        showCustomModalBottomSheet(
+                          barrierColor: Colors.transparent,
+                          context: context,
+                          builder: (context) => ModalSheetQrCode(
+                            repaintKey: repaintKey,
+                            linkQrCode:
+                                "${DeepLinkConstant.storeDetail}/${store.id}",
+                            iconBack: IconConstant.arrowLeft,
+                            title: store.name,
+                            cancelText: TextConstant.cancel,
+                            continueText: TextConstant.share,
+                            isLoading: productController.isLoading,
+                            continueOnTap: () => shareService.shareQrAsImage(
+                                title: store.name, repaintKey: repaintKey),
+                            sufixOnTap: () => shareService.copyTextLink(
+                              "${DeepLinkConstant.storeDetail}/${store.id}",
+                            ),
+                            sufixIcon: IconConstant.contentCopy,
+                          ),
+                        );
+                      },
+                      firstIcon: IconConstant.media,
+                      firstLabel: TextConstant.shareMidia,
+                      firtOnTap: () async =>
+                          await shareService.shareImageTextLink(
+                        store.image,
+                        TextConstant.shareTextStore(
+                          store.id,
+                          store.name,
+                        ),
+                      ),
                     ),
-                  ),
-                ),
               ),
               const SizedBox(
                 height: SizeToken.lg,

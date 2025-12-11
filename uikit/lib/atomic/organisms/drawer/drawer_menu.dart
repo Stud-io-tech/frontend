@@ -4,7 +4,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:uikit/uikit.dart';
 import 'package:go_router/go_router.dart';
 
-
 class DrawerMenu extends StatelessWidget {
   final void Function() firstOnPressed;
   final void Function() secoundOnPressed;
@@ -59,13 +58,11 @@ class DrawerMenu extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: SizeToken.md),
                   child: Row(
+                    spacing: SizeToken.md,
                     children: [
                       IconButtonLargeDark(
                         icon: menuIcon,
                         onTap: () => context.pop(),
-                      ),
-                      const SizedBox(
-                        width: 15,
                       ),
                       SvgPicture.asset(logo, height: SizeToken.xxl),
                     ],

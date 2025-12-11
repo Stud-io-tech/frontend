@@ -29,6 +29,8 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
   final storeController = Injector.get<StoreController>();
   final shareService = Injector.get<ShareService>();
   final productController = Injector.get<ProductController>();
+  static final GlobalKey repaintKey = GlobalKey();
+
   @override
   void initState() {
     super.initState();
@@ -49,14 +51,33 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
               onTapIconLeft: () => context.pop(),
               widgetRigth: PopUpMenuShare(
                 menuIcon: IconConstant.share,
-                firstIcon: IconConstant.contentCopy,
-                firstLabel: TextConstant.copyLink,
-                firtOnTap: () => shareService.copyTextLink(
-                  "${DeepLinkConstant.productDetail}/${widget.product.id}",
-                ),
-                secoundIcon: IconConstant.arrowOutward,
-                secoundLabel: TextConstant.share,
-                secoundOnTap: () async => await shareService.shareImageTextLink(
+                secoundIcon: IconConstant.qrcode,
+                secoundLabel: TextConstant.shareQRCode,
+                secoundOnTap: () {
+                  showCustomModalBottomSheet(
+                    barrierColor: Colors.transparent,
+                    context: context,
+                    builder: (context) => ModalSheetQrCode(
+                      repaintKey: repaintKey,
+                      linkQrCode:
+                          "${DeepLinkConstant.productDetail}/${widget.product.id}",
+                      iconBack: IconConstant.arrowLeft,
+                      title: widget.product.name,
+                      cancelText: TextConstant.cancel,
+                      continueText: TextConstant.share,
+                      isLoading: productController.isLoading,
+                      continueOnTap: () => shareService.shareQrAsImage(
+                          title: widget.product.name, repaintKey: repaintKey),
+                      sufixOnTap: () => shareService.copyTextLink(
+                        "${DeepLinkConstant.productDetail}/${widget.product.id}",
+                      ),
+                      sufixIcon: IconConstant.contentCopy,
+                    ),
+                  );
+                },
+                firstIcon: IconConstant.media,
+                firstLabel: TextConstant.shareMidia,
+                firtOnTap: () async => await shareService.shareImageTextLink(
                   widget.product.image,
                   TextConstant.shareTextProduct(
                     widget.product.id,

@@ -43,6 +43,7 @@ class StoreRepositoryImpl implements StoreRepository {
         'name': store.name,
         'description': store.description,
         'whatsapp': store.whatsapp,
+        'chave_pix': store.chavePix,
         'image': MultipartFile.fromBytes(
           await image.readAsBytes(),
           filename: image.name,

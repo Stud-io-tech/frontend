@@ -5,10 +5,12 @@ class StoreRegisterDto {
   final String name;
   final String description;
   final String whatsapp;
+  final String chavePix;
   StoreRegisterDto({
     required this.name,
     required this.description,
     required this.whatsapp,
+    required this.chavePix,
   });
 
   Map<String, dynamic> toMap() {
@@ -16,6 +18,7 @@ class StoreRegisterDto {
       'name': name,
       'description': description,
       'whatsapp': whatsapp,
+      'chave_pix': chavePix,
     };
   }
 
@@ -24,6 +27,7 @@ class StoreRegisterDto {
       name: map['name'] as String,
       description: map['description'] as String,
       whatsapp: map['whatsapp'] as String,
+      chavePix: map['chave_pix'] as String,
     );
   }
 
@@ -38,9 +42,20 @@ class StoreRegisterDto {
     return 
       other.name == name &&
       other.description == description &&
-      other.whatsapp == whatsapp;
+      other.whatsapp == whatsapp &&
+      other.chavePix == chavePix;
   }
 
   @override
-  int get hashCode => name.hashCode ^ description.hashCode ^ whatsapp.hashCode;
+  int get hashCode {
+    return name.hashCode ^
+      description.hashCode ^
+      whatsapp.hashCode ^
+      chavePix.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'StoreRegisterDto(name: $name, description: $description, whatsapp: $whatsapp, chavePix: $chavePix)';
+  }
 }

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_fome/src/ui/controllers/upload/local/local_upload_controller.dart';
 import 'package:uikit/uikit.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
@@ -13,7 +14,6 @@ import 'package:my_fome/src/domain/dtos/products/product_register_dto.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
-import 'package:my_fome/src/ui/controllers/uploads/upload_controller.dart';
 import 'package:my_fome/src/ui/modules/product/widgets/register/product_register_form.dart';
 
 class RegisterProduct extends StatefulWidget {
@@ -40,7 +40,7 @@ class _RegisterStoreState extends State<RegisterProduct> {
 
   final productController = Injector.get<ProductController>();
 
-  final uploadController = Injector.get<UploadController>();
+  final uploadController = Injector.get<LocalUploadController>();
 
   final storeController = Injector.get<StoreController>();
 

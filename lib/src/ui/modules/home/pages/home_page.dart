@@ -53,16 +53,15 @@ class _HomePageState extends State<HomePage> {
                 child: IconButtonLargeDark(
                     key: const Key('drawerButton'),
                     icon: IconConstant.menu,
-                    onTap: () => drawerKey.currentState?.openDrawer()),
+                    onTap: () {
+                      drawerKey.currentState?.openDrawer();
+                    }),
               ),
               centerTitle: true,
               actions: [
                 Padding(
                   padding: const EdgeInsets.all(3.5),
                   child: Observer(builder: (_) {
-                    if (authController.isLoading) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
                     if (authController.user?.image != null) {
                       return ClipRRect(
                           borderRadius: BorderRadius.circular(SizeToken.lg),
