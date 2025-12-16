@@ -69,13 +69,14 @@ class StoreRepositoryImpl implements StoreRepository {
   }
 
   @override
-  AsyncResult<StoreUpdateDto> update(
-      String id, StoreUpdateDto store, {XFile? image}) async {
+  AsyncResult<StoreUpdateDto> update(String id, StoreUpdateDto store,
+      {XFile? image}) async {
     try {
       final FormData formDataStore = FormData.fromMap({
         'name': store.name,
         'description': store.description,
         'whatsapp': store.whatsapp,
+        'chave_pix': store.chavePix,
         '_method': 'PUT',
       });
 
@@ -89,7 +90,8 @@ class StoreRepositoryImpl implements StoreRepository {
       final Response response = await clientService.post(
           "${ApiConstant.store}/$id", formDataStore,
           requiresAuth: true, contentType: 'multipart/form-data');
-      final StoreUpdateDto resultStore = StoreUpdateDto.fromMap(response.data['store']);
+      final StoreUpdateDto resultStore =
+          StoreUpdateDto.fromMap(response.data['store']);
       return Success(resultStore);
     } on DioException catch (e) {
       return Failure(

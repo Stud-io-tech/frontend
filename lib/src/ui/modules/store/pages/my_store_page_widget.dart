@@ -5,6 +5,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/constants/deep_link_constant.dart';
 import 'package:my_fome/src/data/services/share/share_service.dart';
+import 'package:my_fome/src/ui/controllers/switch/switch_controller.dart';
 import 'package:uikit/uikit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -31,12 +32,18 @@ class _MyStorePageState extends State<MyStorePage> {
   final shareService = Injector.get<ShareService>();
   final storeController = Injector.get<StoreController>();
   static final GlobalKey repaintKey = GlobalKey();
+  late bool isOpen = false;
+  late bool isDelivery = true;
+
+  final swicthController = Injector.get<SwitchController>();
+
   @override
   void initState() {
     super.initState();
     if (widget.id != null) {
       storeController.detailStore(widget.id!);
     }
+    swicthController.setValue(isOpen);
   }
 
   @override
@@ -129,6 +136,39 @@ class _MyStorePageState extends State<MyStorePage> {
                       }),
                       const SizedBox(
                         height: SizeToken.md,
+                      ),
+                      TextLabelL4Secondary(
+                          text:
+                              "Das 12h às 18h, segunda à sexta, com intevado das 12h às 14h"),
+                      const SizedBox(
+                        height: SizeToken.xs,
+                      ),
+                      Observer(builder: (_) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                swicthController.value
+                                    ? TextLabelL4Success(text: "• ABERTO")
+                                    : TextLabelL4Info(text: "• FECHADO"),
+                                TextLabelL4Dark(
+                                    text: isDelivery
+                                        ? " | FAZEMOS ENTREGA"
+                                        : " | NÃO FAZEMOS ENTREGA"),
+                              ],
+                            ),
+                            SwicthDefault(
+                              value: swicthController.value,
+                              onChanged: (value) =>
+                                  swicthController.toggleValue(),
+                            )
+                          ],
+                        );
+                      }),
+                      const SizedBox(
+                        height: SizeToken.xs,
                       ),
                       Observer(builder: (_) {
                         return TextBodyB1SemiDark(
@@ -228,6 +268,26 @@ class _MyStorePageState extends State<MyStorePage> {
                           ),
                         );
                       }),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          TextHeadlineH2(text: TextConstant.address),
+                          LinkSeeMore(
+                              text: TextConstant.editAddress, onTap: () {})
+                        ],
+                      ),
+                      const SizedBox(
+                        height: SizeToken.sm,
+                      ),
+                      AddressDetailsMap(
+                        fullAddress:
+                            "R. Dezoito de Abril, 117, Nova Cruz - RN, 59215-000",
+                        latitude: -6.478014202826378,
+                        longitude: -35.43192483189211,
+                      ),
+                      const SizedBox(
+                        height: SizeToken.lg,
+                      ),
                     ],
                   ),
                 )

@@ -26,6 +26,7 @@ import 'package:my_fome/src/domain/repositories/users/user_repository.dart';
 import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
+import 'package:my_fome/src/ui/controllers/switch/switch_controller.dart';
 import 'package:my_fome/src/ui/controllers/upload/local/local_upload_controller.dart';
 import 'package:my_fome/src/ui/controllers/upload/remote/remote_upload_controller.dart';
 import 'package:my_fome/src/ui/viewmodels/products/product_view_model.dart';
@@ -107,5 +108,8 @@ class AppBindings extends ApplicationBindings {
             cloudinaryStorageService: i(),
           ),
         ),
+        Bind.lazySingleton(
+          (i) => SwitchController(),
+        )
       ];
 }

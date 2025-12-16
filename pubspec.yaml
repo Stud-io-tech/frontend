@@ -29,7 +29,7 @@ dependencies:
   image_picker: ^1.1.2
   jwt_decode: ^0.3.1
   flutter_launcher_icons: ^0.14.2
-  flutter_native_splash: ^2.4.4
+  flutter_native_splash: ^2.4.7
   lucid_validation: ^1.2.0
   result_dart: ^2.0.0
   envied: ^1.1.1
@@ -42,17 +42,25 @@ dependencies:
   flutter_pdfview: ^1.4.0+1
   cloudinary: ^1.2.0
   file_picker: ^10.1.9
+  flutter_map: ^8.2.2
+  latlong2: ^0.9.1
 
 flutter_native_splash:
-  color: "#FFFFFF"
+  color: "#fe0019"
   image: "assets/images/logos/logo-icon.png"
   android: true
+  fullscreen: true
 
 flutter_icons:
   image_path: "assets/images/logos/logo-icon.png"
   android: "launcher_icon"
-  adaptive_icon_background: "#FFFFFF"
+  adaptive_icon_background: "#fe0019"
   adaptive_icon_foreground: "assets/images/logos/logo-icon.png"
+
+  android_12:
+    color: "#fe0019"  
+    image: "assets/images/logos/logo-icon.png"  
+    icon_background_color: "#fe0019" 
 
 
 dev_dependencies:
