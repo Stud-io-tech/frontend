@@ -37,6 +37,10 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
   static final GlobalKey repaintKey = GlobalKey();
 
   late StoreDetailDto store;
+
+  late bool isOpen = false;
+  late bool isDelivery = true;
+
   @override
   void initState() {
     super.initState();
@@ -71,42 +75,41 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                 onTapIconLeft: () =>
                     widget.id != null ? context.push('/') : context.pop(),
                 widgetRigth: PopUpMenuShare(
-                      menuIcon: IconConstant.share,
-                      secoundIcon: IconConstant.qrcode,
-                      secoundLabel: TextConstant.shareQRCode,
-                      secoundOnTap: () {
-                        showCustomModalBottomSheet(
-                          barrierColor: Colors.transparent,
-                          context: context,
-                          builder: (context) => ModalSheetQrCode(
-                            repaintKey: repaintKey,
-                            linkQrCode:
-                                "${DeepLinkConstant.storeDetail}/${store.id}",
-                            iconBack: IconConstant.arrowLeft,
-                            title: store.name,
-                            cancelText: TextConstant.cancel,
-                            continueText: TextConstant.share,
-                            isLoading: productController.isLoading,
-                            continueOnTap: () => shareService.shareQrAsImage(
-                                title: store.name, repaintKey: repaintKey),
-                            sufixOnTap: () => shareService.copyTextLink(
-                              "${DeepLinkConstant.storeDetail}/${store.id}",
-                            ),
-                            sufixIcon: IconConstant.contentCopy,
-                          ),
-                        );
-                      },
-                      firstIcon: IconConstant.media,
-                      firstLabel: TextConstant.shareMidia,
-                      firtOnTap: () async =>
-                          await shareService.shareImageTextLink(
-                        store.image,
-                        TextConstant.shareTextStore(
-                          store.id,
-                          store.name,
+                  menuIcon: IconConstant.share,
+                  secoundIcon: IconConstant.qrcode,
+                  secoundLabel: TextConstant.shareQRCode,
+                  secoundOnTap: () {
+                    showCustomModalBottomSheet(
+                      barrierColor: Colors.transparent,
+                      context: context,
+                      builder: (context) => ModalSheetQrCode(
+                        repaintKey: repaintKey,
+                        linkQrCode:
+                            "${DeepLinkConstant.storeDetail}/${store.id}",
+                        iconBack: IconConstant.arrowLeft,
+                        title: store.name,
+                        cancelText: TextConstant.cancel,
+                        continueText: TextConstant.share,
+                        isLoading: productController.isLoading,
+                        continueOnTap: () => shareService.shareQrAsImage(
+                            title: store.name, repaintKey: repaintKey),
+                        sufixOnTap: () => shareService.copyTextLink(
+                          "${DeepLinkConstant.storeDetail}/${store.id}",
                         ),
+                        sufixIcon: IconConstant.contentCopy,
                       ),
+                    );
+                  },
+                  firstIcon: IconConstant.media,
+                  firstLabel: TextConstant.shareMidia,
+                  firtOnTap: () async => await shareService.shareImageTextLink(
+                    store.image,
+                    TextConstant.shareTextStore(
+                      store.id,
+                      store.name,
                     ),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: SizeToken.lg,
@@ -115,6 +118,21 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        isOpen
+                            ? TextLabelL4Success(text: "• ABERTO")
+                            : TextLabelL4Info(text: "• FECHADO"),
+                        TextLabelL4Dark(
+                            text: isDelivery
+                                ? " | FAZEMOS ENTREGA"
+                                : " | NÃO FAZEMOS ENTREGA"),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: SizeToken.xxs,
+                    ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -129,6 +147,12 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                                 icon: IconConstant.whatsapp)),
                       ],
                     ),
+                    const SizedBox(
+                      height: SizeToken.md,
+                    ),
+                    TextLabelL4Secondary(
+                        text:
+                            "Das 12h às 18h, segunda à sexta, com intevado das 12h às 14h"),
                     const SizedBox(
                       height: SizeToken.md,
                     ),
@@ -213,6 +237,19 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                         ),
                       );
                     }),
+                    TextHeadlineH2(text: TextConstant.address),
+                    const SizedBox(
+                      height: SizeToken.sm,
+                    ),
+                    AddressDetailsMap(
+                      fullAddress:
+                          "R. Dezoito de Abril, 117, Nova Cruz - RN, 59215-000",
+                      latitude: -6.478014202826378,
+                      longitude: -35.43192483189211,
+                    ),
+                    const SizedBox(
+                      height: SizeToken.lg,
+                    ),
                   ],
                 ),
               )

@@ -106,6 +106,7 @@ final class TextConstant {
   static String storeNotFound = 'Loja não encontrada!';
   static String name = 'Nome';
   static String description = 'Descrição';
+  static String schedules = 'Dias e Horários';
   static String amount = 'Quantidade';
   static String pixKey = 'Chave pix';
   static String price = 'Preço';
@@ -125,12 +126,28 @@ final class TextConstant {
   static String shareStore = 'Compartilhar QRCode da Loja?';
   static String shareProduct = 'Compartilhar QRCode do Produto?';
   static String storeName = 'Nome da loja';
+
+  static String dynamicFreightKmLabel = 'Quanto custa a entrega a cada 1 km rodado?';
+  static String dynamicFreightKmHint = 'Exemplo: R\$ 1,00';
+  static String dynamicFreightKmDetail = 'Não informe o valor total da entrega.\nInforme apenas o valor cobrado para cada 1 km percorrido.\n\nExemplo:\nSe o entregador percorre 5 km e o valor da entrega é R\$ 5,00, então o custo por km rodado é de R\$ 1,00. Nesse caso, digite "1,00" no campo.';
+
+  static String delieveryTimeKmLabel =
+      'Quantos minutos o entregador demora para rodar 1 km?';
+  static String delieveryTimeKmHint = 'Ex: 2 minutos por km percorrido';
+  static String delieveryTimeKmDetail =
+      'Não informe o tempo total da entrega.\nInforme apenas o tempo gasto em minutos por entrega a cada 1 km percorrido.\n\nExemplo:\nSe o entregador leva 10 minutos para rodar 5 km, então, ele leva 2 minutos para percorrer 1 km. Nesse caso, digite "2" no campo.';
+
   static String storeDescription = 'Descrição da loja';
+  static String schedulesDescription =
+      'Diga quais são dos dias e horários de funcionamento';
+
   static String storePixKey = 'Chave pix da loja';
   static String storeWhatsappNumber = 'Whatsapp da loja';
 
   static String shareMidia = 'Compartilhar Mídia';
   static String shareQRCode = 'Compartilhar QRCode';
+  static String address = 'Endereço';
+  static String editAddress = 'editar endereço';
 
   static String productName = 'Nome do produto';
   static String productDescription = 'Descrição do produto';

@@ -202,6 +202,7 @@ void main() {
         whatsapp: "999888777",
         image: "image.png",
         ownerId: "owner_123",
+        chavePix: "lazaroalexandre.dev@gmail.com"
       );
 
       test("Deve retornar os detalhes de uma loja.", () async {

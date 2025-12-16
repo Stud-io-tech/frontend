@@ -7,19 +7,19 @@ class ModalSheet extends StatelessWidget {
   final String iconBack;
   final String title;
   final String description;
-  final String cancelText;
-  final String continueText;
+  final String? cancelText;
+  final String? continueText;
   final bool isLoading;
-  final void Function() continueOnTap;
+  final void Function()? continueOnTap;
   const ModalSheet({
     super.key,
     required this.iconBack,
     required this.title,
     required this.description,
-    required this.cancelText,
-    required this.continueText,
+    this.cancelText,
+    this.continueText,
     this.isLoading = false,
-    required this.continueOnTap,
+    this.continueOnTap,
   });
 
   @override
@@ -29,7 +29,8 @@ class ModalSheet extends StatelessWidget {
         bottom: MediaQuery.of(context).viewInsets.bottom,
       ),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: SizeToken.sm, vertical: SizeToken.md),
+        padding: const EdgeInsets.symmetric(
+            horizontal: SizeToken.sm, vertical: SizeToken.md),
         child: Wrap(
           children: [
             Row(
@@ -38,7 +39,7 @@ class ModalSheet extends StatelessWidget {
                 const SizedBox(
                   width: SizeToken.sm,
                 ),
-                TextLabelL1Dark(text: title)
+                Flexible(child: TextLabelL1Dark(text: title, ))
               ],
             ),
             Column(
@@ -46,34 +47,34 @@ class ModalSheet extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                      top: SizeToken.sm, bottom: SizeToken.md),
-                  child: TextBodyB1SemiDark(
-                    text: description,
-                  ),
-                ),
+                    padding: const EdgeInsets.only(
+                        top: SizeToken.sm, bottom: SizeToken.md),
+                    child: TextBodyB1SemiDark(
+                      text: description,
+                    )),
               ],
             ),
-            Row(
-              children: [
-                Expanded(
-                    child: ButtonCancel(
-                  text: cancelText,
-                  onPressed: () => context.pop(),
-                )),
-                const SizedBox(
-                  width: SizeToken.sm,
-                ),
-                Expanded(
-                  child: ButtonProgress(
-                    key: const Key("confirm"),
-                    isLoading: isLoading,
-                    text: continueText,
-                    onPressed: continueOnTap,
+            if (cancelText != null && continueText != null)
+              Row(
+                children: [
+                  Expanded(
+                      child: ButtonCancel(
+                    text: cancelText!,
+                    onPressed: () => context.pop(),
+                  )),
+                  const SizedBox(
+                    width: SizeToken.sm,
                   ),
-                )
-              ],
-            )
+                  Expanded(
+                    child: ButtonProgress(
+                      key: const Key("confirm"),
+                      isLoading: isLoading,
+                      text: continueText!,
+                      onPressed: continueOnTap,
+                    ),
+                  )
+                ],
+              )
           ],
         ),
       ),

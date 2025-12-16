@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 class StoreDetailDto {
@@ -7,6 +8,8 @@ class StoreDetailDto {
   final String description;
   final String image;
   final String whatsapp;
+  final String chavePix;
+
   StoreDetailDto({
     required this.id,
     required this.ownerId,
@@ -14,6 +17,7 @@ class StoreDetailDto {
     required this.description,
     required this.image,
     required this.whatsapp,
+    required this.chavePix,
   });
 
   Map<String, dynamic> toMap() {
@@ -24,6 +28,7 @@ class StoreDetailDto {
       'description': description,
       'image': image,
       'whatsapp': whatsapp,
+      'chave_pix': chavePix,
     };
   }
 
@@ -35,6 +40,7 @@ class StoreDetailDto {
       description: map['description'] as String,
       image: map['image'] as String,
       whatsapp: map['whatsapp'] as String,
+      chavePix: map['chave_pix'] as String,
     );
   }
 
@@ -46,22 +52,30 @@ class StoreDetailDto {
   @override
   bool operator ==(covariant StoreDetailDto other) {
     if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.ownerId == ownerId &&
-        other.name == name &&
-        other.description == description &&
-        other.whatsapp == whatsapp &&
-        other.image == image;
+  
+    return 
+      other.id == id &&
+      other.ownerId == ownerId &&
+      other.name == name &&
+      other.description == description &&
+      other.image == image &&
+      other.whatsapp == whatsapp &&
+      other.chavePix == chavePix;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        ownerId.hashCode ^
-        name.hashCode ^
-        description.hashCode ^
-        whatsapp.hashCode ^
-        image.hashCode;
+      ownerId.hashCode ^
+      name.hashCode ^
+      description.hashCode ^
+      image.hashCode ^
+      whatsapp.hashCode ^
+      chavePix.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'StoreDetailDto(id: $id, ownerId: $ownerId, name: $name, description: $description, image: $image, whatsapp: $whatsapp, chavePix: $chavePix)';
   }
 }

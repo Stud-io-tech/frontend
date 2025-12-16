@@ -10,3 +10,4 @@ export 'modal/modal_sheet_qr_code.dart';
 export 'menu/menu_buttom_bar.dart';
 export 'banner/error/banner_error.dart';
 export 'popup/pop_up_menu_share.dart';
+export 'address/address_details_map.dart';

@@ -7,3 +7,4 @@ export 'card/card_default.dart';
 export 'divider/divider_default.dart';
 export 'content/content_default.dart';
 export 'icon/icon_default.dart';
+export 'swicth/swicth_default.dart';

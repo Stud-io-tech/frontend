@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_fome/src/ui/controllers/switch/switch_controller.dart';
 import 'package:my_fome/src/ui/controllers/upload/local/local_upload_controller.dart';
 import 'package:uikit/uikit.dart';
 
@@ -30,16 +31,30 @@ class _UpdateStoreState extends State<UpdateStore> {
   final descriptionEC = TextEditingController();
   final whatsappEC = TextEditingController();
 
+  final schedulesEC = TextEditingController();
+
+  final pixKeyEC = TextEditingController();
+
+  final delieveryTimeKmEC = TextEditingController();
+
+  final dynamicFreightKmEC = TextEditingController();
+
   final storeController = Injector.get<StoreController>();
   final uploadController = Injector.get<LocalUploadController>();
+
+  final swicthController = Injector.get<SwitchController>();
+
+  late bool isDelivery = false;
 
   @override
   void initState() {
     super.initState();
     nameEC.text = widget.store.name;
     descriptionEC.text = widget.store.description;
-    whatsappEC.text =
-        MaskToken.formatPhoneNumber(widget.store.whatsapp.replaceFirst("+55", ""));
+    whatsappEC.text = MaskToken.formatPhoneNumber(
+        widget.store.whatsapp.replaceFirst("+55", ""));
+    pixKeyEC.text = widget.store.chavePix;
+    swicthController.setValue(isDelivery);
   }
 
   @override
@@ -75,12 +90,21 @@ class _UpdateStoreState extends State<UpdateStore> {
                 ],
               ),
               const SizedBox(height: SizeToken.lg),
-              StoreUpdateForm(
-                image: widget.store.image,
-                nameEC: nameEC,
-                descriptionEC: descriptionEC,
-                whatsappEC: whatsappEC,
-                formKey: formKey,
+              Observer(
+                builder: (_) {
+                  return StoreUpdateForm(
+                    formKey: formKey,
+                    image: widget.store.image,
+                    nameEC: nameEC,
+                    descriptionEC: descriptionEC,
+                    whatsappEC: whatsappEC,
+                    pixKeyEC: pixKeyEC,
+                    schedulesEC: schedulesEC,
+                    isDelivery: swicthController.value,
+                    dynamicFreightKmEC: dynamicFreightKmEC,
+                    delieveryTimeKmEC: delieveryTimeKmEC,
+                  );
+                }
               ),
             ],
           ),
@@ -97,10 +121,10 @@ class _UpdateStoreState extends State<UpdateStore> {
               String whatsapp = MaskToken.removeAllMask(whatsappEC.text);
               whatsapp = "+55$whatsapp";
               StoreUpdateDto model = StoreUpdateDto(
-                name: nameEC.text,
-                description: descriptionEC.text,
-                whatsapp: whatsapp,
-              );
+                  name: nameEC.text,
+                  description: descriptionEC.text,
+                  whatsapp: whatsapp,
+                  chavePix: pixKeyEC.text);
               try {
                 await storeController.update(widget.store.id, model,
                     image: uploadController.imageFile);

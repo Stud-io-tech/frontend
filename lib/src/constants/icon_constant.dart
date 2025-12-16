@@ -10,6 +10,7 @@ final class IconConstant {
   static const String edit = 'assets/icons/edit.svg';
   static const String error = 'assets/icons/error.svg';
   static const String filter = 'assets/icons/filter.svg';
+  static const String help = 'assets/icons/help.svg';
   static const String home = 'assets/icons/home.svg';
   static const String logout = 'assets/icons/logout.svg';
   static const String media = 'assets/icons/media.svg';

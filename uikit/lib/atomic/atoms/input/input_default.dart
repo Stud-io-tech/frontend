@@ -21,6 +21,7 @@ class InputDefault extends StatelessWidget {
   final double? paddingLeftPrefix;
   final double? paddingLeftSufix;
   final bool isTextActive;
+  final bool enable;
   const InputDefault({
     super.key,
     this.prefixIcon,
@@ -40,11 +41,13 @@ class InputDefault extends StatelessWidget {
     this.paddingLeftPrefix,
     this.paddingLeftSufix,
     this.isTextActive = false,
+    this.enable = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enable,
       focusNode: focusNode,
       onTap: onTap,
       readOnly: onTap != null ? true : false,
@@ -60,7 +63,8 @@ class InputDefault extends StatelessWidget {
         fillColor: ColorToken.neutral,
         contentPadding: const EdgeInsets.all(SizeToken.sm),
         isDense: true,
-        prefix: prefix != null ? TextBodyB1Dark(text: prefix!) : null,
+        prefixText: prefix,
+        prefixStyle: Style.b1(color: ColorToken.dark),
         prefixIconConstraints: const BoxConstraints(),
         suffixIconConstraints: const BoxConstraints(),
         suffixIcon: Padding(

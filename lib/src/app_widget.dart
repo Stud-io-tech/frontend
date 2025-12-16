@@ -21,7 +21,7 @@ class AppWidget extends StatelessWidget {
       ],
       builder: (context, routes, flutterGetItNavObserver) {
         return MaterialApp.router(
-          title: 'MYFOME',
+          title: 'Capricha AÍ',
           debugShowCheckedModeBanner: false,
           theme: theme,
           routerConfig: AppRoutes.route,

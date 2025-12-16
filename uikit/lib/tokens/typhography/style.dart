@@ -27,7 +27,7 @@ final class Style {
       color: color);
 
   static TextStyle l1({Color? color}) => TextStyle(
-      fontSize: Font.md,
+      fontSize: Font.sm,
       fontWeight: FontWeight.w600,
       fontFamily: 'Inter',
       color: color);

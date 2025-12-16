@@ -5,10 +5,13 @@ class StoreUpdateDto {
   final String? name;
   final String? description;
   final String? whatsapp;
+  final String? chavePix;
+
   StoreUpdateDto({
     this.name,
     this.description,
     this.whatsapp,
+    this.chavePix,
   });
 
   Map<String, dynamic> toMap() {
@@ -16,6 +19,7 @@ class StoreUpdateDto {
       'name': name,
       'description': description,
       'whatsapp': whatsapp,
+      'chave_pix': chavePix,
     };
   }
 
@@ -25,6 +29,7 @@ class StoreUpdateDto {
       description:
           map['description'] != null ? map['description'] as String : null,
       whatsapp: map['whatsapp'] != null ? map['whatsapp'] as String : null,
+      chavePix: map['chave_pix'] != null ? map['chave_pix'] as String : null,
     );
   }
 
@@ -39,11 +44,20 @@ class StoreUpdateDto {
 
     return other.name == name &&
         other.description == description &&
-        other.whatsapp == whatsapp;
+        other.whatsapp == whatsapp &&
+        other.chavePix == chavePix;
   }
 
   @override
   int get hashCode {
-    return name.hashCode ^ description.hashCode ^ whatsapp.hashCode;
+    return name.hashCode ^
+        description.hashCode ^
+        whatsapp.hashCode ^
+        chavePix.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'StoreUpdateDto(name: $name, description: $description, whatsapp: $whatsapp, chavePix: $chavePix)';
   }
 }

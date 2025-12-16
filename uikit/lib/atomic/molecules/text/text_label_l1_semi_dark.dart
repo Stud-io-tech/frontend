@@ -2,12 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:uikit/uikit.dart';
 
-class TextLabelL1Dark extends StatelessWidget {
+class TextLabelL1SemiDark  extends StatelessWidget {
   final int? maxLines;
   final String text;
   final bool overflow;
   final Color? color;
-  const TextLabelL1Dark({
+  const TextLabelL1SemiDark({
     super.key,
     this.maxLines,
     required this.text,
@@ -19,10 +19,9 @@ class TextLabelL1Dark extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextDefault(
       text: text,
-      textStyle: Style.l1(color: ColorToken.dark),
+      textStyle: Style.l1(color: ColorToken.semiDark),
       overflow: overflow,
       maxLines: maxLines,
-      
     );
   }
 }

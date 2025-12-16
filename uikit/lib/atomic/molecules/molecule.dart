@@ -10,12 +10,15 @@ export 'text/text_headline_h1.dart';
 export 'text/text_headline_h2.dart';
 export 'text/text_label_l1_dark.dart';
 export 'text/text_label_l1_light.dart';
+export 'text/text_label_l1_semi_dark.dart';
 export 'text/text_label_l2_dark.dart';
 export 'text/text_label_l2_ligth.dart';
 export 'text/text_label_l3_dark.dart';
 export 'text/text_label_l3_semi_dark.dart';
 export 'text/text_label_l4_dark.dart';
 export 'text/text_label_l4_info.dart';
+export 'text/text_label_l4_success.dart';
+export 'text/text_label_l4_secondary.dart';
 export 'text/text_label_l5_dark.dart';
 export 'text/text_label_l5_info.dart';
 
