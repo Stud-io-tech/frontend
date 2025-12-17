@@ -151,12 +151,13 @@ class _MyStorePageState extends State<MyStorePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 swicthController.value
-                                    ? TextLabelL4Success(text: "• ABERTO")
-                                    : TextLabelL4Info(text: "• FECHADO"),
+                                    ? TextLabelL4Success(
+                                        text: TextConstant.open)
+                                    : TextLabelL4Info(text: TextConstant.close),
                                 TextLabelL4Dark(
                                     text: isDelivery
-                                        ? " | FAZEMOS ENTREGA"
-                                        : " | NÃO FAZEMOS ENTREGA"),
+                                        ? " | ${TextConstant.weDelivery}"
+                                        : " | ${TextConstant.weNotDelivery}"),
                               ],
                             ),
                             SwicthDefault(

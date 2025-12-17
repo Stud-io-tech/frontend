@@ -36,6 +36,7 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
   final shareService = Injector.get<ShareService>();
   late ProductDetailDto product;
   static final GlobalKey repaintKey = GlobalKey();
+  final bool isOpen = true;
 
   @override
   void initState() {
@@ -118,6 +119,21 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        isOpen
+                            ? TextLabelL4Success(text: TextConstant.open)
+                            : TextLabelL4Info(text: TextConstant.close),
+                        TextLabelL4Dark(
+                          text:
+                              " | ${TextConstant.quantityAvailableUpperCase(product.amount)}",
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: SizeToken.sm,
+                    ),
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
@@ -136,11 +152,34 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
                     const SizedBox(
                       height: SizeToken.md,
                     ),
+                    Row(
+                      spacing: SizeToken.xs,
+                      children: [
+                        IconMediumSemiDark(
+                          icon: IconConstant.timer,
+                          padding: SizeToken.xs,
+                          isBackgroundColor: true,
+                          onTap: () {},
+                        ),
+                        Flexible(
+                          child: TextLabelL4Secondary(
+                            text: TextConstant.preparationTime(10),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: SizeToken.md,
+                    ),
                     TextBodyB1SemiDark(
                       text: product.description,
                     ),
                     const SizedBox(
                       height: SizeToken.md,
+                    ),
+                    TextHeadlineH2(text: TextConstant.store),
+                    const SizedBox(
+                      height: SizeToken.sm,
                     ),
                     Observer(builder: (_) {
                       final store = storeController.store;
@@ -168,7 +207,10 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
                           ),
                         ),
                       );
-                    })
+                    }),
+                    const SizedBox(
+                      height: SizeToken.md,
+                    ),
                   ],
                 ),
               ),

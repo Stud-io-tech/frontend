@@ -46,5 +46,7 @@ export 'icon/icon_large_semi_dark.dart';
 export 'icon/icon_semi_large_semi_dark.dart';
 export 'icon/icon_larger_circular_danger.dart';
 export 'icon/icon_larger_circular_neutral.dart';
+export 'icon/icon_medium_semi_dark.dart';
+
 export 'images/image_detail.dart';
 export 'popup/pop_up_menu.dart';

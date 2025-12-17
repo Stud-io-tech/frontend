@@ -105,6 +105,7 @@ class StoreRegisterForm extends StatelessWidget {
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:my_fome/src/domain/validators/stores/store_register_validator.dart';
@@ -206,7 +207,7 @@ class StoreRegisterForm extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              TextLabelL1Dark(text: "A loja faz entrega?"),
+              TextLabelL1Dark(text: TextConstant.isDeliveryStore),
               SwicthDefault(
                 value: isDelivery,
                 onChanged: (value) => swicthController.toggleValue(),
@@ -218,8 +219,8 @@ class StoreRegisterForm extends StatelessWidget {
             enable: isDelivery,
             hintText: TextConstant.delieveryTimeKmHint,
             controller: delieveryTimeKmEC,
-            inputFormatters: MaskToken.currencyInput,
-            textInputAction: TextInputAction.done,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            textInputAction: TextInputAction.next,
             labelText: TextConstant.delieveryTimeKmLabel,
             keyBoardType: const TextInputType.numberWithOptions(decimal: true),
             validator: isDelivery
@@ -245,7 +246,7 @@ class StoreRegisterForm extends StatelessWidget {
             controller: dynamicFreightKmEC,
             prefix: "R\$ ",
             inputFormatters: MaskToken.currencyInput,
-            textInputAction: TextInputAction.next,
+            textInputAction: TextInputAction.done,
             labelText: TextConstant.dynamicFreightKmLabel,
             keyBoardType: const TextInputType.numberWithOptions(decimal: true),
             validator: isDelivery

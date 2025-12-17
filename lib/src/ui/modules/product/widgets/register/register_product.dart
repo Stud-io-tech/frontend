@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_fome/src/ui/controllers/switch/switch_controller.dart';
 import 'package:my_fome/src/ui/controllers/upload/local/local_upload_controller.dart';
 import 'package:uikit/uikit.dart';
 
@@ -38,11 +39,15 @@ class _RegisterStoreState extends State<RegisterProduct> {
 
   final amountEC = TextEditingController();
 
+  final preparationTimeEC = TextEditingController();
+
   final productController = Injector.get<ProductController>();
 
   final uploadController = Injector.get<LocalUploadController>();
 
   final storeController = Injector.get<StoreController>();
+
+  final swicthController = Injector.get<SwitchController>();
 
   @override
   void dispose() {
@@ -79,12 +84,18 @@ class _RegisterStoreState extends State<RegisterProduct> {
                 ],
               ),
               const SizedBox(height: SizeToken.lg),
-              ProductRegisterForm(
-                nameEC: nameEC,
-                descriptionEC: descriptionEC,
-                priceEC: priceEC,
-                amountEC: amountEC,
-                formKey: formKey,
+              Observer(
+                builder: (_) {
+                  return ProductRegisterForm(
+                    nameEC: nameEC,
+                    descriptionEC: descriptionEC,
+                    priceEC: priceEC,
+                    amountEC: amountEC,
+                    formKey: formKey,
+                    isPerishable: swicthController.value,
+                    preparationTimeEC: preparationTimeEC,
+                  );
+                }
               ),
             ],
           ),

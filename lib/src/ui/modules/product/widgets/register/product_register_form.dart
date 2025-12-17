@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:my_fome/src/ui/controllers/upload/local/local_upload_controller.dart';
 import 'package:uikit/uikit.dart';
 import 'package:validatorless/validatorless.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
+import 'package:my_fome/src/ui/controllers/switch/switch_controller.dart';
+import 'package:my_fome/src/ui/controllers/upload/local/local_upload_controller.dart';
 
 class ProductRegisterForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
@@ -16,6 +17,9 @@ class ProductRegisterForm extends StatelessWidget {
   final TextEditingController descriptionEC;
   final TextEditingController priceEC;
   final TextEditingController amountEC;
+  final bool isPerishable;
+  final TextEditingController preparationTimeEC;
+
   ProductRegisterForm({
     super.key,
     required this.formKey,
@@ -23,6 +27,8 @@ class ProductRegisterForm extends StatelessWidget {
     required this.descriptionEC,
     required this.priceEC,
     required this.amountEC,
+    required this.isPerishable,
+    required this.preparationTimeEC,
   });
 
   final FocusNode nameFocusNode = FocusNode();
@@ -31,6 +37,8 @@ class ProductRegisterForm extends StatelessWidget {
   final FocusNode amountFocusNode = FocusNode();
 
   final uploadController = Injector.get<LocalUploadController>();
+
+  final swicthController = Injector.get<SwitchController>();
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +78,7 @@ class ProductRegisterForm extends StatelessWidget {
               TextConstant.fieldError,
             ),
           ),
+          DividerDefault(),
           Row(
             children: [
               Expanded(
@@ -108,6 +117,42 @@ class ProductRegisterForm extends StatelessWidget {
               ),
             ],
           ),
+          DividerDefault(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              TextLabelL1Dark(text: TextConstant.isPerishableProduct),
+              SwicthDefault(
+                value: isPerishable,
+                onChanged: (value) => swicthController.toggleValue(),
+              )
+            ],
+          ),
+          DividerDefault(),
+          InputForm(
+            key: const Key("preparationTimeProductRegister"),
+            hintText: TextConstant.preparationTimeHint,
+            controller: preparationTimeEC,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            textInputAction: TextInputAction.done,
+            labelText: TextConstant.preparationTimeLabel,
+            keyBoardType: const TextInputType.numberWithOptions(decimal: true),
+            sufixIcon: IconConstant.help,
+            sufixOnTap: () => showCustomModalBottomSheet(
+              context: context,
+              builder: (context) => ModalSheet(
+                iconBack: IconConstant.arrowLeft,
+                title: TextConstant.preparationTimeLabel,
+                description: TextConstant.preparationTimeDetail,
+              ),
+            ),
+            validator: Validatorless.required(
+              TextConstant.fieldError,
+            ),
+          ),
+          SizedBox(
+            height: SizeToken.sm,
+          )
         ],
       ),
     );

@@ -122,12 +122,12 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         isOpen
-                            ? TextLabelL4Success(text: "• ABERTO")
-                            : TextLabelL4Info(text: "• FECHADO"),
+                            ? TextLabelL4Success(text: TextConstant.open)
+                            : TextLabelL4Info(text: TextConstant.close),
                         TextLabelL4Dark(
                             text: isDelivery
-                                ? " | FAZEMOS ENTREGA"
-                                : " | NÃO FAZEMOS ENTREGA"),
+                                ? " | ${TextConstant.weDelivery}"
+                                : " | ${TextConstant.weNotDelivery}"),
                       ],
                     ),
                     const SizedBox(

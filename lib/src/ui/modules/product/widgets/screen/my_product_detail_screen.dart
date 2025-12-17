@@ -10,6 +10,7 @@ import 'package:my_fome/src/data/services/share/share_service.dart';
 import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
+import 'package:my_fome/src/ui/controllers/switch/switch_controller.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/store_detail_screen_widget.dart';
 import 'package:uikit/uikit.dart';
 import 'package:go_router/go_router.dart';
@@ -30,11 +31,14 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
   final shareService = Injector.get<ShareService>();
   final productController = Injector.get<ProductController>();
   static final GlobalKey repaintKey = GlobalKey();
+  final swicthController = Injector.get<SwitchController>();
+  final bool isOpen = true;
 
   @override
   void initState() {
     super.initState();
     storeController.detailStore(widget.product.storeId);
+    swicthController.setValue(isOpen);
   }
 
   @override
@@ -99,6 +103,21 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      swicthController.value
+                          ? TextLabelL4Success(text: TextConstant.open)
+                          : TextLabelL4Info(text: TextConstant.close),
+                      TextLabelL4Dark(
+                        text:
+                            " | ${TextConstant.quantityAvailableUpperCase(widget.product.amount)}",
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: SizeToken.sm,
+                  ),
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Expanded(
@@ -117,11 +136,34 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
                   const SizedBox(
                     height: SizeToken.md,
                   ),
+                  Row(
+                    spacing: SizeToken.xs,
+                    children: [
+                      IconMediumSemiDark(
+                        icon: IconConstant.timer,
+                        padding: SizeToken.xs,
+                        isBackgroundColor: true,
+                        onTap: () {},
+                      ),
+                      Flexible(
+                        child: TextLabelL4Secondary(
+                          text: TextConstant.preparationTime(10),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: SizeToken.md,
+                  ),
                   TextBodyB1SemiDark(
                     text: widget.product.description,
                   ),
                   const SizedBox(
                     height: SizeToken.md,
+                  ),
+                  TextHeadlineH2(text: TextConstant.store),
+                  const SizedBox(
+                    height: SizeToken.sm,
                   ),
                   Observer(builder: (_) {
                     final store = storeController.store;
@@ -143,7 +185,10 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
                         ),
                       ),
                     );
-                  })
+                  }),
+                  const SizedBox(
+                    height: SizeToken.lg,
+                  ),
                 ],
               ),
             ),
