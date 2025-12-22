@@ -6,6 +6,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/logo_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
+import 'package:my_fome/src/domain/dtos/address/address_user_register_dto.dart';
+import 'package:my_fome/src/domain/enum/login_redirect_enum.dart';
 import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
 import 'package:my_fome/src/ui/modules/home/controllers/button_navigator/button_navigator_menu_controller.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/home_screen_widget.dart';
@@ -35,6 +37,8 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     authController.load();
   }
+
+  late AddressUserRegisterDto? address;
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +96,7 @@ class _HomePageState extends State<HomePage> {
         },
         fourthOnPressed: () {
           if (authController.user == null) {
-            context.push('/login');
+            context.push('/login', extra: LoginRedirectEnum.STORE);
             return;
           } else {
             if (authController.store == null) {
@@ -100,6 +104,37 @@ class _HomePageState extends State<HomePage> {
               return;
             } else {
               context.push('/store/my/${authController.store!.id}');
+              return;
+            }
+          }
+        },
+        fifthOnPressed: () {
+          if (authController.user == null) {
+            context.push('/login', extra: LoginRedirectEnum.ADDRESS);
+            return;
+          } else {
+            address = AddressUserRegisterDto(
+              userId: "a0a62973-06d8-4326-bd9c-1284449c8e3b",
+              cep: "58278000",
+              state: "Paraíba",
+              city: "Jacaraú",
+              district: "Zona rural",
+              street: "Sitio Tanque Dantas",
+              number: "S/N",
+              whatsapp: "+5584992017118",
+              complement: "",
+              latitude: -6.5437362,
+              longitude: -35.3653759,
+            );
+            if (address == null) {
+              context.push('/address/register/delivery',
+                  extra: authController.user!.id);
+              return;
+            } else {
+              context.push(
+                '/address/update/delivery',
+                extra: address,
+              );
               return;
             }
           }
@@ -128,11 +163,13 @@ class _HomePageState extends State<HomePage> {
         secoundText: TextConstant.products,
         thirdText: TextConstant.stores,
         fourthText: TextConstant.myStore,
+        fifthText: TextConstant.deliveryAddress,
         logoutText: TextConstant.logout,
         firstIcon: IconConstant.home,
         secoundIcon: IconConstant.search,
         thirdIcon: IconConstant.store,
         fourthIcon: IconConstant.storeAdd,
+        fifthIcon: IconConstant.address,
         logoutIcon: IconConstant.logout,
         menuIcon: IconConstant.menu,
         logo: LogoConstant.horizontal,

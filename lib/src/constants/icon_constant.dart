@@ -8,6 +8,7 @@ final class IconConstant {
   static const String chevronRigth = 'assets/icons/chevron_rigth.svg';
   static const String close = 'assets/icons/close.svg';
   static const String contentCopy = 'assets/icons/content_copy.svg';
+  static const String currentLocation = 'assets/icons/current_location.svg';
   static const String edit = 'assets/icons/edit.svg';
   static const String error = 'assets/icons/error.svg';
   static const String filter = 'assets/icons/filter.svg';
@@ -23,6 +24,7 @@ final class IconConstant {
   static const String restore = 'assets/icons/restore.svg';
   static const String share = 'assets/icons/share.svg';
   static const String search = 'assets/icons/search.svg';
+  static const String send = 'assets/icons/send.svg';
   static const String storeAdd = 'assets/icons/store_add.svg';
   static const String store = 'assets/icons/store.svg';
   static const String success = 'assets/icons/success.svg';

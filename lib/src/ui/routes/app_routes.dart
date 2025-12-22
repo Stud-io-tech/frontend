@@ -1,7 +1,11 @@
 import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/constants/navigator/navigator_global.dart';
+import 'package:my_fome/src/domain/dtos/address/address_user_register_dto.dart';
 import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
+import 'package:my_fome/src/domain/enum/login_redirect_enum.dart';
+import 'package:my_fome/src/ui/modules/address/pages/delivery/register_address_delivery_page.dart';
+import 'package:my_fome/src/ui/modules/address/pages/delivery/update_address_delivery_page.dart';
 import 'package:my_fome/src/ui/modules/home/pages/home_page.dart';
 import 'package:my_fome/src/ui/modules/home/pages/user_not_found_page.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/order_pdf_screen_widget.dart';
@@ -23,11 +27,9 @@ sealed class AppRoutes {
     ),
     GoRoute(
       path: '/login',
-      builder: (context, state) => const UserNotFoundPage(),
-    ),
-    GoRoute(
-      path: '/login',
-      builder: (context, state) => const UserNotFoundPage(),
+      builder: (context, state) => UserNotFoundPage(
+        loginRedirectEnum: state.extra as LoginRedirectEnum,
+      ),
     ),
     GoRoute(
       path: '/product-detail/:id',
@@ -83,6 +85,16 @@ sealed class AppRoutes {
           code: extras['code']!,
         );
       },
+    ),
+    GoRoute(
+      path: '/address/register/delivery',
+      builder: (context, state) => RegisterAddressDeliveryPage(
+        userId: state.extra.toString(),
+      ),
+    ),
+    GoRoute(
+      path: '/address/update/delivery',
+      builder: (context, state) => UpdateAddressDeliveryPage(address: state.extra as AddressUserRegisterDto,),
     ),
   ]);
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:my_fome/src/ui/bindings/app_bindings.dart';
+import 'package:my_fome/src/ui/modules/address/address_module.dart';
 import 'package:my_fome/src/ui/modules/home/home_module.dart';
 import 'package:my_fome/src/ui/modules/product/product_module.dart';
 import 'package:my_fome/src/ui/modules/store/store_module.dart';
@@ -18,6 +19,7 @@ class AppWidget extends StatelessWidget {
         HomeModule(),
         StoreModule(),
         ProductModule(),
+        AddressModule(),
       ],
       builder: (context, routes, flutterGetItNavObserver) {
         return MaterialApp.router(
