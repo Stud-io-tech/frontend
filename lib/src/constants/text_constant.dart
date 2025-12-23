@@ -76,10 +76,23 @@ final class TextConstant {
   static String storeProducts = 'Produtos da Loja';
   static String newProduct = 'Novo Produto';
   static String newStore = 'Nova Loja';
+  static String newDeliveryAddress = 'Novo Endereço de Entrega';
+
+  static String newStoreAddress = 'Novo Endereço de Loja';
+
   static String updateProduct = 'Editar Produto';
   static String updateStore = 'Editar Loja';
-  
+  static String updateDeliveryAddress = 'Editar Endereço de Entrega';
+  static String updateStoreAddress = 'Editar Endereço de Loja';
+
   static String store = 'Loja';
+
+  static String cep = 'CEP';
+  static String state = 'Estado';
+  static String city = 'Cidade';
+  static String district = 'Bairro';
+  static String street = 'Rua';
+  static String number = 'Número residencial';
 
   static String editProduct = 'Editar Produto';
 
@@ -92,7 +105,8 @@ final class TextConstant {
   static String quantityAvailableUpperCase(int quantity) =>
       '$quantity RESTANTES';
 
-  static String preparationTime(int minutes) => "$minutes minutos de preparação";
+  static String preparationTime(int minutes) =>
+      "$minutes minutos de preparação";
 
   static String monetaryValue(double value) =>
       'R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
@@ -134,6 +148,7 @@ final class TextConstant {
   static String loggin = 'Fazer Login';
 
   static String total = 'Total:';
+  static String complement = 'Complemento:';
 
   static String share = 'Compartilhar';
   static String shareStore = 'Compartilhar QRCode da Loja?';
@@ -171,6 +186,8 @@ final class TextConstant {
   static String shareMidia = 'Compartilhar Mídia';
   static String shareQRCode = 'Compartilhar QRCode';
   static String address = 'Endereço';
+  static String deliveryAddress = 'Endereço de Entrega';
+
   static String editAddress = 'editar endereço';
 
   static String productName = 'Nome do produto';

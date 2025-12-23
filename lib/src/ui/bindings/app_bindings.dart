@@ -12,6 +12,8 @@ import 'package:my_fome/src/data/services/files/file_service.dart';
 import 'package:my_fome/src/data/services/files/file_service_impl.dart';
 import 'package:my_fome/src/data/services/local/local_storage_service.dart';
 import 'package:my_fome/src/data/services/local/local_storage_service_impl.dart';
+import 'package:my_fome/src/data/services/map/map_service.dart';
+import 'package:my_fome/src/data/services/map/map_service_impl.dart';
 import 'package:my_fome/src/data/services/messages/result_message_service.dart';
 import 'package:my_fome/src/data/services/messages/result_message_service_impl.dart';
 import 'package:my_fome/src/data/services/payments/payment_service.dart';
@@ -29,6 +31,7 @@ import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
 import 'package:my_fome/src/ui/controllers/switch/switch_controller.dart';
 import 'package:my_fome/src/ui/controllers/upload/local/local_upload_controller.dart';
 import 'package:my_fome/src/ui/controllers/upload/remote/remote_upload_controller.dart';
+import 'package:my_fome/src/ui/modules/address/controller/address_map_controller.dart';
 import 'package:my_fome/src/ui/viewmodels/products/product_view_model.dart';
 import 'package:my_fome/src/ui/viewmodels/stores/store_view_model.dart';
 import 'package:my_fome/src/ui/viewmodels/users/auth_view_model.dart';
@@ -110,6 +113,16 @@ class AppBindings extends ApplicationBindings {
         ),
         Bind.lazySingleton(
           (i) => SwitchController(),
-        )
+        ),
+        Bind.lazySingleton<MapService>(
+          (i) => MapServiceImpl(
+            clientService: i(),
+          ),
+        ),
+        Bind.lazySingleton(
+          (i) => AddressMapController(
+            mapService: i(),
+          ),
+        ),
       ];
 }

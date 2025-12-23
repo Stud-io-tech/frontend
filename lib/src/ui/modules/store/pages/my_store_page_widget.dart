@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_fome/src/constants/api_constant.dart';
 import 'package:my_fome/src/constants/deep_link_constant.dart';
 import 'package:my_fome/src/data/services/share/share_service.dart';
+import 'package:my_fome/src/domain/dtos/address/address_store_register_dto.dart';
 import 'package:my_fome/src/ui/controllers/switch/switch_controller.dart';
 import 'package:uikit/uikit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -32,10 +34,26 @@ class _MyStorePageState extends State<MyStorePage> {
   final shareService = Injector.get<ShareService>();
   final storeController = Injector.get<StoreController>();
   static final GlobalKey repaintKey = GlobalKey();
-  late bool isOpen = false;
+  late bool isOpen = true;
   late bool isDelivery = true;
 
   final swicthController = Injector.get<SwitchController>();
+
+  //AddressStoreRegisterDto? address;
+
+  final AddressStoreRegisterDto address = AddressStoreRegisterDto(
+    storeId: "storeController.store!.id",
+    cep: "59215000",
+    state: "Rio Grande do Norte",
+    city: "Nova Cruz",
+    district: "Zona rural",
+    street: "Reserva Florestal",
+    number: "S/N",
+    whatsapp: "84992017118",
+    complement: "",
+    latitude: -6.479892,
+    longitude: -35.426370,
+  );
 
   @override
   void initState() {
@@ -44,6 +62,12 @@ class _MyStorePageState extends State<MyStorePage> {
       storeController.detailStore(widget.id!);
     }
     swicthController.setValue(isOpen);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (address == null) {
+        context.push('/address/register/store', extra: widget.id);
+      }
+    });
   }
 
   @override
@@ -139,7 +163,7 @@ class _MyStorePageState extends State<MyStorePage> {
                       ),
                       TextLabelL4Secondary(
                           text:
-                              "Das 12h às 18h, segunda à sexta, com intevado das 12h às 14h"),
+                              "Das 12h às 00h, segunda à sexta, com intevado das 18h às 20h"),
                       const SizedBox(
                         height: SizeToken.xs,
                       ),
@@ -274,17 +298,25 @@ class _MyStorePageState extends State<MyStorePage> {
                         children: [
                           TextHeadlineH2(text: TextConstant.address),
                           LinkSeeMore(
-                              text: TextConstant.editAddress, onTap: () {})
+                              text: TextConstant.editAddress,
+                              onTap: () {
+                                context.push(
+                                  '/address/update/store',
+                                  extra: address,
+                                );
+                              })
                         ],
                       ),
                       const SizedBox(
                         height: SizeToken.sm,
                       ),
                       AddressDetailsMap(
+                        urlTemplate: ApiConstant.tileOpenStreetMap,
+                        userAgentPackageName: ApiConstant.userAgent,
                         fullAddress:
-                            "R. Dezoito de Abril, 117, Nova Cruz - RN, 59215-000",
-                        latitude: -6.478014202826378,
-                        longitude: -35.43192483189211,
+                            "${address?.number}, ${address?.street}, ${address?.district}, ${address?.city}, ${address?.state}",
+                        latitude: address?.latitude,
+                        longitude: address?.longitude,
                       ),
                       const SizedBox(
                         height: SizeToken.lg,

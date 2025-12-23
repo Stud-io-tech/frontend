@@ -1,24 +1,27 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:uikit/uikit.dart';
 import 'package:go_router/go_router.dart';
+import 'package:uikit/uikit.dart';
 
 class DrawerMenu extends StatelessWidget {
   final void Function() firstOnPressed;
   final void Function() secoundOnPressed;
   final void Function() thirdOnPressed;
   final void Function() fourthOnPressed;
+  final void Function() fifthOnPressed;
   final void Function() logoutOnPressed;
   final String firstText;
   final String secoundText;
   final String thirdText;
   final String fourthText;
+  final String fifthText;
   final String logoutText;
   final String firstIcon;
   final String secoundIcon;
   final String thirdIcon;
   final String fourthIcon;
+  final String fifthIcon;
   final String logoutIcon;
   final String menuIcon;
   final String logo;
@@ -28,16 +31,19 @@ class DrawerMenu extends StatelessWidget {
     required this.secoundOnPressed,
     required this.thirdOnPressed,
     required this.fourthOnPressed,
+    required this.fifthOnPressed,
     required this.logoutOnPressed,
     required this.firstText,
     required this.secoundText,
     required this.thirdText,
     required this.fourthText,
+    required this.fifthText,
     required this.logoutText,
     required this.firstIcon,
     required this.secoundIcon,
     required this.thirdIcon,
     required this.fourthIcon,
+    required this.fifthIcon,
     required this.logoutIcon,
     required this.menuIcon,
     required this.logo,
@@ -98,6 +104,13 @@ class DrawerMenu extends StatelessWidget {
                       icon: fourthIcon,
                       onPressed: fourthOnPressed,
                       key: const Key('myStoreNavigator'),
+                    ),
+                    MenuItem(
+                      text: fifthText,
+                      icon: fifthIcon,
+                      onPressed: fifthOnPressed,
+                      key: const Key('myDelieveryAddressNavigator'),
+                      paddinIcon: 2.5,
                     ),
                   ],
                 ),

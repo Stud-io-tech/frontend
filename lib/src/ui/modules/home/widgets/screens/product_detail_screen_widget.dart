@@ -36,7 +36,7 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
   final shareService = Injector.get<ShareService>();
   late ProductDetailDto product;
   static final GlobalKey repaintKey = GlobalKey();
-  final bool isOpen = true;
+  final bool isOpen = false;
 
   @override
   void initState() {

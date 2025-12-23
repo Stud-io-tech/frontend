@@ -5,11 +5,13 @@ import 'package:uikit/uikit.dart';
 class MenuItem extends StatelessWidget {
   final String text;
   final void Function()? onPressed;
+  final double? paddinIcon;
   final String icon;
   const MenuItem({
     super.key,
     required this.text,
     this.onPressed,
+    this.paddinIcon,
     required this.icon,
   });
 
@@ -27,7 +29,12 @@ class MenuItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            IconLargeDark(icon: icon),
+            Padding(
+              padding: paddinIcon != null
+                  ? EdgeInsets.symmetric(horizontal: paddinIcon!)
+                  : EdgeInsets.zero,
+              child: IconLargeDark(icon: icon),
+            ),
             const SizedBox(
               width: SizeToken.xs,
             ),

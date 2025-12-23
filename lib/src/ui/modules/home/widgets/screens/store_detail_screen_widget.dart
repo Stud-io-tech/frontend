@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_fome/src/constants/api_constant.dart';
 import 'package:my_fome/src/constants/deep_link_constant.dart';
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
@@ -242,6 +243,8 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                       height: SizeToken.sm,
                     ),
                     AddressDetailsMap(
+                      urlTemplate: ApiConstant.tileOpenStreetMap,
+                      userAgentPackageName: ApiConstant.userAgent,
                       fullAddress:
                           "R. Dezoito de Abril, 117, Nova Cruz - RN, 59215-000",
                       latitude: -6.478014202826378,
