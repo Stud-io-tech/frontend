@@ -3,28 +3,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_fome/src/domain/dtos/address/address_store_register_dto.dart';
 import 'package:my_fome/src/ui/modules/address/controller/address_map_controller.dart';
 import 'package:my_fome/src/ui/modules/address/widgets/update/address_update_form.dart';
 import 'package:uikit/uikit.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
-import 'package:my_fome/src/domain/dtos/address/address_user_register_dto.dart';
 
-class UpdateAddressDeliveryPage extends StatefulWidget {
-  final AddressUserRegisterDto address;
+class UpdateAddressStorePage extends StatefulWidget {
+  final AddressStoreRegisterDto address;
 
-  const UpdateAddressDeliveryPage({
+  const UpdateAddressStorePage({
     super.key,
     required this.address,
   });
 
   @override
-  State<UpdateAddressDeliveryPage> createState() =>
-      _UpdateAddressDeliveryPageState();
+  State<UpdateAddressStorePage> createState() =>
+      _UpdateAddressStorePageState();
 }
 
-class _UpdateAddressDeliveryPageState extends State<UpdateAddressDeliveryPage> {
+class _UpdateAddressStorePageState extends State<UpdateAddressStorePage> {
   final formKey = GlobalKey<FormState>();
   final cepEC = TextEditingController();
   final stateEC = TextEditingController();
@@ -93,7 +93,7 @@ class _UpdateAddressDeliveryPageState extends State<UpdateAddressDeliveryPage> {
                         icon: IconConstant.arrowLeft,
                       ),
                       const SizedBox(width: SizeToken.sm),
-                      TextHeadlineH2(text: TextConstant.updateDeliveryAddress),
+                      TextHeadlineH2(text: TextConstant.updateStoreAddress,),
                     ],
                   ),
                 ],
@@ -128,8 +128,8 @@ class _UpdateAddressDeliveryPageState extends State<UpdateAddressDeliveryPage> {
                 String cep = MaskToken.removeAllMask(cepEC.text);
                 String whatsapp = MaskToken.removeAllMask(whatsappEC.text);
                 whatsapp = "+55$whatsapp";
-                final model = AddressUserRegisterDto(
-                  userId: widget.address.userId,
+                final model = AddressStoreRegisterDto(
+                  storeId: widget.address.storeId,
                   cep: cep,
                   state: stateEC.text,
                   city: cityEC.text,

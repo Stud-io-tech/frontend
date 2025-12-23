@@ -19,6 +19,9 @@ class AddressSelectMap extends StatefulWidget {
   final void Function(String value)? onChangedSearch;
   final VoidCallback sufixOnTapSearch;
 
+  final String urlTemplate;
+  final String userAgentPackageName;
+
   const AddressSelectMap({
     super.key,
     required this.currentLocalIcon,
@@ -31,6 +34,8 @@ class AddressSelectMap extends StatefulWidget {
     this.onTapMap,
     this.onChangedSearch,
     required this.sufixOnTapSearch,
+    required this.urlTemplate,
+    required this.userAgentPackageName,
   });
 
   @override
@@ -73,9 +78,8 @@ class _AddressSelectMapState extends State<AddressSelectMap> {
                 ),
                 children: [
                   TileLayer(
-                    urlTemplate:
-                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'br.com.caprichaai.app',
+                    urlTemplate: widget.urlTemplate,
+                    userAgentPackageName: widget.userAgentPackageName,
                   ),
                   MarkerLayer(
                     markers: [

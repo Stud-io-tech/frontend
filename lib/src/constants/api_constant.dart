@@ -9,9 +9,12 @@ final class ApiConstant {
   static final String refreshToken = "$baseUrl/refresh-token";
   static final String register = "$baseUrl/register";
   static final String store = "$baseUrl/store";
+  static const String tileOpenStreetMap =
+      'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
   static final String user = "$baseUrl/user";
   static const String userAgent = 'br.com.caprichaai.app';
-  static String baseViaCep(String? cep) => 'https://viacep.com.br/ws/$cep/json/';
+  static String baseViaCep(String? cep) =>
+      'https://viacep.com.br/ws/$cep/json/';
   static String searchOSM(String? query) =>
       '$baseOpenStreetMap/search?q=$query&format=json&limit=1';
   static String reverseLatLng(double latitude, double longitude) =>

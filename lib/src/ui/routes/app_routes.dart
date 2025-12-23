@@ -1,11 +1,14 @@
 import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/constants/navigator/navigator_global.dart';
+import 'package:my_fome/src/domain/dtos/address/address_store_register_dto.dart';
 import 'package:my_fome/src/domain/dtos/address/address_user_register_dto.dart';
 import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
 import 'package:my_fome/src/domain/enum/login_redirect_enum.dart';
 import 'package:my_fome/src/ui/modules/address/pages/delivery/register_address_delivery_page.dart';
 import 'package:my_fome/src/ui/modules/address/pages/delivery/update_address_delivery_page.dart';
+import 'package:my_fome/src/ui/modules/address/pages/store/register_address_store_page.dart';
+import 'package:my_fome/src/ui/modules/address/pages/store/update_address_store_page.dart';
 import 'package:my_fome/src/ui/modules/home/pages/home_page.dart';
 import 'package:my_fome/src/ui/modules/home/pages/user_not_found_page.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/order_pdf_screen_widget.dart';
@@ -94,7 +97,21 @@ sealed class AppRoutes {
     ),
     GoRoute(
       path: '/address/update/delivery',
-      builder: (context, state) => UpdateAddressDeliveryPage(address: state.extra as AddressUserRegisterDto,),
+      builder: (context, state) => UpdateAddressDeliveryPage(
+        address: state.extra as AddressUserRegisterDto,
+      ),
+    ),
+    GoRoute(
+      path: '/address/register/store',
+      builder: (context, state) => RegisterAddressStorePage(
+        storeId: state.extra.toString(),
+      ),
+    ),
+    GoRoute(
+      path: '/address/update/store',
+      builder: (context, state) => UpdateAddressStorePage(
+        address: state.extra as AddressStoreRegisterDto,
+      ),
     ),
   ]);
 }

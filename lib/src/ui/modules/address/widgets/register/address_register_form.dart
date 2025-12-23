@@ -4,6 +4,7 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:my_fome/src/constants/api_constant.dart';
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/domain/dtos/address/address_map_dto.dart';
 import 'package:my_fome/src/ui/modules/address/controller/address_map_controller.dart';
@@ -78,6 +79,8 @@ class AddressRegisterForm extends StatelessWidget {
         children: [
           Observer(builder: (_) {
             return AddressSelectMap(
+              urlTemplate: ApiConstant.tileOpenStreetMap,
+              userAgentPackageName: ApiConstant.userAgent,
               searchHintText: TextConstant.search,
               searchPrefixIcon: IconConstant.search,
               latitude: addressMapController.latitude,

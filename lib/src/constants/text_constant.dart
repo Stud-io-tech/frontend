@@ -77,7 +77,6 @@ final class TextConstant {
   static String newProduct = 'Novo Produto';
   static String newStore = 'Nova Loja';
   static String newDeliveryAddress = 'Novo Endereço de Entrega';
-  static String editDeliveryAddress = 'Editar Endereço de Entrega';
 
   static String newStoreAddress = 'Novo Endereço de Loja';
 

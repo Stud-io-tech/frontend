@@ -236,7 +236,6 @@ class StoreRegisterForm extends StatelessWidget {
                 title: TextConstant.delieveryTimeKmLabel,
                 description: TextConstant.delieveryTimeKmDetail,
               ),
-              
             ),
           ),
           InputForm(

@@ -8,8 +8,15 @@ class AddressDetailsMap extends StatelessWidget {
   final String fullAddress;
   final double? longitude;
   final double? latitude;
+  final String urlTemplate;
+  final String userAgentPackageName;
   const AddressDetailsMap(
-      {super.key, required this.fullAddress, this.longitude, this.latitude});
+      {super.key,
+      required this.fullAddress,
+      this.longitude,
+      this.latitude,
+      required this.urlTemplate,
+      required this.userAgentPackageName});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +39,8 @@ class AddressDetailsMap extends StatelessWidget {
                 children: [
                   TileLayer(
                     urlTemplate:
-                        'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'br.com.caprichaai.app',
+                        urlTemplate,
+                    userAgentPackageName: userAgentPackageName,
                   ),
                   MarkerLayer(
                     markers: [

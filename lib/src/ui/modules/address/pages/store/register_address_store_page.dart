@@ -7,7 +7,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:my_fome/src/domain/dtos/address/address_map_dto.dart';
-import 'package:my_fome/src/domain/dtos/address/address_user_register_dto.dart';
+import 'package:my_fome/src/domain/dtos/address/address_store_register_dto.dart';
 import 'package:my_fome/src/ui/modules/address/controller/address_map_controller.dart';
 import 'package:uikit/uikit.dart';
 
@@ -15,18 +15,18 @@ import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/ui/modules/address/widgets/register/address_register_form.dart';
 
-class RegisterAddressDeliveryPage extends StatefulWidget {
-  final String userId;
-  const RegisterAddressDeliveryPage({
+class RegisterAddressStorePage extends StatefulWidget {
+  final String storeId;
+  const RegisterAddressStorePage({
     super.key,
-    required this.userId,
+    required this.storeId,
   });
 
   @override
-  State<RegisterAddressDeliveryPage> createState() => _RegisterAddressDeliveryPageState();
+  State<RegisterAddressStorePage> createState() => _RegisterAddressStorePageState();
 }
 
-class _RegisterAddressDeliveryPageState extends State<RegisterAddressDeliveryPage> {
+class _RegisterAddressStorePageState extends State<RegisterAddressStorePage> {
   final formKey = GlobalKey<FormState>();
   final cepEC = TextEditingController();
   final stateEC = TextEditingController();
@@ -105,7 +105,7 @@ class _RegisterAddressDeliveryPageState extends State<RegisterAddressDeliveryPag
                         icon: IconConstant.arrowLeft,
                       ),
                       const SizedBox(width: SizeToken.sm),
-                      TextHeadlineH2(text: TextConstant.newDeliveryAddress),
+                      TextHeadlineH2(text: TextConstant.newStoreAddress),
                     ],
                   ),
                 ],
@@ -139,8 +139,8 @@ class _RegisterAddressDeliveryPageState extends State<RegisterAddressDeliveryPag
               String cep = MaskToken.removeAllMask(cepEC.text);
               String whatsapp = MaskToken.removeAllMask(whatsappEC.text);
               whatsapp = "+55$whatsapp";
-              final model = AddressUserRegisterDto(
-                userId: widget.userId,
+              final model = AddressStoreRegisterDto(
+                storeId: widget.storeId,
                 cep: cep,
                 state: stateEC.text,
                 city: cityEC.text,
