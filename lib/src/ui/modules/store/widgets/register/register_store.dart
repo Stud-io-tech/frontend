@@ -220,13 +220,17 @@ class _RegisterStoreState extends State<RegisterStore> {
           onPressed: () async {
             if ((formKey.currentState?.validate() ?? false) &&
                 uploadController.imageFile != null) {
-              /* String whatsapp = MaskToken.removeAllMask(whatsappEC.text);
-              whatsapp = "+55$whatsapp"; */
+
+              final bool isDelivered = swicthController.value;
+              
               StoreRegisterDto model = StoreRegisterDto(
                 name: nameEC.text,
                 description: descriptionEC.text,
-                whatsapp: "+5584992017118",
-                chavePix: pixKeyEC.text,
+                schedules: schedulesEC.text,
+                pixKey: pixKeyEC.text,
+                isDelivered: isDelivered,
+                deliveryTimeKm: delieveryTimeKmEC.text,
+                dynamicFreightKm: double.parse(dynamicFreightKmEC.text) 
               );
               try {
                 await storeController.register(

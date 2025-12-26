@@ -10,4 +10,5 @@ abstract interface class StoreRepository {
   AsyncResult<StoreUpdateDto> update(String id, StoreUpdateDto store,
       {XFile? image});
   AsyncResult<StoreDetailDto> detail(String id);
+  AsyncResult<StoreDetailDto> changeStatusOpen(String id);
 }

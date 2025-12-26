@@ -42,8 +42,11 @@ class StoreRepositoryImpl implements StoreRepository {
       final FormData formDataStore = FormData.fromMap({
         'name': store.name,
         'description': store.description,
-        'whatsapp': store.whatsapp,
-        'chave_pix': store.chavePix,
+        'schedules': store.schedules,
+        'pix_key': store.pixKey,
+        'is_delivered': store.isDelivered,
+        'delivery_time_km': store.deliveryTimeKm,
+        'dynamic_freight_km': store.dynamicFreightKm,
         'image': MultipartFile.fromBytes(
           await image.readAsBytes(),
           filename: image.name,
@@ -75,8 +78,11 @@ class StoreRepositoryImpl implements StoreRepository {
       final FormData formDataStore = FormData.fromMap({
         'name': store.name,
         'description': store.description,
-        'whatsapp': store.whatsapp,
-        'chave_pix': store.chavePix,
+        'schedules': store.schedules,
+        'pix_key': store.pixKey,
+        'is_delivered': store.isDelivered,
+        'delivery_time_km': store.deliveryTimeKm,
+        'dynamic_freight_km': store.dynamicFreightKm,
         '_method': 'PUT',
       });
 
@@ -108,6 +114,27 @@ class StoreRepositoryImpl implements StoreRepository {
     try {
       final Response response =
           await clientService.get("${ApiConstant.store}/$id");
+
+      final StoreDetailDto resultProduct =
+          StoreDetailDto.fromMap(response.data['store']);
+      return Success(resultProduct);
+    } on DioException catch (e) {
+      return Failure(
+        RestException(
+          message: TextConstant.errorDetailsStoreMessage,
+          statusCode: e.hashCode,
+        ),
+      );
+    }
+  }
+
+  @override
+  AsyncResult<StoreDetailDto> changeStatusOpen(String id) async {
+    try {
+      final Response response = await clientService.patch(
+        "${ApiConstant.changeStatusOpenStore}/$id",{},
+        requiresAuth: true,
+      );
 
       final StoreDetailDto resultProduct =
           StoreDetailDto.fromMap(response.data['store']);

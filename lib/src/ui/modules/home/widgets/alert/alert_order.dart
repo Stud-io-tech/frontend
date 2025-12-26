@@ -162,7 +162,7 @@ class AlertOrder extends StatelessWidget {
               '/order-pdf',
               extra: {
                 'path': pathPdf,
-                'whatsapp': store.whatsapp,
+                'whatsapp': "+5584992017118",
                 'code': order.code
               },
             );

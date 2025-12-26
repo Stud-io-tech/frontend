@@ -39,9 +39,6 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
 
   late StoreDetailDto store;
 
-  late bool isOpen = false;
-  late bool isDelivery = true;
-
   @override
   void initState() {
     super.initState();
@@ -122,11 +119,11 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        isOpen
+                        store.isOpen
                             ? TextLabelL4Success(text: TextConstant.open)
                             : TextLabelL4Info(text: TextConstant.close),
                         TextLabelL4Dark(
-                            text: isDelivery
+                            text: store.isDelivered
                                 ? " | ${TextConstant.weDelivery}"
                                 : " | ${TextConstant.weNotDelivery}"),
                       ],
@@ -143,9 +140,13 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                         Padding(
                             padding: const EdgeInsets.only(left: SizeToken.sm),
                             child: IconButtonLargeDark(
-                                onTap: () => launchUrlString(
-                                    'https://wa.me/${store.whatsapp}?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?'),
+                                onTap: () =>
+                                 launchUrlString(
+                                    'https://wa.me/?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?'),
                                 icon: IconConstant.whatsapp)),
+                                /*  launchUrlString(
+                                    'https://wa.me/${store.whatsapp}?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?'),
+                                icon: IconConstant.whatsapp)), */
                       ],
                     ),
                     const SizedBox(
@@ -153,7 +154,7 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                     ),
                     TextLabelL4Secondary(
                         text:
-                            "Das 12h às 18h, segunda à sexta, com intevado das 12h às 14h"),
+                            store.schedules),
                     const SizedBox(
                       height: SizeToken.md,
                     ),

@@ -52,4 +52,10 @@ abstract class StoreControllerBase with Store {
     await storeViewModel.update(id, store, image: image);
     await detailStore(id);
   }
+  
+  Future<void> changeStatusOpen(String id) async {
+    await storeViewModel.changeStatusOpen(id);
+    await detailStore(id);
+  }
+
 }

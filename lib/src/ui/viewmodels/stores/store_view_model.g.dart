@@ -138,6 +138,14 @@ mixin _$StoreViewModel on StoreViewModelBase, Store {
     return _$updateAsyncAction.run(() => super.update(id, store, image: image));
   }
 
+  late final _$changeStatusOpenAsyncAction =
+      AsyncAction('StoreViewModelBase.changeStatusOpen', context: context);
+
+  @override
+  Future<dynamic> changeStatusOpen(String id) {
+    return _$changeStatusOpenAsyncAction.run(() => super.changeStatusOpen(id));
+  }
+
   late final _$detailAsyncAction =
       AsyncAction('StoreViewModelBase.detail', context: context);
 
