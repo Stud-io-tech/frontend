@@ -4,22 +4,34 @@ import 'dart:convert';
 class StoreUpdateDto {
   final String? name;
   final String? description;
-  final String? whatsapp;
-  final String? chavePix;
+  final String? image;
+  final String? schedules;
+  final String? pixKey;
+  final bool? isDelivered;
+  final String? deliveryTimeKm;
+  final String? dynamicFreightKm;
 
   StoreUpdateDto({
     this.name,
     this.description,
-    this.whatsapp,
-    this.chavePix,
+    this.image,
+    this.schedules,
+    this.pixKey,
+    this.isDelivered,
+    this.deliveryTimeKm,
+    this.dynamicFreightKm,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
       'description': description,
-      'whatsapp': whatsapp,
-      'chave_pix': chavePix,
+      'image': image,
+      'schedules': schedules,
+      'pix_key': pixKey,
+      'is_delivered': isDelivered,
+      'delivery_time_km': deliveryTimeKm,
+      'dynamic_freight_km': dynamicFreightKm,
     };
   }
 
@@ -28,8 +40,17 @@ class StoreUpdateDto {
       name: map['name'] != null ? map['name'] as String : null,
       description:
           map['description'] != null ? map['description'] as String : null,
-      whatsapp: map['whatsapp'] != null ? map['whatsapp'] as String : null,
-      chavePix: map['chave_pix'] != null ? map['chave_pix'] as String : null,
+      image: map['image'] != null ? map['image'] as String : null,
+      schedules: map['schedules'] != null ? map['schedules'] as String : null,
+      pixKey: map['pix_key'] != null ? map['pix_key'] as String : null,
+      isDelivered:
+          map['is_delivered'] != null ? map['is_delivered'] as bool : null,
+      deliveryTimeKm: map['delivery_time_km'] != null
+          ? map['delivery_time_km'] as String
+          : null,
+      dynamicFreightKm: map['dynamic_freight_km'] != null
+          ? map['dynamic_freight_km'] as String
+          : null,
     );
   }
 
@@ -44,20 +65,28 @@ class StoreUpdateDto {
 
     return other.name == name &&
         other.description == description &&
-        other.whatsapp == whatsapp &&
-        other.chavePix == chavePix;
+        other.image == image &&
+        other.schedules == schedules &&
+        other.pixKey == pixKey &&
+        other.isDelivered == isDelivered &&
+        other.deliveryTimeKm == deliveryTimeKm &&
+        other.dynamicFreightKm == dynamicFreightKm;
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
         description.hashCode ^
-        whatsapp.hashCode ^
-        chavePix.hashCode;
+        image.hashCode ^
+        schedules.hashCode ^
+        pixKey.hashCode ^
+        isDelivered.hashCode ^
+        deliveryTimeKm.hashCode ^
+        dynamicFreightKm.hashCode;
   }
 
   @override
   String toString() {
-    return 'StoreUpdateDto(name: $name, description: $description, whatsapp: $whatsapp, chavePix: $chavePix)';
+    return 'StoreUpdateDto(name: $name, description: $description, image: $image, schedules: $schedules, pixKey: $pixKey, isDelivered: $isDelivered, deliveryTimeKm: $deliveryTimeKm, dynamicFreightKm: $dynamicFreightKm)';
   }
 }

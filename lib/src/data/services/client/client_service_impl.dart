@@ -60,4 +60,18 @@ class ClientServiceImpl implements ClientService {
         options: Options(
             extra: {'requiredAuth': requiresAuth}, contentType: contentType));
   }
+
+  @override
+  Future patch(
+    String uri,  Object? value, {
+    bool requiresAuth = false,
+    String contentType = Headers.jsonContentType,
+  }) async {
+    return await dio.patch(
+      uri,
+      data: value,
+      options: Options(
+          extra: {'requiredAuth': requiresAuth}, contentType: contentType),
+    );
+  }
 }

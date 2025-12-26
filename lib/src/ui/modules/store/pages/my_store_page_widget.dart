@@ -20,10 +20,7 @@ import 'package:my_fome/src/ui/modules/product/widgets/screen/my_product_detail_
 
 class MyStorePage extends StatefulWidget {
   final String? id;
-  const MyStorePage({
-    super.key,
-    this.id,
-  });
+  const MyStorePage({super.key, this.id});
 
   @override
   State<MyStorePage> createState() => _MyStorePageState();
@@ -34,8 +31,6 @@ class _MyStorePageState extends State<MyStorePage> {
   final shareService = Injector.get<ShareService>();
   final storeController = Injector.get<StoreController>();
   static final GlobalKey repaintKey = GlobalKey();
-  late bool isOpen = true;
-  late bool isDelivery = true;
 
   final swicthController = Injector.get<SwitchController>();
 
@@ -58,11 +53,7 @@ class _MyStorePageState extends State<MyStorePage> {
   @override
   void initState() {
     super.initState();
-    if (widget.id != null) {
-      storeController.detailStore(widget.id!);
-    }
-    swicthController.setValue(isOpen);
-
+    load();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (address == null) {
         context.push('/address/register/store', extra: widget.id);
@@ -70,265 +61,290 @@ class _MyStorePageState extends State<MyStorePage> {
     });
   }
 
+  void load() async {
+    if (widget.id != null) {
+      await storeController.detailStore(widget.id!);
+      swicthController.setValue(storeController.store!.isOpen);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Observer(builder: (_) {
-        if (storeController.isLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        StoreDetailDto store = storeController.store!;
-        productController.listProductsActiveByStore(store.id);
-        return Scaffold(
-          body: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Observer(builder: (_) {
-                  return ImageDetail(
-                    image: store.image,
-                    iconLeft: IconConstant.arrowLeft,
-                    onTapIconLeft: () => context.push('/'),
-                    widgetRigth: PopUpMenuShare(
-                      menuIcon: IconConstant.share,
-                      secoundIcon: IconConstant.qrcode,
-                      secoundLabel: TextConstant.shareQRCode,
-                      secoundOnTap: () {
-                        showCustomModalBottomSheet(
-                          barrierColor: Colors.transparent,
-                          context: context,
-                          builder: (context) => ModalSheetQrCode(
-                            repaintKey: repaintKey,
-                            linkQrCode:
-                                "${DeepLinkConstant.storeDetail}/${store.id}",
-                            iconBack: IconConstant.arrowLeft,
-                            title: store.name,
-                            cancelText: TextConstant.cancel,
-                            continueText: TextConstant.share,
-                            isLoading: productController.isLoading,
-                            continueOnTap: () => shareService.shareQrAsImage(
-                                title: store.name, repaintKey: repaintKey),
-                            sufixOnTap: () => shareService.copyTextLink(
-                              "${DeepLinkConstant.storeDetail}/${store.id}",
+      body: Observer(
+        builder: (_) {
+          if (storeController.isLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          StoreDetailDto store = storeController.store!;
+          productController.listProductsActiveByStore(store.id);
+          return Scaffold(
+            body: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Observer(
+                    builder: (_) {
+                      return ImageDetail(
+                        image: store.image,
+                        iconLeft: IconConstant.arrowLeft,
+                        onTapIconLeft: () => context.push('/'),
+                        widgetRigth: PopUpMenuShare(
+                          menuIcon: IconConstant.share,
+                          secoundIcon: IconConstant.qrcode,
+                          secoundLabel: TextConstant.shareQRCode,
+                          secoundOnTap: () {
+                            showCustomModalBottomSheet(
+                              barrierColor: Colors.transparent,
+                              context: context,
+                              builder: (context) => ModalSheetQrCode(
+                                repaintKey: repaintKey,
+                                linkQrCode:
+                                    "${DeepLinkConstant.storeDetail}/${store.id}",
+                                iconBack: IconConstant.arrowLeft,
+                                title: store.name,
+                                cancelText: TextConstant.cancel,
+                                continueText: TextConstant.share,
+                                isLoading: productController.isLoading,
+                                continueOnTap: () =>
+                                    shareService.shareQrAsImage(
+                                  title: store.name,
+                                  repaintKey: repaintKey,
+                                ),
+                                sufixOnTap: () => shareService.copyTextLink(
+                                  "${DeepLinkConstant.storeDetail}/${store.id}",
+                                ),
+                                sufixIcon: IconConstant.contentCopy,
+                              ),
+                            );
+                          },
+                          firstIcon: IconConstant.media,
+                          firstLabel: TextConstant.shareMidia,
+                          firtOnTap: () async =>
+                              await shareService.shareImageTextLink(
+                            store.image,
+                            TextConstant.shareTextStore(
+                              store.id,
+                              store.name,
                             ),
-                            sufixIcon: IconConstant.contentCopy,
                           ),
-                        );
-                      },
-                      firstIcon: IconConstant.media,
-                      firstLabel: TextConstant.shareMidia,
-                      firtOnTap: () async =>
-                          await shareService.shareImageTextLink(
-                        store.image,
-                        TextConstant.shareTextStore(
-                          store.id,
-                          store.name,
                         ),
-                      ),
-                    ),
-                    iconDown: IconConstant.edit,
-                    onTapIconDown: () =>
-                        context.push('/store/update', extra: store),
-                  );
-                }),
-                const SizedBox(
-                  height: SizeToken.lg,
-                ),
-                ContentDefault(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Observer(builder: (_) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: TextHeadlineH1(text: store.name),
-                            ),
-                            Padding(
-                                padding:
-                                    const EdgeInsets.only(left: SizeToken.sm),
-                                child: IconButtonLargeDark(
-                                    onTap: () => launchUrlString(
-                                        'https://wa.me/${store.whatsapp}?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?'),
-                                    icon: IconConstant.whatsapp)),
-                          ],
-                        );
-                      }),
-                      const SizedBox(
-                        height: SizeToken.md,
-                      ),
-                      TextLabelL4Secondary(
-                          text:
-                              "Das 12h às 00h, segunda à sexta, com intevado das 18h às 20h"),
-                      const SizedBox(
-                        height: SizeToken.xs,
-                      ),
-                      Observer(builder: (_) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                        iconDown: IconConstant.edit,
+                        onTapIconDown: () =>
+                            context.push('/store/update', extra: store),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: SizeToken.lg),
+                  ContentDefault(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Observer(
+                          builder: (_) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                swicthController.value
-                                    ? TextLabelL4Success(
-                                        text: TextConstant.open)
-                                    : TextLabelL4Info(text: TextConstant.close),
-                                TextLabelL4Dark(
-                                    text: isDelivery
-                                        ? " | ${TextConstant.weDelivery}"
-                                        : " | ${TextConstant.weNotDelivery}"),
+                                Expanded(
+                                  child: TextHeadlineH1(text: store.name),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(
+                                    left: SizeToken.sm,
+                                  ),
+                                  child: IconButtonLargeDark(
+                                    onTap: () => launchUrlString(
+                                      'https://wa.me/?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?',
+                                    ),
+                                    icon: IconConstant.whatsapp,
+                                  ),
+                                ) /* launchUrlString(
+                                        'https://wa.me/${store.whatsapp}?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?'),
+                                    icon: IconConstant.whatsapp)), */
+                                ,
                               ],
+                            );
+                          },
+                        ),
+                        const SizedBox(height: SizeToken.md),
+                        TextLabelL4Secondary(text: store.schedules),
+                        const SizedBox(height: SizeToken.xs),
+                        Observer(
+                          builder: (_) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    store.isOpen
+                                        ? TextLabelL4Success(
+                                            text: TextConstant.open,
+                                          )
+                                        : TextLabelL4Info(
+                                            text: TextConstant.close,
+                                          ),
+                                    TextLabelL4Dark(
+                                      text: store.isDelivered
+                                          ? " | ${TextConstant.weDelivery}"
+                                          : " | ${TextConstant.weNotDelivery}",
+                                    ),
+                                  ],
+                                ),
+                                SwicthDefault(
+                                  value: swicthController.value,
+                                  onChanged: (value) async {
+                                    await storeController.changeStatusOpen(
+                                      store.id,
+                                    );
+                                    swicthController.setValue(value);
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                        const SizedBox(height: SizeToken.xs),
+                        Observer(
+                          builder: (_) {
+                            return TextBodyB1SemiDark(text: store.description);
+                          },
+                        ),
+                        const SizedBox(height: SizeToken.md),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextHeadlineH2(text: TextConstant.storeProducts),
+                            LinkSeeMore(
+                              key: const Key("goToMyProducts"),
+                              text: TextConstant.seeMore,
+                              onTap: () =>
+                                  (context).push('/product/my', extra: store),
                             ),
-                            SwicthDefault(
-                              value: swicthController.value,
-                              onChanged: (value) =>
-                                  swicthController.toggleValue(),
-                            )
                           ],
-                        );
-                      }),
-                      const SizedBox(
-                        height: SizeToken.xs,
-                      ),
-                      Observer(builder: (_) {
-                        return TextBodyB1SemiDark(
-                          text: store.description,
-                        );
-                      }),
-                      const SizedBox(
-                        height: SizeToken.md,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextHeadlineH2(text: TextConstant.storeProducts),
-                          LinkSeeMore(
-                            key: const Key("goToMyProducts"),
-                            text: TextConstant.seeMore,
-                            onTap: () =>
-                                (context).push('/product/my', extra: store),
-                          )
-                        ],
-                      ),
-                      const SizedBox(
-                        height: SizeToken.sm,
-                      ),
-                      Observer(builder: (context) {
-                        final products =
-                            productController.productFilterListActiveByStore;
-                        if (productController.isLoading) {
-                          return const Center(
-                            child: CircularProgressIndicator(),
-                          );
-                        }
-                        if (products == null) {
-                          return TextLabelL2Dark(
-                              text: TextConstant.productNotFound);
-                        }
-                        return SizedBox(
-                          height: 270,
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            scrollDirection: Axis.horizontal,
-                            gridDelegate:
-                                const SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 1,
-                              mainAxisSpacing: 15,
-                              crossAxisSpacing: 15,
-                              mainAxisExtent: 175,
-                            ),
-                            itemCount: productController
-                                        .productFilterListActiveByStore !=
-                                    null
-                                ? (productController
-                                            .productFilterListActiveByStore!
-                                            .length >
-                                        5
-                                    ? 5
-                                    : productController
-                                        .productFilterListActiveByStore!.length)
-                                : 0,
-                            itemBuilder: (context, index) {
-                              final product = productController
-                                  .productFilterListActiveByStore?[index];
-                              return ProductItem(
-                                icon: IconConstant.remove,
-                                onTapIcon: () => showCustomModalBottomSheet(
-                                  context: context,
-                                  builder: (context) => ModalSheet(
-                                    iconBack: IconConstant.arrowLeft,
-                                    title: TextConstant.suspendProductTitle,
-                                    description:
-                                        TextConstant.suspendProductMessage(
-                                            product.name),
-                                    cancelText: TextConstant.no,
-                                    continueText: TextConstant.yes,
-                                    isLoading: productController.isLoading,
-                                    continueOnTap: () {
-                                      productController.toggleActive(product.id,
-                                          storeController.store!.id);
-                                      context.pop();
-                                    },
-                                  ),
-                                ),
-                                image: product!.image,
-                                name: product.name,
-                                quantity: TextConstant.quantityAvailable(
-                                    product.amount),
-                                price: TextConstant.monetaryValue(
-                                    double.parse(product.price)),
-                                onTap: () => Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        MyProductDetailScreen(product: product),
-                                  ),
-                                ),
+                        ),
+                        const SizedBox(height: SizeToken.sm),
+                        Observer(
+                          builder: (context) {
+                            final products = productController
+                                .productFilterListActiveByStore;
+                            if (productController.isLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
                               );
-                            },
-                          ),
-                        );
-                      }),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          TextHeadlineH2(text: TextConstant.address),
-                          LinkSeeMore(
+                            }
+                            if (products == null) {
+                              return TextLabelL2Dark(
+                                text: TextConstant.productNotFound,
+                              );
+                            }
+                            return SizedBox(
+                              height: 270,
+                              child: GridView.builder(
+                                shrinkWrap: true,
+                                scrollDirection: Axis.horizontal,
+                                gridDelegate:
+                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 1,
+                                  mainAxisSpacing: 15,
+                                  crossAxisSpacing: 15,
+                                  mainAxisExtent: 175,
+                                ),
+                                itemCount: productController
+                                            .productFilterListActiveByStore !=
+                                        null
+                                    ? (productController
+                                                .productFilterListActiveByStore!
+                                                .length >
+                                            5
+                                        ? 5
+                                        : productController
+                                            .productFilterListActiveByStore!
+                                            .length)
+                                    : 0,
+                                itemBuilder: (context, index) {
+                                  final product = productController
+                                      .productFilterListActiveByStore?[index];
+                                  return ProductItem(
+                                    icon: IconConstant.remove,
+                                    onTapIcon: () => showCustomModalBottomSheet(
+                                      context: context,
+                                      builder: (context) => ModalSheet(
+                                        iconBack: IconConstant.arrowLeft,
+                                        title: TextConstant.suspendProductTitle,
+                                        description:
+                                            TextConstant.suspendProductMessage(
+                                          product.name,
+                                        ),
+                                        cancelText: TextConstant.no,
+                                        continueText: TextConstant.yes,
+                                        isLoading: productController.isLoading,
+                                        continueOnTap: () {
+                                          productController.toggleActive(
+                                            product.id,
+                                            storeController.store!.id,
+                                          );
+                                          context.pop();
+                                        },
+                                      ),
+                                    ),
+                                    image: product!.image,
+                                    name: product.name,
+                                    quantity: TextConstant.quantityAvailable(
+                                      product.amount,
+                                    ),
+                                    price: TextConstant.monetaryValue(
+                                      double.parse(product.price),
+                                    ),
+                                    onTap: () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            MyProductDetailScreen(
+                                          product: product,
+                                        ),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            TextHeadlineH2(text: TextConstant.address),
+                            LinkSeeMore(
                               text: TextConstant.editAddress,
                               onTap: () {
                                 context.push(
                                   '/address/update/store',
                                   extra: address,
                                 );
-                              })
-                        ],
-                      ),
-                      const SizedBox(
-                        height: SizeToken.sm,
-                      ),
-                      AddressDetailsMap(
-                        urlTemplate: ApiConstant.tileOpenStreetMap,
-                        userAgentPackageName: ApiConstant.userAgent,
-                        fullAddress:
-                            "${address?.number}, ${address?.street}, ${address?.district}, ${address?.city}, ${address?.state}",
-                        latitude: address?.latitude,
-                        longitude: address?.longitude,
-                      ),
-                      const SizedBox(
-                        height: SizeToken.lg,
-                      ),
-                    ],
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: SizeToken.sm),
+                        AddressDetailsMap(
+                          urlTemplate: ApiConstant.tileOpenStreetMap,
+                          userAgentPackageName: ApiConstant.userAgent,
+                          fullAddress:
+                              "${address?.number}, ${address?.street}, ${address?.district}, ${address?.city}, ${address?.state}",
+                          latitude: address?.latitude,
+                          longitude: address?.longitude,
+                        ),
+                        const SizedBox(height: SizeToken.lg),
+                      ],
+                    ),
                   ),
-                )
-              ],
+                ],
+              ),
             ),
-          ),
-        );
-      }),
+          );
+        },
+      ),
     );
   }
 }

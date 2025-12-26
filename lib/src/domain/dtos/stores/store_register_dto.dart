@@ -4,21 +4,31 @@ import 'dart:convert';
 class StoreRegisterDto {
   final String name;
   final String description;
-  final String whatsapp;
-  final String chavePix;
+  final String schedules;
+  final String pixKey;
+  final bool isDelivered;
+  final String? deliveryTimeKm;
+  final double? dynamicFreightKm;
   StoreRegisterDto({
     required this.name,
     required this.description,
-    required this.whatsapp,
-    required this.chavePix,
+    required this.schedules,
+    required this.pixKey,
+    required this.isDelivered,
+    this.deliveryTimeKm,
+    this.dynamicFreightKm,
   });
+
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'name': name,
       'description': description,
-      'whatsapp': whatsapp,
-      'chave_pix': chavePix,
+      'schedules': schedules,
+      'pixKey': pixKey,
+      'isDelivered': isDelivered,
+      'deliveryTimeKm': deliveryTimeKm,
+      'dynamicFreightKm': dynamicFreightKm,
     };
   }
 
@@ -26,8 +36,11 @@ class StoreRegisterDto {
     return StoreRegisterDto(
       name: map['name'] as String,
       description: map['description'] as String,
-      whatsapp: map['whatsapp'] as String,
-      chavePix: map['chave_pix'] as String,
+      schedules: map['schedules'] as String,
+      pixKey: map['pix_key'] as String,
+      isDelivered: map['is_delivered'] as bool,
+      deliveryTimeKm: map['delivery_time_km'] != null ? map['delivery_time_km'] as String : null,
+      dynamicFreightKm: map['dynamic_freight_Km'] != null ? map['dynamic_freight_km'] as double : null,
     );
   }
 
@@ -42,20 +55,26 @@ class StoreRegisterDto {
     return 
       other.name == name &&
       other.description == description &&
-      other.whatsapp == whatsapp &&
-      other.chavePix == chavePix;
+      other.schedules == schedules &&
+      other.pixKey == pixKey &&
+      other.isDelivered == isDelivered &&
+      other.deliveryTimeKm == deliveryTimeKm &&
+      other.dynamicFreightKm == dynamicFreightKm;
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
       description.hashCode ^
-      whatsapp.hashCode ^
-      chavePix.hashCode;
+      schedules.hashCode ^
+      pixKey.hashCode ^
+      isDelivered.hashCode ^
+      deliveryTimeKm.hashCode ^
+      dynamicFreightKm.hashCode;
   }
 
   @override
   String toString() {
-    return 'StoreRegisterDto(name: $name, description: $description, whatsapp: $whatsapp, chavePix: $chavePix)';
+    return 'StoreRegisterDto(name: $name, description: $description, schedules: $schedules, pixKey: $pixKey, isDelivered: $isDelivered, deliveryTimeKm: $deliveryTimeKm, dynamicFreightKm: $dynamicFreightKm)';
   }
 }

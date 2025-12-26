@@ -117,7 +117,6 @@ class StoreUpdateForm extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController nameEC;
   final TextEditingController descriptionEC;
-  final TextEditingController whatsappEC;
   final TextEditingController pixKeyEC;
   final TextEditingController schedulesEC;
   final bool isDelivery;
@@ -131,7 +130,6 @@ class StoreUpdateForm extends StatelessWidget {
     required this.formKey,
     required this.nameEC,
     required this.descriptionEC,
-    required this.whatsappEC,
     required this.pixKeyEC,
     required this.image,
     required this.schedulesEC,

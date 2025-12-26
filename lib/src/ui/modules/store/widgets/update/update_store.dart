@@ -29,7 +29,6 @@ class _UpdateStoreState extends State<UpdateStore> {
 
   final nameEC = TextEditingController();
   final descriptionEC = TextEditingController();
-  final whatsappEC = TextEditingController();
 
   final schedulesEC = TextEditingController();
 
@@ -44,24 +43,26 @@ class _UpdateStoreState extends State<UpdateStore> {
 
   final swicthController = Injector.get<SwitchController>();
 
-  late bool isDelivery = false;
-
   @override
   void initState() {
     super.initState();
     nameEC.text = widget.store.name;
     descriptionEC.text = widget.store.description;
-    whatsappEC.text = MaskToken.formatPhoneNumber(
-        widget.store.whatsapp.replaceFirst("+55", ""));
-    pixKeyEC.text = widget.store.chavePix;
-    swicthController.setValue(isDelivery);
+    pixKeyEC.text = widget.store.pixKey;
+    schedulesEC.text = widget.store.schedules;
+    delieveryTimeKmEC.text = widget.store.deliveryTimeKm.toString();
+    dynamicFreightKmEC.text = widget.store.dynamicFreightKm.toString();
+    swicthController.setValue(widget.store.isDelivered);
   }
 
   @override
   void dispose() {
     nameEC.dispose();
     descriptionEC.dispose();
-    whatsappEC.dispose();
+    schedulesEC.dispose();
+    pixKeyEC.dispose();
+    delieveryTimeKmEC.dispose();
+    dynamicFreightKmEC.dispose();
     super.dispose();
   }
 
@@ -90,22 +91,19 @@ class _UpdateStoreState extends State<UpdateStore> {
                 ],
               ),
               const SizedBox(height: SizeToken.lg),
-              Observer(
-                builder: (_) {
-                  return StoreUpdateForm(
-                    formKey: formKey,
-                    image: widget.store.image,
-                    nameEC: nameEC,
-                    descriptionEC: descriptionEC,
-                    whatsappEC: whatsappEC,
-                    pixKeyEC: pixKeyEC,
-                    schedulesEC: schedulesEC,
-                    isDelivery: swicthController.value,
-                    dynamicFreightKmEC: dynamicFreightKmEC,
-                    delieveryTimeKmEC: delieveryTimeKmEC,
-                  );
-                }
-              ),
+              Observer(builder: (_) {
+                return StoreUpdateForm(
+                  formKey: formKey,
+                  image: widget.store.image,
+                  nameEC: nameEC,
+                  descriptionEC: descriptionEC,
+                  pixKeyEC: pixKeyEC,
+                  schedulesEC: schedulesEC,
+                  isDelivery: swicthController.value,
+                  dynamicFreightKmEC: dynamicFreightKmEC,
+                  delieveryTimeKmEC: delieveryTimeKmEC,
+                );
+              }),
             ],
           ),
         ),
@@ -118,13 +116,17 @@ class _UpdateStoreState extends State<UpdateStore> {
           icon: IconConstant.success,
           onPressed: () async {
             if ((formKey.currentState?.validate() ?? false)) {
-              String whatsapp = MaskToken.removeAllMask(whatsappEC.text);
-              whatsapp = "+55$whatsapp";
+              final bool isDelivered = swicthController.value;
+
               StoreUpdateDto model = StoreUpdateDto(
-                  name: nameEC.text,
-                  description: descriptionEC.text,
-                  whatsapp: whatsapp,
-                  chavePix: pixKeyEC.text);
+                name: nameEC.text,
+                description: descriptionEC.text,
+                schedules: schedulesEC.text,
+                pixKey: pixKeyEC.text,
+                isDelivered: isDelivered,
+                deliveryTimeKm: delieveryTimeKmEC.text,
+                dynamicFreightKm: dynamicFreightKmEC.text,
+              );
               try {
                 await storeController.update(widget.store.id, model,
                     image: uploadController.imageFile);
