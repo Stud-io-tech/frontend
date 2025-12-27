@@ -46,8 +46,6 @@ class _UpdateProductState extends State<UpdateProduct> {
 
   late StoreDetailDto store;
 
-  late bool isPerishable = true;
-
   final swicthController = Injector.get<SwitchController>();
 
   @override
@@ -58,7 +56,8 @@ class _UpdateProductState extends State<UpdateProduct> {
     priceEC.text = widget.product.price;
     amountEC.text = widget.product.amount.toString();
     store = storeController.store!;
-    swicthController.setValue(isPerishable);
+    preparationTimeEC.text = widget.product.preparationTime.toString();
+    swicthController.setValue(widget.product.isPerishable);
   }
 
   @override
@@ -95,20 +94,18 @@ class _UpdateProductState extends State<UpdateProduct> {
                 ],
               ),
               const SizedBox(height: SizeToken.lg),
-              Observer(
-                builder: (_) {
-                  return ProductUpdateForm(
-                    image: widget.product.image,
-                    nameEC: nameEC,
-                    descriptionEC: descriptionEC,
-                    priceEC: priceEC,
-                    amountEC: amountEC,
-                    formKey: formKey,
-                    preparationTimeEC: preparationTimeEC,
-                    isPerishable: swicthController.value,
-                  );
-                }
-              ),
+              Observer(builder: (_) {
+                return ProductUpdateForm(
+                  image: widget.product.image,
+                  nameEC: nameEC,
+                  descriptionEC: descriptionEC,
+                  priceEC: priceEC,
+                  amountEC: amountEC,
+                  formKey: formKey,
+                  preparationTimeEC: preparationTimeEC,
+                  isPerishable: swicthController.value,
+                );
+              }),
             ],
           ),
         ),
@@ -129,6 +126,8 @@ class _UpdateProductState extends State<UpdateProduct> {
                 price: price,
                 amount: amountEC.text,
                 storeId: widget.product.storeId,
+                isPerishable: swicthController.value,
+                preparationTime: int.parse(preparationTimeEC.text),
               );
               try {
                 await productController.update(widget.product.id, model,

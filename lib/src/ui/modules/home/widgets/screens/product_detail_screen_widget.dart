@@ -163,7 +163,7 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
                         ),
                         Flexible(
                           child: TextLabelL4Secondary(
-                            text: TextConstant.preparationTime(10),
+                            text: TextConstant.preparationTime(product.preparationTime),
                           ),
                         ),
                       ],

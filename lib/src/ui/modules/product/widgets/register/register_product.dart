@@ -117,6 +117,8 @@ class _RegisterStoreState extends State<RegisterProduct> {
                 price: price,
                 amount: amountEC.text,
                 storeId: widget.store.id,
+                isPerishable: swicthController.value,
+                preparationTime: preparationTimeEC.text
               );
 
               try {
