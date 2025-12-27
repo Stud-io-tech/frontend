@@ -47,6 +47,8 @@ class ProdutcRepositoryImpl implements ProdutcRepository {
         'price': product.price,
         'amount': product.amount,
         'store_id': product.storeId,
+        'is_perishable': product.isPerishable,
+        'preparation_time': product.preparationTime,
         'image': MultipartFile.fromBytes(
           await image.readAsBytes(),
           filename: image.name,

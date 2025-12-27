@@ -7,12 +7,16 @@ class ProductUpdateDto {
   final String? price;
   final String? amount;
   final String? storeId;
+  final bool isPerishable;
+  final int? preparationTime;
   ProductUpdateDto({
     this.name,
     this.description,
     this.price,
     this.amount,
     this.storeId,
+    required this.isPerishable,
+    this.preparationTime,
   });
 
   Map<String, dynamic> toMap() {
@@ -22,6 +26,8 @@ class ProductUpdateDto {
       'price': price,
       'amount': amount,
       'store_id': storeId,
+      'is_perishable': isPerishable,
+      'preparation_time': preparationTime,
     };
   }
 
@@ -32,12 +38,15 @@ class ProductUpdateDto {
       price: map['price'] != null ? map['price'] as String : null,
       amount: map['amount'] != null ? map['amount'] as String : null,
       storeId: map['store_id'] != null ? map['store_id'] as String : null,
+      isPerishable: map['is_perishable'] as bool,
+      preparationTime: map['preparation_time'] != null ? map['preparation_time'] as int : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ProductUpdateDto.fromJson(String source) => ProductUpdateDto.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory ProductUpdateDto.fromJson(String source) =>
+      ProductUpdateDto.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool operator ==(covariant ProductUpdateDto other) {
@@ -48,7 +57,9 @@ class ProductUpdateDto {
       other.description == description &&
       other.price == price &&
       other.amount == amount &&
-      other.storeId == storeId;
+      other.storeId == storeId &&
+      other.isPerishable == isPerishable &&
+      other.preparationTime == preparationTime;
   }
 
   @override
@@ -57,6 +68,13 @@ class ProductUpdateDto {
       description.hashCode ^
       price.hashCode ^
       amount.hashCode ^
-      storeId.hashCode;
+      storeId.hashCode ^
+      isPerishable.hashCode ^
+      preparationTime.hashCode;
+  }
+
+  @override
+  String toString() {
+    return 'ProductUpdateDto(name: $name, description: $description, price: $price, amount: $amount, storeId: $storeId, isPerishable: $isPerishable, preparationTime: $preparationTime)';
   }
 }

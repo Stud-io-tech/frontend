@@ -9,6 +9,8 @@ class ProductDetailDto {
   final int amount;
   final String storeId;
   final bool active;
+  final bool isPerishable;
+  final int preparationTime;
   ProductDetailDto({
     required this.id,
     required this.name,
@@ -18,6 +20,8 @@ class ProductDetailDto {
     required this.price,
     required this.storeId,
     required this.active,
+    required this.isPerishable,
+    required this.preparationTime,
   });
 
   Map<String, dynamic> toMap() {
@@ -29,6 +33,8 @@ class ProductDetailDto {
       'amount': amount,
       'price': price,
       'store_id': storeId,
+      'is_perishable': isPerishable,
+      'preparation_time': preparationTime,
     };
   }
 
@@ -42,6 +48,8 @@ class ProductDetailDto {
       amount: map['amount'] as int,
       storeId: map['store_id'] as String,
       active: map['active'] as bool,
+      isPerishable: map['is_perishable'] as bool,
+      preparationTime: map['preparation_time'] as int,
     );
   }
 
@@ -59,6 +67,8 @@ class ProductDetailDto {
         other.price == price &&
         other.active == active &&
         other.amount == amount &&
+        other.isPerishable == isPerishable &&
+        other.preparationTime == preparationTime &&
         other.storeId == storeId;
   }
 
@@ -71,6 +81,8 @@ class ProductDetailDto {
         price.hashCode ^
         active.hashCode ^
         amount.hashCode ^
+        isPerishable.hashCode ^
+        preparationTime.hashCode ^
         storeId.hashCode;
   }
 }

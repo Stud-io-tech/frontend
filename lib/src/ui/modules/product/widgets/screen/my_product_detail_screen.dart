@@ -32,13 +32,18 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
   final productController = Injector.get<ProductController>();
   static final GlobalKey repaintKey = GlobalKey();
   final swicthController = Injector.get<SwitchController>();
-  final bool isOpen = true;
 
   @override
   void initState() {
     super.initState();
-    storeController.detailStore(widget.product.storeId);
-    swicthController.setValue(isOpen);
+    isOpen();
+  }
+
+  void isOpen() async {
+    await storeController.detailStore(widget.product.storeId);
+    if (storeController.store != null) {
+      swicthController.setValue(storeController.store!.isOpen);
+    }
   }
 
   @override
@@ -147,7 +152,7 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
                       ),
                       Flexible(
                         child: TextLabelL4Secondary(
-                          text: TextConstant.preparationTime(10),
+                          text: TextConstant.preparationTime(widget.product.preparationTime),
                         ),
                       ),
                     ],
