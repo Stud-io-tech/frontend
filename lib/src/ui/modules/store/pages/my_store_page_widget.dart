@@ -6,7 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/constants/api_constant.dart';
 import 'package:my_fome/src/constants/deep_link_constant.dart';
 import 'package:my_fome/src/data/services/share/share_service.dart';
-import 'package:my_fome/src/domain/dtos/address/address_store_register_dto.dart';
+import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
 import 'package:my_fome/src/ui/controllers/switch/switch_controller.dart';
 import 'package:uikit/uikit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
@@ -34,28 +34,14 @@ class _MyStorePageState extends State<MyStorePage> {
 
   final swicthController = Injector.get<SwitchController>();
 
-  //AddressStoreRegisterDto? address;
-
-  final AddressStoreRegisterDto address = AddressStoreRegisterDto(
-    storeId: "storeController.store!.id",
-    cep: "59215000",
-    state: "Rio Grande do Norte",
-    city: "Nova Cruz",
-    district: "Zona rural",
-    street: "Reserva Florestal",
-    number: "S/N",
-    whatsapp: "84992017118",
-    complement: "",
-    latitude: -6.479892,
-    longitude: -35.426370,
-  );
+  final addressController = Injector.get<AddressController>();
 
   @override
   void initState() {
     super.initState();
     load();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (address == null) {
+      if (addressController.address == null) {
         context.push('/address/register/store', extra: widget.id);
       }
     });
@@ -64,6 +50,7 @@ class _MyStorePageState extends State<MyStorePage> {
   void load() async {
     if (widget.id != null) {
       await storeController.detailStore(widget.id!);
+      await addressController.detailAddressStore(widget.id!);
       swicthController.setValue(storeController.store!.isOpen);
     }
   }
@@ -320,7 +307,7 @@ class _MyStorePageState extends State<MyStorePage> {
                               onTap: () {
                                 context.push(
                                   '/address/update/store',
-                                  extra: address,
+                                  extra: addressController.address,
                                 );
                               },
                             ),
@@ -331,9 +318,9 @@ class _MyStorePageState extends State<MyStorePage> {
                           urlTemplate: ApiConstant.tileOpenStreetMap,
                           userAgentPackageName: ApiConstant.userAgent,
                           fullAddress:
-                              "${address?.number}, ${address?.street}, ${address?.district}, ${address?.city}, ${address?.state}",
-                          latitude: address?.latitude,
-                          longitude: address?.longitude,
+                              "${addressController.address?.number}, ${addressController.address?.street}, ${addressController.address?.district}, ${addressController.address?.city}, ${addressController.address?.state}",
+                          latitude: addressController.address?.latitude != null? double.parse(addressController.address!.latitude!) : null,
+                          longitude: addressController.address?.longitude != null? double.parse(addressController.address!.longitude!) : null,
                         ),
                         const SizedBox(height: SizeToken.lg),
                       ],

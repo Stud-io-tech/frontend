@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_fome/src/domain/dtos/address/address_store_register_dto.dart';
+import 'package:my_fome/src/domain/dtos/address/address_detail_dto.dart';
+import 'package:my_fome/src/domain/dtos/address/address_register_dto.dart';
 import 'package:my_fome/src/ui/modules/address/controller/address_map_controller.dart';
 import 'package:my_fome/src/ui/modules/address/widgets/update/address_update_form.dart';
 import 'package:uikit/uikit.dart';
@@ -12,7 +13,7 @@ import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 
 class UpdateAddressStorePage extends StatefulWidget {
-  final AddressStoreRegisterDto address;
+  final AddressDetailDto address;
 
   const UpdateAddressStorePage({
     super.key,
@@ -20,8 +21,7 @@ class UpdateAddressStorePage extends StatefulWidget {
   });
 
   @override
-  State<UpdateAddressStorePage> createState() =>
-      _UpdateAddressStorePageState();
+  State<UpdateAddressStorePage> createState() => _UpdateAddressStorePageState();
 }
 
 class _UpdateAddressStorePageState extends State<UpdateAddressStorePage> {
@@ -50,10 +50,10 @@ class _UpdateAddressStorePageState extends State<UpdateAddressStorePage> {
     whatsappEC.text = MaskToken.formatPhoneNumber(
         widget.address.whatsapp.replaceFirst("+55", ""));
     complementEC.text = widget.address.complement ?? '';
-    addressMapController.latitude =
-        widget.address.latitude ?? addressMapController.latitude;
-    addressMapController.longitude =
-        widget.address.longitude ?? addressMapController.longitude;
+    addressMapController.latitude = double.parse(
+        widget.address.latitude ?? addressMapController.latitude.toString());
+    addressMapController.longitude = double.parse(
+        widget.address.longitude ?? addressMapController.longitude.toString());
   }
 
   @override
@@ -93,7 +93,9 @@ class _UpdateAddressStorePageState extends State<UpdateAddressStorePage> {
                         icon: IconConstant.arrowLeft,
                       ),
                       const SizedBox(width: SizeToken.sm),
-                      TextHeadlineH2(text: TextConstant.updateStoreAddress,),
+                      TextHeadlineH2(
+                        text: TextConstant.updateStoreAddress,
+                      ),
                     ],
                   ),
                 ],
@@ -128,8 +130,7 @@ class _UpdateAddressStorePageState extends State<UpdateAddressStorePage> {
                 String cep = MaskToken.removeAllMask(cepEC.text);
                 String whatsapp = MaskToken.removeAllMask(whatsappEC.text);
                 whatsapp = "+55$whatsapp";
-                final model = AddressStoreRegisterDto(
-                  storeId: widget.address.storeId,
+                final model = AddressRegisterDto(
                   cep: cep,
                   state: stateEC.text,
                   city: cityEC.text,
@@ -138,8 +139,8 @@ class _UpdateAddressStorePageState extends State<UpdateAddressStorePage> {
                   number: numberEC.text,
                   whatsapp: whatsapp,
                   complement: complementEC.text,
-                  latitude: widget.address.latitude,
-                  longitude: widget.address.longitude,
+                  latitude: widget.address.latitude.toString(),
+                  longitude: widget.address.longitude.toString(),
                 );
 
                 debugPrint(model.toString());

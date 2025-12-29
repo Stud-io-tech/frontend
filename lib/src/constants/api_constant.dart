@@ -1,10 +1,12 @@
 import 'env/env.dart';
 
 final class ApiConstant {
+  static final String address = "$baseUrl/address";
   static const String basePix = "https://gerarqrcodepix.com.br/api/v1";
   static const String baseOpenStreetMap = 'https://nominatim.openstreetmap.org';
   static final String baseUrl = Env.baseUrl;
-  static final String changeStatusOpenStore = "$baseUrl/store/change-status-open";
+  static final String changeStatusOpenStore =
+      "$baseUrl/store/change-status-open";
   static final String login = "$baseUrl/login";
   static final String product = "$baseUrl/product";
   static final String refreshToken = "$baseUrl/refresh-token";

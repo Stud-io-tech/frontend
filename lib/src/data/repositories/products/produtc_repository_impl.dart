@@ -108,7 +108,7 @@ class ProdutcRepositoryImpl implements ProdutcRepository {
   AsyncResult<ProductDetailDto> toggleActive(String id) async {
     try {
       final Response response = await clientService
-          .put("${ApiConstant.product}/active/$id", requiresAuth: true);
+          .put("${ApiConstant.product}/active/$id",{}, requiresAuth: true);
       final ProductDetailDto resultProduct =
           ProductDetailDto.fromMap(response.data['product']);
       return Success(resultProduct);

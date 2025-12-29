@@ -7,7 +7,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:my_fome/src/domain/dtos/address/address_map_dto.dart';
-import 'package:my_fome/src/domain/dtos/address/address_user_register_dto.dart';
+import 'package:my_fome/src/domain/dtos/address/address_register_dto.dart';
+import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
 import 'package:my_fome/src/ui/modules/address/controller/address_map_controller.dart';
 import 'package:uikit/uikit.dart';
 
@@ -23,10 +24,12 @@ class RegisterAddressDeliveryPage extends StatefulWidget {
   });
 
   @override
-  State<RegisterAddressDeliveryPage> createState() => _RegisterAddressDeliveryPageState();
+  State<RegisterAddressDeliveryPage> createState() =>
+      _RegisterAddressDeliveryPageState();
 }
 
-class _RegisterAddressDeliveryPageState extends State<RegisterAddressDeliveryPage> {
+class _RegisterAddressDeliveryPageState
+    extends State<RegisterAddressDeliveryPage> {
   final formKey = GlobalKey<FormState>();
   final cepEC = TextEditingController();
   final stateEC = TextEditingController();
@@ -38,6 +41,8 @@ class _RegisterAddressDeliveryPageState extends State<RegisterAddressDeliveryPag
   final complementEC = TextEditingController();
 
   final addressMapController = Injector.get<AddressMapController>();
+
+  final addressController = Injector.get<AddressController>();
 
   @override
   void initState() {
@@ -131,7 +136,7 @@ class _RegisterAddressDeliveryPageState extends State<RegisterAddressDeliveryPag
       bottomNavigationBar: Observer(builder: (_) {
         return ButtonLarge(
           key: const Key('buttonRegisterProduct'),
-          isLoading: false,
+          isLoading: addressController.isLoading,
           text: TextConstant.save,
           icon: IconConstant.success,
           onPressed: () async {
@@ -139,7 +144,7 @@ class _RegisterAddressDeliveryPageState extends State<RegisterAddressDeliveryPag
               String cep = MaskToken.removeAllMask(cepEC.text);
               String whatsapp = MaskToken.removeAllMask(whatsappEC.text);
               whatsapp = "+55$whatsapp";
-              final model = AddressUserRegisterDto(
+              final model = AddressRegisterDto(
                 userId: widget.userId,
                 cep: cep,
                 state: stateEC.text,
@@ -149,14 +154,18 @@ class _RegisterAddressDeliveryPageState extends State<RegisterAddressDeliveryPag
                 number: numberEC.text,
                 whatsapp: whatsapp,
                 complement: complementEC.text,
-                latitude: addressMapController.latitude,
-                longitude: addressMapController.longitude,
+                latitude: addressMapController.latitude.toString(),
+                longitude: addressMapController.longitude.toString(),
               );
 
-              debugPrint(model.toString());
-              addressMapController.cleanAddress();
-
-              context.push('/');
+              try {
+                await addressController.register(model);
+              } finally {
+                if (addressController.isLoading == false) {
+                  addressMapController.cleanAddress();
+                  context.push('/');
+                }
+              }
             }
           },
         );

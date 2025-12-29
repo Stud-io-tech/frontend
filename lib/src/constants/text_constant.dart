@@ -13,9 +13,11 @@ final class TextConstant {
   static String sucessLoggingOutAccountTitle = 'Conta Desvinculada!';
   static String sucessCreatingAccountTitle = 'Conta Criada!';
   static String sucessCreatingStoreTitle = 'Loja Criada!';
+  static String sucessCreatingAddressTitle = 'Endereço Criado!';
   static String sucessCreatingProductTitle = 'Produto Criado!';
   static String sucessUpdatingStoreTitle = 'Loja Atualizada!';
   static String sucessUpdatingProductTitle = 'Produto Atualizado!';
+  static String sucessUpdatingAddressTitle = 'Endereço Atualizado!';
 
   static String sucessSuspendingProductTitle = 'Produto Suspenso!';
   static String sucessRestoreProductTitle = 'Produto Restaurado!';
@@ -34,7 +36,9 @@ final class TextConstant {
       'Sua conta foi criada com sucesso.';
   static String sucessCreatingStoreMessage = 'A loja foi criada com sucesso.';
   static String sucessCreatingProductMessage = 'A loja foi criado com sucesso.';
-
+  static String sucessCreatingAddressMessage = 'O endereço foi criado com sucesso.';
+  static String sucessUpdatingAddressMessage =
+      'O endereço foi atualizada com sucesso.';
   static String sucessUpdatingStoreMessage =
       'A loja foi atualizada com sucesso.';
   static String sucessUpdatingProductMessage =
@@ -51,6 +55,8 @@ final class TextConstant {
   static String errorListStoresMessage = 'Houve um erro ao listar as lojas.';
   static String errorListProductsMessage =
       'Houve um erro ao listar os produtos.';
+  static String errorCreatingAddressMessage =
+      'Houve um erro ao criar o endereço.';
   static String errorCreatingStoreMessage = 'Houve um erro ao criar a loja.';
   static String errorCreatingProductMessage =
       'Houve um erro ao criar o produto.';
@@ -58,9 +64,13 @@ final class TextConstant {
       'Houve um erro ao atualizar a loja.';
   static String errorUpdatingProductMessage =
       'Houve um erro ao atualizar o produto.';
+  static String errorUpdatingAddressMessage =
+      'Houve um erro ao atualizar o endereço.';
 
   static String errorDetailsUserMessage =
       'Houve um erro ao encontrar o usuário.';
+  static String errorDetailsAddressMessage =
+      'Houve um erro ao encontrar o endereço.';
 
   static String errorDetailsStoreMessage = 'Houve um erro ao encontrar a loja.';
   static String errorDetailsProductMessage =

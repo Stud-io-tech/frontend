@@ -7,7 +7,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:my_fome/src/domain/dtos/address/address_map_dto.dart';
-import 'package:my_fome/src/domain/dtos/address/address_store_register_dto.dart';
+import 'package:my_fome/src/domain/dtos/address/address_register_dto.dart';
 import 'package:my_fome/src/ui/modules/address/controller/address_map_controller.dart';
 import 'package:uikit/uikit.dart';
 
@@ -139,8 +139,7 @@ class _RegisterAddressStorePageState extends State<RegisterAddressStorePage> {
               String cep = MaskToken.removeAllMask(cepEC.text);
               String whatsapp = MaskToken.removeAllMask(whatsappEC.text);
               whatsapp = "+55$whatsapp";
-              final model = AddressStoreRegisterDto(
-                storeId: widget.storeId,
+              final model = AddressRegisterDto(
                 cep: cep,
                 state: stateEC.text,
                 city: cityEC.text,
@@ -149,8 +148,8 @@ class _RegisterAddressStorePageState extends State<RegisterAddressStorePage> {
                 number: numberEC.text,
                 whatsapp: whatsapp,
                 complement: complementEC.text,
-                latitude: addressMapController.latitude,
-                longitude: addressMapController.longitude,
+                latitude: addressMapController.latitude.toString(),
+                longitude: addressMapController.longitude.toString(),
               );
 
               debugPrint(model.toString());

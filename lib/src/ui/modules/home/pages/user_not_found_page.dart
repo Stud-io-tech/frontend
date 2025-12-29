@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_fome/src/domain/dtos/address/address_user_register_dto.dart';
+import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
 import 'package:uikit/uikit.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
@@ -28,13 +28,13 @@ class UserNotFoundPage extends StatefulWidget {
 
 class _UserNotFoundPageState extends State<UserNotFoundPage> {
   final authController = Injector.get<AuthGoogleController>();
+  final addressController = Injector.get<AddressController>();
+
   @override
   void initState() {
     super.initState();
     authController.load();
   }
-
-  AddressUserRegisterDto? address;
 
   @override
   Widget build(BuildContext context) {
@@ -97,27 +97,16 @@ class _UserNotFoundPageState extends State<UserNotFoundPage> {
                   }
                   break;
                 case LoginRedirectEnum.ADDRESS:
-                  /* address = AddressUserRegisterDto(
-                    userId: "a0a62973-06d8-4326-bd9c-1284449c8e3b",
-                    cep: "58278000",
-                    state: "Paraíba",
-                    city: "Jacaraú",
-                    district: "Zona rural",
-                    street: "Sitio Tanque Dantas",
-                    number: "S/N",
-                    whatsapp: "84992017118",
-                    complement: "",
-                    latitude: -6.5437362,
-                    longitude: -35.3653759,
-                  ); */
-                  if (address == null) {
+                  await addressController
+                      .detailAddressUser(authController.user!.id);
+                  if (addressController.address == null) {
                     context.push('/address/register/delivery',
                         extra: authController.user!.id);
                     return;
                   } else {
                     context.push(
                       '/address/update/delivery',
-                      extra: address,
+                      extra: addressController.address,
                     );
                     return;
                   }
