@@ -102,6 +102,8 @@ class _HomePageState extends State<HomePage> {
               context.push('/store/register');
               return;
             } else {
+              await addressController
+                  .detailAddressStore(authController.store!.id);
               context.push('/store/my/${authController.store!.id}');
               return;
             }
@@ -113,7 +115,7 @@ class _HomePageState extends State<HomePage> {
             return;
           } else {
             await addressController.detailAddressUser(authController.user!.id);
-            if (addressController.address == null) {
+            if (addressController.address?.userId == null) {
               context.push('/address/register/delivery',
                   extra: authController.user!.id);
               return;

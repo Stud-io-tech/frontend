@@ -41,7 +41,7 @@ class _MyStorePageState extends State<MyStorePage> {
     super.initState();
     load();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (addressController.address == null) {
+      if (addressController.address?.storeId == null) {
         context.push('/address/register/store', extra: widget.id);
       }
     });
@@ -140,16 +140,17 @@ class _MyStorePageState extends State<MyStorePage> {
                                   padding: const EdgeInsets.only(
                                     left: SizeToken.sm,
                                   ),
-                                  child: IconButtonLargeDark(
-                                    onTap: () => launchUrlString(
-                                      'https://wa.me/?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?',
-                                    ),
-                                    icon: IconConstant.whatsapp,
+                                  child: Observer(
+                                    builder: (_) {
+                                      return IconButtonLargeDark(
+                                        onTap: () => launchUrlString(
+                                          'https://wa.me/${addressController.address?.whatsapp}?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?',
+                                        ),
+                                        icon: IconConstant.whatsapp,
+                                      );
+                                    },
                                   ),
-                                ) /* launchUrlString(
-                                        'https://wa.me/${store.whatsapp}?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?'),
-                                    icon: IconConstant.whatsapp)), */
-                                ,
+                                ),
                               ],
                             );
                           },
@@ -319,8 +320,15 @@ class _MyStorePageState extends State<MyStorePage> {
                           userAgentPackageName: ApiConstant.userAgent,
                           fullAddress:
                               "${addressController.address?.number}, ${addressController.address?.street}, ${addressController.address?.district}, ${addressController.address?.city}, ${addressController.address?.state}",
-                          latitude: addressController.address?.latitude != null? double.parse(addressController.address!.latitude!) : null,
-                          longitude: addressController.address?.longitude != null? double.parse(addressController.address!.longitude!) : null,
+                          latitude: addressController.address?.latitude != null
+                              ? double.parse(
+                                  addressController.address!.latitude!)
+                              : null,
+                          longitude:
+                              addressController.address?.longitude != null
+                                  ? double.parse(
+                                      addressController.address!.longitude!)
+                                  : null,
                         ),
                         const SizedBox(height: SizeToken.lg),
                       ],

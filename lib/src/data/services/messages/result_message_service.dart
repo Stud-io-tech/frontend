@@ -1,4 +1,4 @@
 abstract interface class ResultMessageService {
-  showMessageSuccess(String title, String message, String iconLeading);
-  showMessageError(String message);
+  void showMessageSuccess(String title, String message, String iconLeading);
+  void showMessageError(String message);
 }

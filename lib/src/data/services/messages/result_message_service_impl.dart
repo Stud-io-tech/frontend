@@ -13,7 +13,7 @@ class ResultMessageServiceImpl implements ResultMessageService {
   });
 
   @override
-  showMessageError(String message) {
+  void showMessageError(String message) {
     if (navigatorKey.currentContext != null) {
       ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
         SnackBarListview(
@@ -28,7 +28,7 @@ class ResultMessageServiceImpl implements ResultMessageService {
   }
 
   @override
-  showMessageSuccess(String title, String message, String iconLeading) {
+  void showMessageSuccess(String title, String message, String iconLeading) {
     if (navigatorKey.currentContext != null) {
       ScaffoldMessenger.of(navigatorKey.currentContext!).showSnackBar(
         SnackBarListview(

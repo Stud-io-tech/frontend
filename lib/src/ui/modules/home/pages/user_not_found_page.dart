@@ -91,6 +91,8 @@ class _UserNotFoundPageState extends State<UserNotFoundPage> {
               switch (widget.loginRedirectEnum) {
                 case LoginRedirectEnum.STORE:
                   if (authController.store != null) {
+                    await addressController
+                        .detailAddressStore(authController.store!.id);
                     context.push('/store/my/${authController.store!.id}');
                   } else {
                     context.push('/store/register');
@@ -99,7 +101,7 @@ class _UserNotFoundPageState extends State<UserNotFoundPage> {
                 case LoginRedirectEnum.ADDRESS:
                   await addressController
                       .detailAddressUser(authController.user!.id);
-                  if (addressController.address == null) {
+                  if (addressController.address?.userId == null) {
                     context.push('/address/register/delivery',
                         extra: authController.user!.id);
                     return;

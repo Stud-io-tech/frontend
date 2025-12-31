@@ -8,6 +8,8 @@ import 'package:go_router/go_router.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:my_fome/src/domain/dtos/address/address_map_dto.dart';
 import 'package:my_fome/src/domain/dtos/address/address_register_dto.dart';
+import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
+import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
 import 'package:my_fome/src/ui/modules/address/controller/address_map_controller.dart';
 import 'package:uikit/uikit.dart';
 
@@ -23,7 +25,8 @@ class RegisterAddressStorePage extends StatefulWidget {
   });
 
   @override
-  State<RegisterAddressStorePage> createState() => _RegisterAddressStorePageState();
+  State<RegisterAddressStorePage> createState() =>
+      _RegisterAddressStorePageState();
 }
 
 class _RegisterAddressStorePageState extends State<RegisterAddressStorePage> {
@@ -38,6 +41,8 @@ class _RegisterAddressStorePageState extends State<RegisterAddressStorePage> {
   final complementEC = TextEditingController();
 
   final addressMapController = Injector.get<AddressMapController>();
+  final addressController = Injector.get<AddressController>();
+  final storeController = Injector.get<StoreController>();
 
   @override
   void initState() {
@@ -131,7 +136,7 @@ class _RegisterAddressStorePageState extends State<RegisterAddressStorePage> {
       bottomNavigationBar: Observer(builder: (_) {
         return ButtonLarge(
           key: const Key('buttonRegisterProduct'),
-          isLoading: false,
+          isLoading: addressController.isLoading,
           text: TextConstant.save,
           icon: IconConstant.success,
           onPressed: () async {
@@ -140,6 +145,7 @@ class _RegisterAddressStorePageState extends State<RegisterAddressStorePage> {
               String whatsapp = MaskToken.removeAllMask(whatsappEC.text);
               whatsapp = "+55$whatsapp";
               final model = AddressRegisterDto(
+                storeId: widget.storeId,
                 cep: cep,
                 state: stateEC.text,
                 city: cityEC.text,
@@ -152,10 +158,16 @@ class _RegisterAddressStorePageState extends State<RegisterAddressStorePage> {
                 longitude: addressMapController.longitude.toString(),
               );
 
-              debugPrint(model.toString());
-              addressMapController.cleanAddress();
-
-              context.push('/');
+              try {
+                await addressController.register(model);
+                await storeController.toggleActive(widget.storeId);
+              } finally {
+                if (addressController.isLoading == false) {
+                  addressMapController.cleanAddress();
+                  await addressController.detailAddressStore(widget.storeId);
+                  context.pop();
+                }
+              }
             }
           },
         );

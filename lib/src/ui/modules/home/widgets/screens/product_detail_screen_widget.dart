@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/constants/deep_link_constant.dart';
 import 'package:my_fome/src/constants/image_error_constant.dart';
 import 'package:my_fome/src/data/services/share/share_service.dart';
+import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
 import 'package:uikit/uikit.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
@@ -45,6 +46,8 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
       productController.detailProduct(widget.id!);
     }
   }
+
+  final addressController = Injector.get<AddressController>();
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +166,8 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
                         ),
                         Flexible(
                           child: TextLabelL4Secondary(
-                            text: TextConstant.preparationTime(product.preparationTime),
+                            text: TextConstant.preparationTime(
+                                product.preparationTime),
                           ),
                         ),
                       ],
@@ -181,33 +185,39 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
                     const SizedBox(
                       height: SizeToken.sm,
                     ),
-                    Observer(builder: (_) {
-                      final store = storeController.store;
-                      if (storeController.isLoading || store == null) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                    Observer(
+                      builder: (_) {
+                        final store = storeController.store;
+                        if (storeController.isLoading || store == null) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (productController.isServerError) {
+                          return BannerError(
+                            image: ImageErrorConstant.serverError,
+                            text: TextConstant.serverError,
+                          );
+                        }
+                        return StoreItem(
+                          name: store.name,
+                          description: store.description,
+                          image: store.image,
+                          icon: IconConstant.chevronRigth,
+                          onTap: () async {
+                            await addressController
+                                .detailAddressStore(store.id);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => StoreDetailScreenWidget(
+                                  storeModel: store,
+                                ),
+                              ),
+                            );
+                          },
                         );
-                      }
-                      if (productController.isServerError) {
-                        return BannerError(
-                          image: ImageErrorConstant.serverError,
-                          text: TextConstant.serverError,
-                        );
-                      }
-                      return StoreItem(
-                        name: store.name,
-                        description: store.description,
-                        image: store.image,
-                        icon: IconConstant.chevronRigth,
-                        onTap: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => StoreDetailScreenWidget(
-                              storeModel: store,
-                            ),
-                          ),
-                        ),
-                      );
-                    }),
+                      },
+                    ),
                     const SizedBox(
                       height: SizeToken.md,
                     ),

@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/image_error_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
+import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/store_detail_screen_widget.dart';
 import 'package:uikit/uikit.dart';
@@ -22,6 +23,8 @@ class _StoreScreenState extends State<StoreScreen> {
     super.initState();
     storeController.listStore();
   }
+
+  final addressController = Injector.get<AddressController>();
 
   @override
   Widget build(BuildContext context) {
@@ -83,13 +86,18 @@ class _StoreScreenState extends State<StoreScreen> {
                   description: store.description,
                   image: store.image,
                   icon: IconConstant.chevronRigth,
-                  onTap: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => StoreDetailScreenWidget(
-                        storeModel: store,
-                      ),
-                    ),
-                  ),
+                  onTap: () async {
+                    await addressController.detailAddressStore(store.id);
+                    if (addressController.address?.storeId != null) {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => StoreDetailScreenWidget(
+                            storeModel: store,
+                          ),
+                        ),
+                      );
+                    }
+                  },
                 );
               },
             );

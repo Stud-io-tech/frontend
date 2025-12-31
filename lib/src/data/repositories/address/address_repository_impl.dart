@@ -4,8 +4,6 @@ import 'package:my_fome/src/constants/api_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/data/exceptions/rest_exception.dart';
 import 'package:result_dart/result_dart.dart';
-import 'package:result_dart/src/types.dart';
-
 import 'package:my_fome/src/data/services/client/client_service.dart';
 import 'package:my_fome/src/domain/dtos/address/address_detail_dto.dart';
 import 'package:my_fome/src/domain/dtos/address/address_register_dto.dart';
@@ -47,8 +45,7 @@ class AddressRepositoryImpl implements AddressRepository {
   AsyncResult<List<AddressDetailDto?>> detailAddressStore(String id) async {
     try {
       final Response response = await clientService.get(
-        "${ApiConstant.address}/store/$id",
-        requiresAuth: true,
+        "${ApiConstant.address}/store/$id"
       );
 
       final List<dynamic> resultAddress = response.data['address'];

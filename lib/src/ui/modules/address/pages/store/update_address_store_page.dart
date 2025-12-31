@@ -4,7 +4,8 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/domain/dtos/address/address_detail_dto.dart';
-import 'package:my_fome/src/domain/dtos/address/address_register_dto.dart';
+import 'package:my_fome/src/domain/dtos/address/address_update_dto.dart';
+import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
 import 'package:my_fome/src/ui/modules/address/controller/address_map_controller.dart';
 import 'package:my_fome/src/ui/modules/address/widgets/update/address_update_form.dart';
 import 'package:uikit/uikit.dart';
@@ -36,6 +37,7 @@ class _UpdateAddressStorePageState extends State<UpdateAddressStorePage> {
   final complementEC = TextEditingController();
 
   final addressMapController = Injector.get<AddressMapController>();
+  final addressController = Injector.get<AddressController>();
 
   @override
   void initState() {
@@ -122,7 +124,7 @@ class _UpdateAddressStorePageState extends State<UpdateAddressStorePage> {
         builder: (_) {
           return ButtonLarge(
             key: const Key('buttonRegisterProduct'),
-            isLoading: false,
+            isLoading: addressController.isLoading,
             text: TextConstant.save,
             icon: IconConstant.success,
             onPressed: () async {
@@ -130,7 +132,8 @@ class _UpdateAddressStorePageState extends State<UpdateAddressStorePage> {
                 String cep = MaskToken.removeAllMask(cepEC.text);
                 String whatsapp = MaskToken.removeAllMask(whatsappEC.text);
                 whatsapp = "+55$whatsapp";
-                final model = AddressRegisterDto(
+                final model = AddressUpdateDto(
+                  storeId: widget.address.storeId,
                   cep: cep,
                   state: stateEC.text,
                   city: cityEC.text,
@@ -143,10 +146,14 @@ class _UpdateAddressStorePageState extends State<UpdateAddressStorePage> {
                   longitude: widget.address.longitude.toString(),
                 );
 
-                debugPrint(model.toString());
-                addressMapController.cleanAddress();
-
-                context.push('/');
+                try {
+                  await addressController.update(widget.address.id, model);
+                } finally {
+                  if (addressController.isLoading == false) {
+                    addressMapController.cleanAddress();
+                    context.push('/store/my/${widget.address.storeId}');
+                  }
+                }
               }
             },
           );

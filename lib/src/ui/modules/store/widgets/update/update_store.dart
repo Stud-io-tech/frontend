@@ -88,6 +88,51 @@ class _UpdateStoreState extends State<UpdateStore> {
                       TextHeadlineH2(text: TextConstant.updateStore),
                     ],
                   ),
+                  Observer(
+                    builder: (_) {
+                      return widget.store.active? IconButtonLargeLight(
+                        backgroundColor: ColorToken.danger,
+                        isSquareBorderRadius: true,
+                        onTap: () {
+                          showCustomModalBottomSheet(
+                            context: context,
+                            builder: (context) => ModalSheet(
+                              iconBack: IconConstant.arrowLeft,
+                              title: TextConstant.suspendStoreTitle,
+                              description: TextConstant.suspendStoreMessage(widget.store.name),
+                              cancelText: TextConstant.no,
+                              continueText: TextConstant.yes,
+                              continueOnTap: () async{
+                                await storeController.toggleActive(widget.store.id);
+                                context.push('/store/my/${widget.store.id}');
+                              },
+                            ),
+                          );
+                        },
+                        icon: IconConstant.remove,
+                      ): IconButtonLargeLight(
+                        backgroundColor: ColorToken.dark,
+                        isSquareBorderRadius: true,
+                        onTap: () {
+                          showCustomModalBottomSheet(
+                            context: context,
+                            builder: (context) => ModalSheet(
+                              iconBack: IconConstant.arrowLeft,
+                              title: TextConstant.reactivedStoreTitle,
+                              description: TextConstant.reactivedStoreMessage(widget.store.name),
+                              cancelText: TextConstant.no,
+                              continueText: TextConstant.yes,
+                              continueOnTap: () async{
+                                await storeController.toggleActive(widget.store.id);
+                                context.push('/store/my/${widget.store.id}');
+                              },
+                            ),
+                          );
+                        },
+                        icon: IconConstant.restore,
+                      );
+                    }
+                  )
                 ],
               ),
               const SizedBox(height: SizeToken.lg),

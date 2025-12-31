@@ -38,6 +38,7 @@ export 'menu/menu_item.dart';
 export 'link/link_see_more.dart';
 
 export 'icon/icon_button_large_dark.dart';
+export 'icon/icon_button_large_light.dart';
 export 'icon/icon_button_medium_dark.dart';
 export 'icon/icon_large_dark.dart';
 export 'icon/icon_medium_dark.dart';
