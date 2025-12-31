@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-class AddressUserRegisterDto {
-  final String userId;
+class AddressRegisterDto {
+  final String? userId;
+  final String? storeId;
   final String cep;
   final String state;
   final String city;
@@ -11,10 +12,11 @@ class AddressUserRegisterDto {
   final String? complement;
   final String number;
   final String whatsapp;
-  final double? latitude;
-  final double? longitude;
-  AddressUserRegisterDto({
-    required this.userId,
+  final String? latitude;
+  final String? longitude;
+  AddressRegisterDto({
+    this.userId,
+    this.storeId,
     required this.cep,
     required this.state,
     required this.city,
@@ -30,6 +32,7 @@ class AddressUserRegisterDto {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'user_id': userId,
+      'store_id': storeId,
       'cep': cep,
       'state': state,
       'city': city,
@@ -43,9 +46,10 @@ class AddressUserRegisterDto {
     };
   }
 
-  factory AddressUserRegisterDto.fromMap(Map<String, dynamic> map) {
-    return AddressUserRegisterDto(
-      userId: map['user_id'] as String,
+  factory AddressRegisterDto.fromMap(Map<String, dynamic> map) {
+    return AddressRegisterDto(
+      userId: map['user_id'] != null ? map['user_id'] as String : null,
+      storeId: map['store_id'] != null ? map['store_id'] as String : null,
       cep: map['cep'] as String,
       state: map['state'] as String,
       city: map['city'] as String,
@@ -54,21 +58,23 @@ class AddressUserRegisterDto {
       complement: map['complement'] != null ? map['complement'] as String : null,
       number: map['number'] as String,
       whatsapp: map['whatsapp'] as String,
-      latitude: map['latitude'] != null ? map['latitude'] as double : null,
-      longitude: map['longitude'] != null ? map['longitude'] as double : null,
+      latitude: map['latitude'] != null ? map['latitude'] as String : null,
+      longitude: map['longitude'] != null ? map['longitude'] as String : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory AddressUserRegisterDto.fromJson(String source) => AddressUserRegisterDto.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory AddressRegisterDto.fromJson(String source) =>
+      AddressRegisterDto.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  bool operator ==(covariant AddressUserRegisterDto other) {
+  bool operator ==(covariant AddressRegisterDto other) {
     if (identical(this, other)) return true;
   
     return 
       other.userId == userId &&
+      other.storeId == storeId &&
       other.cep == cep &&
       other.state == state &&
       other.city == city &&
@@ -84,6 +90,7 @@ class AddressUserRegisterDto {
   @override
   int get hashCode {
     return userId.hashCode ^
+      storeId.hashCode ^
       cep.hashCode ^
       state.hashCode ^
       city.hashCode ^
@@ -98,6 +105,6 @@ class AddressUserRegisterDto {
 
   @override
   String toString() {
-    return 'AddressUserRegisterDto(userId: $userId, cep: $cep, state: $state, city: $city, district: $district, street: $street, complement: $complement, number: $number, whatsapp: $whatsapp, latitude: $latitude, longitude: $longitude)';
+    return 'AddressRegisterDto(userId: $userId, storeId: $storeId, cep: $cep, state: $state, city: $city, district: $district, street: $street, complement: $complement, number: $number, whatsapp: $whatsapp, latitude: $latitude, longitude: $longitude)';
   }
 }

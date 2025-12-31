@@ -10,7 +10,7 @@ abstract interface class ClientService {
   });
   Future post(String uri, Object value,
       {bool requiresAuth, String contentType});
-  Future put(String uri, {bool requiresAuth, String contentType});
+  Future put(String uri,  Object? value, {bool requiresAuth, String contentType});
   Future patch(String uri,  Object? value, {bool requiresAuth, String contentType});
   Future delete(String uri, {bool requiresAuth, String contentType});
 }

@@ -91,6 +91,59 @@ class _UpdateProductState extends State<UpdateProduct> {
                       TextHeadlineH2(text: TextConstant.updateProduct),
                     ],
                   ),
+                  Observer(
+                    builder: (_) {
+                      return widget.product.active
+                          ? IconButtonLargeLight(
+                              backgroundColor: ColorToken.danger,
+                              isSquareBorderRadius: true,
+                              onTap: () {
+                                showCustomModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => ModalSheet(
+                                    iconBack: IconConstant.arrowLeft,
+                                    title: TextConstant.suspendProductTitle,
+                                    description:
+                                        TextConstant.suspendProductMessage(
+                                            widget.product.name),
+                                    cancelText: TextConstant.no,
+                                    continueText: TextConstant.yes,
+                                    continueOnTap: () async {
+                                      await productController.toggleActive(
+                                          widget.product.id, store.id);
+                                      context.push('/store/my/${store.id}');
+                                    },
+                                  ),
+                                );
+                              },
+                              icon: IconConstant.remove,
+                            )
+                          : IconButtonLargeLight(
+                              backgroundColor: ColorToken.dark,
+                              isSquareBorderRadius: true,
+                              onTap: () {
+                                showCustomModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => ModalSheet(
+                                    iconBack: IconConstant.arrowLeft,
+                                    title: TextConstant.reactivedProductTitle,
+                                    description:
+                                        TextConstant.reactivedProductMessage(
+                                            widget.product.name),
+                                    cancelText: TextConstant.no,
+                                    continueText: TextConstant.yes,
+                                    continueOnTap: () async {
+                                      await productController.toggleActive(
+                                          widget.product.id, store.id);
+                                      context.push('/store/my/${store.id}');
+                                    },
+                                  ),
+                                );
+                              },
+                              icon: IconConstant.restore,
+                            );
+                    },
+                  ),
                 ],
               ),
               const SizedBox(height: SizeToken.lg),

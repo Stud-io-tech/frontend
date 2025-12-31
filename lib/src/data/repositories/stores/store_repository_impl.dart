@@ -132,7 +132,28 @@ class StoreRepositoryImpl implements StoreRepository {
   AsyncResult<StoreDetailDto> changeStatusOpen(String id) async {
     try {
       final Response response = await clientService.patch(
-        "${ApiConstant.changeStatusOpenStore}/$id",{},
+        "${ApiConstant.store}/change-status-open/$id",{},
+        requiresAuth: true,
+      );
+
+      final StoreDetailDto resultProduct =
+          StoreDetailDto.fromMap(response.data['store']);
+      return Success(resultProduct);
+    } on DioException catch (e) {
+      return Failure(
+        RestException(
+          message: TextConstant.errorDetailsStoreMessage,
+          statusCode: e.hashCode,
+        ),
+      );
+    }
+  }
+  
+  @override
+  AsyncResult<StoreDetailDto> toggleActive(String id) async{
+    try {
+      final Response response = await clientService.patch(
+        "${ApiConstant.store}/active/$id",{},
         requiresAuth: true,
       );
 

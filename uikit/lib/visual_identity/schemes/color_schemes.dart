@@ -13,19 +13,3 @@ const colorScheme = ColorScheme(
   surface: ColorToken.light,
   onSurface: ColorToken.semiDark,
 );
-
-/* 
-ThemeData(
-    colorScheme: const ColorScheme(
-      primary: Colors.blue,
-      primaryContainer: Colors.blue,
-      secondary: Colors.blue,
-      secondaryContainer: Colors.white,
-      surface: Colors.white,
-      error: Colors.red,
-      onPrimary: Colors.white,
-      onSecondary: Colors.blue,
-      onSurface: Colors.black,
-      onError: Colors.blue,
-      brightness: Brightness.light,
-    ), */

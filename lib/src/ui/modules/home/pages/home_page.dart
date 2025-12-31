@@ -6,8 +6,8 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/logo_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
-import 'package:my_fome/src/domain/dtos/address/address_user_register_dto.dart';
 import 'package:my_fome/src/domain/enum/login_redirect_enum.dart';
+import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
 import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
 import 'package:my_fome/src/ui/modules/home/controllers/button_navigator/button_navigator_menu_controller.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/home_screen_widget.dart';
@@ -29,6 +29,7 @@ class _HomePageState extends State<HomePage> {
   final controller = ButtonNavigatorMenuController();
 
   final authController = Injector.get<AuthGoogleController>();
+  final addressController = Injector.get<AddressController>();
 
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
 
@@ -37,8 +38,6 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     authController.load();
   }
-
-  late AddressUserRegisterDto? address;
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +93,7 @@ class _HomePageState extends State<HomePage> {
           controller.onItemTapped(2);
           context.pop();
         },
-        fourthOnPressed: () {
+        fourthOnPressed: () async {
           if (authController.user == null) {
             context.push('/login', extra: LoginRedirectEnum.STORE);
             return;
@@ -103,37 +102,27 @@ class _HomePageState extends State<HomePage> {
               context.push('/store/register');
               return;
             } else {
+              await addressController
+                  .detailAddressStore(authController.store!.id);
               context.push('/store/my/${authController.store!.id}');
               return;
             }
           }
         },
-        fifthOnPressed: () {
+        fifthOnPressed: () async {
           if (authController.user == null) {
             context.push('/login', extra: LoginRedirectEnum.ADDRESS);
             return;
           } else {
-            address = AddressUserRegisterDto(
-              userId: "a0a62973-06d8-4326-bd9c-1284449c8e3b",
-              cep: "58278000",
-              state: "Paraíba",
-              city: "Jacaraú",
-              district: "Zona rural",
-              street: "Sitio Tanque Dantas",
-              number: "S/N",
-              whatsapp: "+5584992017118",
-              complement: "",
-              latitude: -6.5437362,
-              longitude: -35.3653759,
-            );
-            if (address == null) {
+            await addressController.detailAddressUser(authController.user!.id);
+            if (addressController.address?.userId == null) {
               context.push('/address/register/delivery',
                   extra: authController.user!.id);
               return;
             } else {
               context.push(
                 '/address/update/delivery',
-                extra: address,
+                extra: addressController.address,
               );
               return;
             }

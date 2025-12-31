@@ -126,6 +126,24 @@ abstract class StoreViewModelBase with Store {
   }
 
   @action
+  Future toggleActive(String id) async {
+    isLoading = true;
+    final result = await storeRepository.toggleActive(id);
+    result.fold((success) {
+      serverError = false;
+      resultMessageService.showMessageSuccess(
+          TextConstant.sucessUpdatingStoreTitle,
+          TextConstant.sucessUpdatingStoreMessage,
+          IconConstant.edit);
+    }, (failure) {
+      serverError = true;
+      resultMessageService
+          .showMessageError(TextConstant.errorUpdatingStoreMessage);
+    });
+    isLoading = false;
+  }
+
+  @action
   Future detail(String id) async {
     isLoading = true;
     final result = await storeRepository.detail(id);

@@ -13,9 +13,11 @@ final class TextConstant {
   static String sucessLoggingOutAccountTitle = 'Conta Desvinculada!';
   static String sucessCreatingAccountTitle = 'Conta Criada!';
   static String sucessCreatingStoreTitle = 'Loja Criada!';
+  static String sucessCreatingAddressTitle = 'Endereço Criado!';
   static String sucessCreatingProductTitle = 'Produto Criado!';
   static String sucessUpdatingStoreTitle = 'Loja Atualizada!';
   static String sucessUpdatingProductTitle = 'Produto Atualizado!';
+  static String sucessUpdatingAddressTitle = 'Endereço Atualizado!';
 
   static String sucessSuspendingProductTitle = 'Produto Suspenso!';
   static String sucessRestoreProductTitle = 'Produto Restaurado!';
@@ -26,6 +28,10 @@ final class TextConstant {
   static String logoutAccountTitle = 'Sair da Conta?';
   static String suspendProductTitle = 'Suspender o Produto?';
   static String reactivedProductTitle = 'Reativar o Produto?';
+    static String reactivedStoreTitle = 'Reativar o Loja?';
+
+
+  static String suspendStoreTitle = 'Suspender a Loja?';
 
   static String sucessLoggingAccountMessage = 'Que tal fazer um pedido?';
   static String sucessLoggingOutAccountMessage =
@@ -34,7 +40,10 @@ final class TextConstant {
       'Sua conta foi criada com sucesso.';
   static String sucessCreatingStoreMessage = 'A loja foi criada com sucesso.';
   static String sucessCreatingProductMessage = 'A loja foi criado com sucesso.';
-
+  static String sucessCreatingAddressMessage =
+      'O endereço foi criado com sucesso.';
+  static String sucessUpdatingAddressMessage =
+      'O endereço foi atualizada com sucesso.';
   static String sucessUpdatingStoreMessage =
       'A loja foi atualizada com sucesso.';
   static String sucessUpdatingProductMessage =
@@ -51,6 +60,8 @@ final class TextConstant {
   static String errorListStoresMessage = 'Houve um erro ao listar as lojas.';
   static String errorListProductsMessage =
       'Houve um erro ao listar os produtos.';
+  static String errorCreatingAddressMessage =
+      'Houve um erro ao criar o endereço.';
   static String errorCreatingStoreMessage = 'Houve um erro ao criar a loja.';
   static String errorCreatingProductMessage =
       'Houve um erro ao criar o produto.';
@@ -58,9 +69,13 @@ final class TextConstant {
       'Houve um erro ao atualizar a loja.';
   static String errorUpdatingProductMessage =
       'Houve um erro ao atualizar o produto.';
+  static String errorUpdatingAddressMessage =
+      'Houve um erro ao atualizar o endereço.';
 
   static String errorDetailsUserMessage =
       'Houve um erro ao encontrar o usuário.';
+  static String errorDetailsAddressMessage =
+      'Houve um erro ao encontrar o endereço.';
 
   static String errorDetailsStoreMessage = 'Houve um erro ao encontrar a loja.';
   static String errorDetailsProductMessage =
@@ -113,9 +128,13 @@ final class TextConstant {
   static String logoutAccountMessage(String userEmail) =>
       'Ao confirmar, a conta com o email "$userEmail" será desvinculada do sistema até que seja realizado um novo login.';
   static String suspendProductMessage(String productName) =>
-      'Ao confirmar a suspensão, o produto "$productName" será arquivado para os usuários até que seja reativado novamente.';
+      'Ao confirmar a suspensão, o produto "$productName" não será apagado permanentemente!\nO produto será apenas arquivado ao público até que seja reativado novamente.\nVocê poderá editar o produto sem problemas enquanto isso.';
+   static String suspendStoreMessage(String productName) =>
+      'Ao confirmar a suspensão, a loja "$productName" não será apagada permanentemente!\nA loja será apenas arquivada ao público até que seja reativada novamente.\nVocê poderá editar a loja sem problemas enquanto isso.';
   static String reactivedProductMessage(String productName) =>
-      'Ao confirmar a reativação, o produto "$productName" será ativo para o público.';
+      'Ao confirmar a reativação, o produto "$productName" poderá ser visto pelo público novamente.';
+  static String reactivedStoreMessage(String storeName) =>
+      'Ao confirmar a reativação, a loja "$storeName" poderá ser visto pelo público novamente.';
 
   static String found(int value) => "$value Encontrados";
   static String cityState(String city, String state) => "$city - $state";

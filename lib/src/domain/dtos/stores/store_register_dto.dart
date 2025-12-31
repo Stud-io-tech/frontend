@@ -25,10 +25,10 @@ class StoreRegisterDto {
       'name': name,
       'description': description,
       'schedules': schedules,
-      'pixKey': pixKey,
-      'isDelivered': isDelivered,
-      'deliveryTimeKm': deliveryTimeKm,
-      'dynamicFreightKm': dynamicFreightKm,
+      'pix_k ey': pixKey,
+      'is_delivered': isDelivered,
+      'delivery_time_km': deliveryTimeKm,
+      'dynamic_freight_km': dynamicFreightKm,
     };
   }
 

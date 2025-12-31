@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_fome/src/domain/dtos/address/address_detail_dto.dart';
+import 'package:my_fome/src/domain/dtos/address/address_update_dto.dart';
+import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
 import 'package:my_fome/src/ui/modules/address/controller/address_map_controller.dart';
 import 'package:my_fome/src/ui/modules/address/widgets/update/address_update_form.dart';
 import 'package:uikit/uikit.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
-import 'package:my_fome/src/domain/dtos/address/address_user_register_dto.dart';
 
 class UpdateAddressDeliveryPage extends StatefulWidget {
-  final AddressUserRegisterDto address;
+  final AddressDetailDto address;
 
   const UpdateAddressDeliveryPage({
     super.key,
@@ -36,6 +38,7 @@ class _UpdateAddressDeliveryPageState extends State<UpdateAddressDeliveryPage> {
   final complementEC = TextEditingController();
 
   final addressMapController = Injector.get<AddressMapController>();
+  final addressController = Injector.get<AddressController>();
 
   @override
   void initState() {
@@ -50,10 +53,10 @@ class _UpdateAddressDeliveryPageState extends State<UpdateAddressDeliveryPage> {
     whatsappEC.text = MaskToken.formatPhoneNumber(
         widget.address.whatsapp.replaceFirst("+55", ""));
     complementEC.text = widget.address.complement ?? '';
-    addressMapController.latitude =
-        widget.address.latitude ?? addressMapController.latitude;
-    addressMapController.longitude =
-        widget.address.longitude ?? addressMapController.longitude;
+    addressMapController.latitude = double.parse(
+        widget.address.latitude ?? addressMapController.latitude.toString());
+    addressMapController.longitude = double.parse(
+        widget.address.longitude ?? addressMapController.longitude.toString());
   }
 
   @override
@@ -120,7 +123,7 @@ class _UpdateAddressDeliveryPageState extends State<UpdateAddressDeliveryPage> {
         builder: (_) {
           return ButtonLarge(
             key: const Key('buttonRegisterProduct'),
-            isLoading: false,
+            isLoading: addressController.isLoading,
             text: TextConstant.save,
             icon: IconConstant.success,
             onPressed: () async {
@@ -128,7 +131,7 @@ class _UpdateAddressDeliveryPageState extends State<UpdateAddressDeliveryPage> {
                 String cep = MaskToken.removeAllMask(cepEC.text);
                 String whatsapp = MaskToken.removeAllMask(whatsappEC.text);
                 whatsapp = "+55$whatsapp";
-                final model = AddressUserRegisterDto(
+                final model = AddressUpdateDto(
                   userId: widget.address.userId,
                   cep: cep,
                   state: stateEC.text,
@@ -141,11 +144,14 @@ class _UpdateAddressDeliveryPageState extends State<UpdateAddressDeliveryPage> {
                   latitude: widget.address.latitude,
                   longitude: widget.address.longitude,
                 );
-
-                debugPrint(model.toString());
-                addressMapController.cleanAddress();
-
-                context.push('/');
+                try {
+                  await addressController.update(widget.address.id, model);
+                } finally {
+                  if (addressController.isLoading == false) {
+                    addressMapController.cleanAddress();
+                    context.push('/');
+                  }
+                }
               }
             },
           );

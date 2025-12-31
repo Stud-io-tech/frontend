@@ -10,6 +10,7 @@ import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/data/services/share/share_service.dart';
 
 import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
+import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/product_detail_screen_widget.dart';
@@ -34,6 +35,8 @@ class StoreDetailScreenWidget extends StatefulWidget {
 class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
   final storeController = Injector.get<StoreController>();
   final productController = Injector.get<ProductController>();
+  final addressController = Injector.get<AddressController>();
+
   final shareService = Injector.get<ShareService>();
   static final GlobalKey repaintKey = GlobalKey();
 
@@ -137,24 +140,24 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                         Expanded(
                           child: TextHeadlineH1(text: store.name),
                         ),
-                        Padding(
-                            padding: const EdgeInsets.only(left: SizeToken.sm),
-                            child: IconButtonLargeDark(
-                                onTap: () =>
-                                 launchUrlString(
-                                    'https://wa.me/?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?'),
-                                icon: IconConstant.whatsapp)),
-                                /*  launchUrlString(
-                                    'https://wa.me/${store.whatsapp}?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?'),
-                                icon: IconConstant.whatsapp)), */
+                        Observer(
+                          builder: (_) {
+                            return Padding(
+                              padding:
+                                  const EdgeInsets.only(left: SizeToken.sm),
+                              child: IconButtonLargeDark(
+                                  onTap: () => launchUrlString(
+                                      'https://wa.me/${addressController.address?.whatsapp}?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?'),
+                                  icon: IconConstant.whatsapp),
+                            );
+                          },
+                        ),
                       ],
                     ),
                     const SizedBox(
                       height: SizeToken.md,
                     ),
-                    TextLabelL4Secondary(
-                        text:
-                            store.schedules),
+                    TextLabelL4Secondary(text: store.schedules),
                     const SizedBox(
                       height: SizeToken.md,
                     ),
@@ -247,9 +250,13 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                       urlTemplate: ApiConstant.tileOpenStreetMap,
                       userAgentPackageName: ApiConstant.userAgent,
                       fullAddress:
-                          "R. Dezoito de Abril, 117, Nova Cruz - RN, 59215-000",
-                      latitude: -6.478014202826378,
-                      longitude: -35.43192483189211,
+                          "${addressController.address?.number}, ${addressController.address?.street}, ${addressController.address?.district}, ${addressController.address?.city}, ${addressController.address?.state}",
+                      latitude: addressController.address?.latitude != null
+                          ? double.parse(addressController.address!.latitude!)
+                          : null,
+                      longitude: addressController.address?.longitude != null
+                          ? double.parse(addressController.address!.longitude!)
+                          : null,
                     ),
                     const SizedBox(
                       height: SizeToken.lg,
