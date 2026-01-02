@@ -7,6 +7,8 @@ class IconLargeDark extends StatelessWidget {
   final String icon;
   final bool? isBackgroundColor;
   final bool? isNarrow;
+  final double? padding;
+  final String? count;
 
   const IconLargeDark({
     super.key,
@@ -14,17 +16,30 @@ class IconLargeDark extends StatelessWidget {
     required this.icon,
     this.isBackgroundColor = false,
     this.isNarrow = false,
+    this.padding,
+    this.count,
   });
 
   @override
   Widget build(BuildContext context) {
-    return IconDefault(
-      padding: isNarrow != false ? SizeToken.xs : SizeToken.sm,
-      onTap: onTap,
-      icon: icon,
-      height: 19,
-      isBackgroundColor: isBackgroundColor,
-      colorIcon: ColorToken.dark,
+    return Stack(
+      children: [
+        IconDefault(
+          padding: padding ?? (isNarrow != false ? SizeToken.xs : SizeToken.sm),
+          onTap: onTap,
+          icon: icon,
+          height: 19,
+          isBackgroundColor: isBackgroundColor,
+          colorIcon: ColorToken.dark,
+        ),
+        Positioned(
+          top: 0,
+          right: 7,
+          child: count != null
+              ? TextLabelL5Info(text: count.toString())
+              : const SizedBox.shrink(),
+        ),
+      ],
     );
   }
 }

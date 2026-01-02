@@ -25,7 +25,6 @@ abstract class AddressControllerBase with Store {
   @computed
   AddressDetailDto? get address => addressViewModel.address;
 
-
   Future<void> detailAddressUser(String id) async {
     await addressViewModel.detailAddressUser(id);
   }
@@ -40,5 +39,9 @@ abstract class AddressControllerBase with Store {
 
   Future<void> update(String id, AddressUpdateDto data) async {
     await addressViewModel.update(id, data);
-  } 
+  }
+
+  void clean() {
+    addressViewModel.address = null;
+  }
 }

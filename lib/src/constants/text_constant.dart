@@ -6,6 +6,7 @@ final class TextConstant {
   static String home = 'Home';
   static String products = 'Produtos';
   static String stores = 'Lojas';
+  static String cart = 'Carrinho';
   static String myStore = 'Minha Loja';
   static String logout = 'Sair';
   static String seeMore = 'ver mais';
@@ -28,8 +29,7 @@ final class TextConstant {
   static String logoutAccountTitle = 'Sair da Conta?';
   static String suspendProductTitle = 'Suspender o Produto?';
   static String reactivedProductTitle = 'Reativar o Produto?';
-    static String reactivedStoreTitle = 'Reativar o Loja?';
-
+  static String reactivedStoreTitle = 'Reativar o Loja?';
 
   static String suspendStoreTitle = 'Suspender a Loja?';
 
@@ -123,13 +123,19 @@ final class TextConstant {
   static String preparationTime(int minutes) =>
       "$minutes minutos de preparação";
 
+  static String totalValue(double value) =>
+      'Total: R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
+
+     static String freigthValue(double value) =>
+      'Frete: R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';  
+
   static String monetaryValue(double value) =>
       'R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
   static String logoutAccountMessage(String userEmail) =>
       'Ao confirmar, a conta com o email "$userEmail" será desvinculada do sistema até que seja realizado um novo login.';
   static String suspendProductMessage(String productName) =>
       'Ao confirmar a suspensão, o produto "$productName" não será apagado permanentemente!\nO produto será apenas arquivado ao público até que seja reativado novamente.\nVocê poderá editar o produto sem problemas enquanto isso.';
-   static String suspendStoreMessage(String productName) =>
+  static String suspendStoreMessage(String productName) =>
       'Ao confirmar a suspensão, a loja "$productName" não será apagada permanentemente!\nA loja será apenas arquivada ao público até que seja reativada novamente.\nVocê poderá editar a loja sem problemas enquanto isso.';
   static String reactivedProductMessage(String productName) =>
       'Ao confirmar a reativação, o produto "$productName" poderá ser visto pelo público novamente.';
@@ -165,6 +171,7 @@ final class TextConstant {
 
   static String requiredLogin = 'Você precisa fazer login!';
   static String loggin = 'Fazer Login';
+  static String goLoggin = 'fazer login';
 
   static String total = 'Total:';
   static String complement = 'Complemento:';
@@ -207,7 +214,10 @@ final class TextConstant {
   static String address = 'Endereço';
   static String deliveryAddress = 'Endereço de Entrega';
 
+  static String seeOrders = 'ver pedidos';
+
   static String editAddress = 'editar endereço';
+  static String createAddress = 'criar endereço';
 
   static String productName = 'Nome do produto';
   static String productDescription = 'Descrição do produto';

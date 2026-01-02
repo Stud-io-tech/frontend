@@ -14,6 +14,11 @@ final class IconConstant {
   static const String filter = 'assets/icons/filter.svg';
   static const String help = 'assets/icons/help.svg';
   static const String home = 'assets/icons/home.svg';
+  static const String keyboardArrowDown =
+      'assets/icons/keyboard_arrow_down.svg';
+  static const String keyboardArrowRight =
+      'assets/icons/keyboard_arrow_right.svg';
+  static const String keyboardArrowUp = 'assets/icons/keyboard_arrow_up.svg';
   static const String logout = 'assets/icons/logout.svg';
   static const String media = 'assets/icons/media.svg';
   static const String menu = 'assets/icons/menu.svg';

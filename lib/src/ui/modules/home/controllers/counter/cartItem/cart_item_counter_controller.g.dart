@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'order_controller.dart';
+part of 'cart_item_counter_controller.dart';
 
 // **************************************************************************
 // StoreGenerator
@@ -8,17 +8,17 @@ part of 'order_controller.dart';
 
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
-mixin _$OrderController on OrderControllerBase, Store {
+mixin _$CartItemCounterController on CartItemCounterControllerBase, Store {
   Computed<double>? _$totalValueComputed;
 
   @override
   double get totalValue =>
       (_$totalValueComputed ??= Computed<double>(() => super.totalValue,
-              name: 'OrderControllerBase.totalValue'))
+              name: 'CartItemCounterControllerBase.totalValue'))
           .value;
 
   late final _$valueAtom =
-      Atom(name: 'OrderControllerBase.value', context: context);
+      Atom(name: 'CartItemCounterControllerBase.value', context: context);
 
   @override
   int get value {
@@ -34,7 +34,7 @@ mixin _$OrderController on OrderControllerBase, Store {
   }
 
   late final _$priceAtom =
-      Atom(name: 'OrderControllerBase.price', context: context);
+      Atom(name: 'CartItemCounterControllerBase.price', context: context);
 
   @override
   double get price {
@@ -49,39 +49,50 @@ mixin _$OrderController on OrderControllerBase, Store {
     });
   }
 
-  late final _$OrderControllerBaseActionController =
-      ActionController(name: 'OrderControllerBase', context: context);
+  late final _$CartItemCounterControllerBaseActionController =
+      ActionController(name: 'CartItemCounterControllerBase', context: context);
 
   @override
   void setPrice(double newPrice) {
-    final _$actionInfo = _$OrderControllerBaseActionController.startAction(
-        name: 'OrderControllerBase.setPrice');
+    final _$actionInfo = _$CartItemCounterControllerBaseActionController
+        .startAction(name: 'CartItemCounterControllerBase.setPrice');
     try {
       return super.setPrice(newPrice);
     } finally {
-      _$OrderControllerBaseActionController.endAction(_$actionInfo);
+      _$CartItemCounterControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void increment(int amount) {
-    final _$actionInfo = _$OrderControllerBaseActionController.startAction(
-        name: 'OrderControllerBase.increment');
+    final _$actionInfo = _$CartItemCounterControllerBaseActionController
+        .startAction(name: 'CartItemCounterControllerBase.increment');
     try {
       return super.increment(amount);
     } finally {
-      _$OrderControllerBaseActionController.endAction(_$actionInfo);
+      _$CartItemCounterControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 
   @override
   void decrement() {
-    final _$actionInfo = _$OrderControllerBaseActionController.startAction(
-        name: 'OrderControllerBase.decrement');
+    final _$actionInfo = _$CartItemCounterControllerBaseActionController
+        .startAction(name: 'CartItemCounterControllerBase.decrement');
     try {
       return super.decrement();
     } finally {
-      _$OrderControllerBaseActionController.endAction(_$actionInfo);
+      _$CartItemCounterControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void incrementCart(int newValue, int amount) {
+    final _$actionInfo = _$CartItemCounterControllerBaseActionController
+        .startAction(name: 'CartItemCounterControllerBase.incrementCart');
+    try {
+      return super.incrementCart(newValue, amount);
+    } finally {
+      _$CartItemCounterControllerBaseActionController.endAction(_$actionInfo);
     }
   }
 

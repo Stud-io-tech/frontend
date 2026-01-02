@@ -11,13 +11,13 @@ import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
 import 'package:my_fome/src/domain/dtos/users/user_detail_dto.dart';
 import 'package:my_fome/src/domain/enum/type_payment_enum.dart';
 import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
+import 'package:my_fome/src/ui/modules/home/controllers/counter/cartItem/cart_item_counter_controller.dart';
 import 'package:uikit/atomic/molecules/molecule.dart';
 import 'package:uikit/tokens/token.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
-import 'package:my_fome/src/ui/modules/home/controllers/order/order_controller.dart';
 import 'package:go_router/go_router.dart';
 
 class AlertOrder extends StatelessWidget {
@@ -30,14 +30,14 @@ class AlertOrder extends StatelessWidget {
     required this.store,
   });
 
-  final orderController = OrderController();
+  final cartItemCounterController = CartItemCounterController();
   final authController = Injector.get<AuthGoogleController>();
   final fileService = Injector.get<FileService>();
   final paymentService = Injector.get<PaymentService>();
 
   @override
   Widget build(BuildContext context) {
-    orderController.setPrice(double.parse(product.price));
+    cartItemCounterController.setPrice(double.parse(product.price));
     return AlertDialog(
       title: SizedBox(
         width: 320,
@@ -68,7 +68,7 @@ class AlertOrder extends StatelessWidget {
               children: [
                 IconLargeDark(
                   isBackgroundColor: true,
-                  onTap: () => orderController.decrement(),
+                  onTap: () => cartItemCounterController.decrement(),
                   icon: IconConstant.minius,
                 ),
                 const SizedBox(
@@ -76,7 +76,7 @@ class AlertOrder extends StatelessWidget {
                 ),
                 Observer(builder: (_) {
                   return TextBodyB1Dark(
-                    text: orderController.value.toString(),
+                    text: cartItemCounterController.value.toString(),
                   );
                 }),
                 const SizedBox(
@@ -86,7 +86,7 @@ class AlertOrder extends StatelessWidget {
                   key: const Key("incrementProductOnOrder"),
                   isBackgroundColor: true,
                   onTap: () {
-                    orderController.increment(product.amount);
+                    cartItemCounterController.increment(product.amount);
                   },
                   icon: IconConstant.add,
                 ),
@@ -104,7 +104,7 @@ class AlertOrder extends StatelessWidget {
                 Observer(builder: (_) {
                   return TextHeadlineH1(
                     text: TextConstant.monetaryValue(
-                      orderController.totalValue,
+                      cartItemCounterController.totalValue,
                     ),
                   );
                 }),
@@ -124,7 +124,7 @@ class AlertOrder extends StatelessWidget {
 
             final cartItem = CartItemDto(
               product: product,
-              amount: orderController.value,
+              amount: cartItemCounterController.value,
               storeId: store.id,
             );
 
@@ -141,7 +141,7 @@ class AlertOrder extends StatelessWidget {
                 store: store,
                 typePayment: TypePaymentEnum.PIX,
                 cartItens: cartItens,
-                total: orderController.totalValue,
+                total: cartItemCounterController.totalValue,
                 city: "Nova Cruz");
 
             final payment = PaymentPixDto(
@@ -150,7 +150,7 @@ class AlertOrder extends StatelessWidget {
                     'Lázaro Luis Martins Alexandre Lázaro Luis Martins Alexandre Lázaro Luis Martins Alexandre',
                 city: order.city,
                 bring: 10,
-                value: orderController.totalValue.toString(),
+                value: cartItemCounterController.totalValue.toString(),
                );
 
             //final pixCopyPast = await paymentService.generateCopyPast(payment);

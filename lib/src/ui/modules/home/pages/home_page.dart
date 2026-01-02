@@ -10,6 +10,7 @@ import 'package:my_fome/src/domain/enum/login_redirect_enum.dart';
 import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
 import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
 import 'package:my_fome/src/ui/modules/home/controllers/button_navigator/button_navigator_menu_controller.dart';
+import 'package:my_fome/src/ui/modules/home/widgets/screens/cart_screen.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/home_screen_widget.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/product_screen.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/store_screen.dart';
@@ -32,11 +33,17 @@ class _HomePageState extends State<HomePage> {
   final addressController = Injector.get<AddressController>();
 
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
-
   @override
   void initState() {
     super.initState();
-    authController.load();
+    load();
+  }
+
+  void load() async {
+    await authController.load();
+    if (authController.user?.id != null) {
+      await addressController.detailAddressUser(authController.user!.id);
+    }
   }
 
   @override
@@ -73,7 +80,13 @@ class _HomePageState extends State<HomePage> {
                     return IconButtonLargeDark(
                       key: const Key('loginButton'),
                       icon: IconConstant.user,
-                      onTap: () => authController.login(),
+                      onTap: () async {
+                        await authController.login();
+                        if (authController.user?.id != null) {
+                          await addressController
+                              .detailAddressUser(authController.user!.id);
+                        }
+                      },
                     );
                   }),
                 ),
@@ -141,6 +154,7 @@ class _HomePageState extends State<HomePage> {
                 continueText: TextConstant.yes,
                 continueOnTap: () {
                   authController.logout();
+                  addressController.clean();
                   context.pop();
                   context.pop();
                 },
@@ -163,28 +177,31 @@ class _HomePageState extends State<HomePage> {
         menuIcon: IconConstant.menu,
         logo: LogoConstant.horizontal,
       ),
-      body: ContentDefault(
-        child: Observer(builder: (_) {
-          return IndexedStack(
-            index: controller.currentIndex,
-            children: const [
-              HomeScreenWidget(),
-              ProductScreen(),
-              StoreScreen(),
-            ],
-          );
-        }),
-      ),
+      body: Observer(builder: (_) {
+        return IndexedStack(
+          index: controller.currentIndex,
+          children: const [
+            ContentDefault(child: HomeScreenWidget()),
+            ContentDefault(child: ProductScreen()),
+            ContentDefault(child: StoreScreen()),
+            CartScreen(),
+          ],
+        );
+      }),
       bottomNavigationBar: Observer(builder: (_) {
         return ButtonNavigatorMenu(
-            currentIndex: controller.currentIndex,
-            onTap: controller.onItemTapped,
-            firstLabel: TextConstant.home,
-            secoundLabel: TextConstant.products,
-            thirdLabel: TextConstant.stores,
-            firstIcon: IconConstant.home,
-            secoundIcon: IconConstant.search,
-            thirdIcon: IconConstant.store);
+          currentIndex: controller.currentIndex,
+          onTap: controller.onItemTapped,
+          firstLabel: TextConstant.home,
+          secoundLabel: TextConstant.products,
+          thirdLabel: TextConstant.stores,
+          fourthLabel: TextConstant.cart,
+          firstIcon: IconConstant.home,
+          secoundIcon: IconConstant.search,
+          thirdIcon: IconConstant.store,
+          fourthIcon: IconConstant.cart,
+          fourthCount: 1,
+        );
       }),
     );
   }
