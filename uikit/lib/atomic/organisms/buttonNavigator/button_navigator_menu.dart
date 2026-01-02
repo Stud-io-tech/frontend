@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:uikit/uikit.dart';
 
@@ -8,9 +7,12 @@ class ButtonNavigatorMenu extends StatelessWidget {
   final String firstLabel;
   final String secoundLabel;
   final String thirdLabel;
+  final String fourthLabel;
   final String firstIcon;
   final String secoundIcon;
   final String thirdIcon;
+  final String fourthIcon;
+  final int? fourthCount;
 
   const ButtonNavigatorMenu({
     super.key,
@@ -19,9 +21,12 @@ class ButtonNavigatorMenu extends StatelessWidget {
     required this.firstLabel,
     required this.secoundLabel,
     required this.thirdLabel,
+    required this.fourthLabel,
     required this.firstIcon,
     required this.secoundIcon,
     required this.thirdIcon,
+    required this.fourthIcon,
+    this.fourthCount,
   });
 
   @override
@@ -29,13 +34,13 @@ class ButtonNavigatorMenu extends StatelessWidget {
     return SizedBox(
       height: SizeToken.xl5,
       child: BottomNavigationBar(
+        type: BottomNavigationBarType.shifting,
+        selectedLabelStyle: Style.l4(),
         onTap: onTap,
         currentIndex: currentIndex,
         showSelectedLabels: true,
         showUnselectedLabels: false,
-        selectedLabelStyle: Style.l4(
-          color: ColorToken.danger,
-        ),
+        selectedItemColor: ColorToken.danger,
         items: [
           BottomNavigationBarItem(
               icon: currentIndex != 0
@@ -52,6 +57,15 @@ class ButtonNavigatorMenu extends StatelessWidget {
                   ? IconLargeDark(icon: thirdIcon)
                   : const SizedBox.shrink(),
               label: thirdLabel),
+          BottomNavigationBarItem(
+            icon: currentIndex != 3
+                ? IconLargeDark(
+                    icon: fourthIcon,
+                    count: fourthCount == 0 ? null: fourthCount! > 99? '99+': fourthCount.toString(),
+                  )
+                : const SizedBox.shrink(),
+            label: fourthLabel,
+          ),
         ],
       ),
     );

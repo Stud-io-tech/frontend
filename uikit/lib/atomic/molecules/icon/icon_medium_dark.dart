@@ -6,19 +6,21 @@ class IconMediumDark extends StatelessWidget {
   final void Function()? onTap;
   final String icon;
   final bool? isBackgroundColor;
+  final double? padding;
 
   const IconMediumDark({
     super.key,
     this.onTap,
     required this.icon,
     this.isBackgroundColor = false,
+    this.padding,
   });
 
   @override
   Widget build(BuildContext context) {
     return IconDefault(
       isBackgroundColor: isBackgroundColor,
-      padding: SizeToken.sm,
+      padding: padding ?? SizeToken.sm,
       onTap: onTap,
       icon: icon,
       height: 13,
