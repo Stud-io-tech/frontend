@@ -33,6 +33,10 @@ abstract class CartItemCounterControllerBase with Store {
     }
   }
 
+  void cleanValue() {
+    value = 1;
+  }
+
   @action
   void incrementCart(int newValue, int amount) {
     if (newValue < amount) {

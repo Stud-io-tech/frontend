@@ -16,6 +16,8 @@ final class TextConstant {
   static String sucessCreatingStoreTitle = 'Loja Criada!';
   static String sucessCreatingAddressTitle = 'Endereço Criado!';
   static String sucessCreatingProductTitle = 'Produto Criado!';
+  static String sucessCreatingCartItemTitle = 'Produto no Carrinho!';
+
   static String sucessUpdatingStoreTitle = 'Loja Atualizada!';
   static String sucessUpdatingProductTitle = 'Produto Atualizado!';
   static String sucessUpdatingAddressTitle = 'Endereço Atualizado!';
@@ -42,10 +44,13 @@ final class TextConstant {
   static String sucessCreatingProductMessage = 'A loja foi criado com sucesso.';
   static String sucessCreatingAddressMessage =
       'O endereço foi criado com sucesso.';
+  static String sucessCreatingCartItemMessage =
+      'O produto foi adicionado no carrinho com sucesso.';
   static String sucessUpdatingAddressMessage =
       'O endereço foi atualizada com sucesso.';
   static String sucessUpdatingStoreMessage =
       'A loja foi atualizada com sucesso.';
+
   static String sucessUpdatingProductMessage =
       'O produto foi atualizado com sucesso.';
   static String sucessSuspendingProductMessage =
@@ -62,6 +67,8 @@ final class TextConstant {
       'Houve um erro ao listar os produtos.';
   static String errorCreatingAddressMessage =
       'Houve um erro ao criar o endereço.';
+  static String errorCreatingCartItemMessage =
+      'Houve um erro ao adicionar um produto no carrinho.';
   static String errorCreatingStoreMessage = 'Houve um erro ao criar a loja.';
   static String errorCreatingProductMessage =
       'Houve um erro ao criar o produto.';
@@ -126,8 +133,8 @@ final class TextConstant {
   static String totalValue(double value) =>
       'Total: R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
 
-     static String freigthValue(double value) =>
-      'Frete: R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';  
+  static String freigthValue(double value) =>
+      'Frete: R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
 
   static String monetaryValue(double value) =>
       'R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
