@@ -3,11 +3,11 @@ import 'package:equatable/equatable.dart';
 
 import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
 
-class CartItemDto extends Equatable {
+class CartItemRegisterDto extends Equatable {
   final ProductDetailDto product;
   final String storeId;
   final int amount;
-  const CartItemDto({
+  const CartItemRegisterDto({
     required this.product,
     required this.storeId,
     required this.amount,

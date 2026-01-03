@@ -4,12 +4,8 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:my_fome/src/data/services/files/file_service.dart';
 import 'package:my_fome/src/data/services/payments/payment_service.dart';
-import 'package:my_fome/src/domain/dtos/cartItem/cart_item_dto.dart';
-import 'package:my_fome/src/domain/dtos/order/order_dto.dart';
-import 'package:my_fome/src/domain/dtos/payments/payment_pix_dto.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
-import 'package:my_fome/src/domain/dtos/users/user_detail_dto.dart';
-import 'package:my_fome/src/domain/enum/type_payment_enum.dart';
+
 import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
 import 'package:my_fome/src/ui/modules/home/controllers/counter/cartItem/cart_item_counter_controller.dart';
 import 'package:uikit/atomic/molecules/molecule.dart';
@@ -120,7 +116,7 @@ class AlertOrder extends StatelessWidget {
           text: TextConstant.placeOrder,
           icon: IconConstant.success,
           onPressed: () async {
-            final List<CartItemDto> cartItens = [];
+      /*       final List<CartItemDto> cartItens = [];
 
             final cartItem = CartItemDto(
               product: product,
@@ -167,7 +163,7 @@ class AlertOrder extends StatelessWidget {
               },
             );
           },
-        ),
+        ), */})
       ],
     );
   }
