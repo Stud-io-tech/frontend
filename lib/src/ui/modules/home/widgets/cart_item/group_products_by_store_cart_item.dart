@@ -4,29 +4,22 @@ import 'package:uikit/uikit.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
+import 'package:my_fome/src/domain/dtos/cartItem/cart_item_group_store_dto.dart';
 import 'package:my_fome/src/ui/modules/home/controllers/counter/cartItem/cart_item_counter_controller.dart';
 import 'package:my_fome/src/ui/modules/home/controllers/freight/freight_controller.dart';
 
 class GroupProductsByStoreCartItem extends StatefulWidget {
-  final String storeName;
-  final double total;
-  final double dynamicFreightKm;
   final double userLatitude;
   final double userLongitude;
-  final double storeLatitude;
-  final double storeLongitude;
+  final CartItemGroupStoreDto cartItem;
   final void Function() ontapOrder;
   final void Function() onTapStore;
 
   const GroupProductsByStoreCartItem({
     super.key,
-    required this.storeName,
-    required this.total,
-    required this.dynamicFreightKm,
     required this.userLatitude,
     required this.userLongitude,
-    required this.storeLatitude,
-    required this.storeLongitude,
+    required this.cartItem,
     required this.ontapOrder,
     required this.onTapStore,
   });
@@ -47,12 +40,15 @@ class _GroupProductsByStoreCartItemState
   @override
   void initState() {
     super.initState();
-    freight = freightController.getFreight(
+    if (widget.cartItem.storeIsDelivered) {
+      freight = freightController.getFreight(
         widget.userLatitude,
         widget.userLongitude,
-        widget.storeLatitude,
-        widget.storeLongitude,
-        widget.dynamicFreightKm);
+        double.parse(widget.cartItem.storeLatitude!),
+        double.parse(widget.cartItem.storeLongitude!),
+        double.parse(widget.cartItem.storeFreight!),
+      );
+    }
   }
 
   @override
@@ -80,7 +76,7 @@ class _GroupProductsByStoreCartItemState
                         children: [
                           Flexible(
                               child: TextLabelL2Dark(
-                            text: widget.storeName,
+                            text: widget.cartItem.storeName,
                             maxLines: 1,
                             overflow: true,
                           )),
@@ -94,35 +90,44 @@ class _GroupProductsByStoreCartItemState
                   ),
                 ),
                 TextLabelL2Dark(
-                  text: TextConstant.totalValue(widget.total+freight),
+                  text: widget.cartItem.storeIsDelivered
+                      ? TextConstant.totalValue(
+                          double.parse(widget.cartItem.total) + freight)
+                      : TextConstant.totalValue(
+                          double.parse(widget.cartItem.total),
+                        ),
                 ),
               ],
             ),
-            TextBodyB2SemiDark(text: TextConstant.freigthValue(freight))
+            widget.cartItem.storeIsDelivered ? TextBodyB2SemiDark(
+                text:  TextConstant.freigthValue(freight))
+                    : TextBodyB2Danger(text: TextConstant.storeDontDelivery)
           ],
         ),
         ListView.separated(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: 2,
+          itemCount: widget.cartItem.cartItems.length,
           itemBuilder: (context, index) {
-            final int amount = index + 2;
+            final product = widget.cartItem.cartItems[index];
 
             return CartItemItem(
-                name: "Pastel de Frango 200g",
-                price: TextConstant.monetaryValue(5.00),
-                image: "https://avatars.githubusercontent.com/u/103341140?v=4",
+                name: product.name.toString(),
+                price: TextConstant.monetaryValue(double.parse(product.price!)),
+                image: product.image.toString(),
                 iconRemove: IconConstant.remove,
                 iconIncrement: IconConstant.keyboardArrowUp,
                 iconDecrement: IconConstant.keyboardArrowDown,
-                amount: amount,
+                amount: product.amount,
                 onTapItem: () {},
                 onTapRemove: () {},
                 onTapIcrement: () {
-                  cartItemCounterController.incrementCart(amount, amount + 1);
+/*                   cartItemCounterController.incrementCart(product.amount, amount + 1);
+ */
                 },
                 onTapDecrement: () {
-                  cartItemCounterController.decrementCart(amount);
+/*                   cartItemCounterController.decrementCart(amount);
+ */
                 });
           },
           separatorBuilder: (context, index) => Padding(

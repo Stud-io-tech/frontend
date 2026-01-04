@@ -23,6 +23,13 @@ mixin _$CartItemController on CartItemControllerBase, Store {
       (_$isServerErrorComputed ??= Computed<bool>(() => super.isServerError,
               name: 'CartItemControllerBase.isServerError'))
           .value;
+  Computed<List<CartItemGroupStoreDto>?>? _$cartItemsComputed;
+
+  @override
+  List<CartItemGroupStoreDto>? get cartItems => (_$cartItemsComputed ??=
+          Computed<List<CartItemGroupStoreDto>?>(() => super.cartItems,
+              name: 'CartItemControllerBase.cartItems'))
+      .value;
 
   late final _$registerAsyncAction =
       AsyncAction('CartItemControllerBase.register', context: context);
@@ -32,11 +39,22 @@ mixin _$CartItemController on CartItemControllerBase, Store {
     return _$registerAsyncAction.run(() => super.register(data));
   }
 
+  late final _$getByGroupStoreByUserAsyncAction = AsyncAction(
+      'CartItemControllerBase.getByGroupStoreByUser',
+      context: context);
+
+  @override
+  Future<void> getByGroupStoreByUser(String userId) {
+    return _$getByGroupStoreByUserAsyncAction
+        .run(() => super.getByGroupStoreByUser(userId));
+  }
+
   @override
   String toString() {
     return '''
 isLoading: ${isLoading},
-isServerError: ${isServerError}
+isServerError: ${isServerError},
+cartItems: ${cartItems}
     ''';
   }
 }

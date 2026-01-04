@@ -60,7 +60,7 @@ class CartItemItem extends StatelessWidget {
                           width: 60,
                           child: Image.network(
                             image,
-                            fit: BoxFit.contain,
+                            fit: BoxFit.cover,
                           ),
                         ),
                       ),

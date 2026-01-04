@@ -41,6 +41,23 @@ mixin _$CartItemViewModel on CartItemViewModelBase, Store {
     });
   }
 
+  late final _$cartItemGroupStoreDtoAtom = Atom(
+      name: 'CartItemViewModelBase.cartItemGroupStoreDto', context: context);
+
+  @override
+  List<CartItemGroupStoreDto>? get cartItemGroupStoreDto {
+    _$cartItemGroupStoreDtoAtom.reportRead();
+    return super.cartItemGroupStoreDto;
+  }
+
+  @override
+  set cartItemGroupStoreDto(List<CartItemGroupStoreDto>? value) {
+    _$cartItemGroupStoreDtoAtom.reportWrite(value, super.cartItemGroupStoreDto,
+        () {
+      super.cartItemGroupStoreDto = value;
+    });
+  }
+
   late final _$registerAsyncAction =
       AsyncAction('CartItemViewModelBase.register', context: context);
 
@@ -49,11 +66,22 @@ mixin _$CartItemViewModel on CartItemViewModelBase, Store {
     return _$registerAsyncAction.run(() => super.register(data));
   }
 
+  late final _$getByGroupStoreByUserAsyncAction = AsyncAction(
+      'CartItemViewModelBase.getByGroupStoreByUser',
+      context: context);
+
+  @override
+  Future<dynamic> getByGroupStoreByUser(String userId) {
+    return _$getByGroupStoreByUserAsyncAction
+        .run(() => super.getByGroupStoreByUser(userId));
+  }
+
   @override
   String toString() {
     return '''
 isLoading: ${isLoading},
-serverError: ${serverError}
+serverError: ${serverError},
+cartItemGroupStoreDto: ${cartItemGroupStoreDto}
     ''';
   }
 }

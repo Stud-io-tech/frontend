@@ -18,6 +18,8 @@ final class TextConstant {
   static String sucessCreatingProductTitle = 'Produto Criado!';
   static String sucessCreatingCartItemTitle = 'Produto no Carrinho!';
 
+  static String storeDontDelivery = 'A loja não faz entrega';
+
   static String sucessUpdatingStoreTitle = 'Loja Atualizada!';
   static String sucessUpdatingProductTitle = 'Produto Atualizado!';
   static String sucessUpdatingAddressTitle = 'Endereço Atualizado!';
@@ -63,6 +65,8 @@ final class TextConstant {
   static String errorCreatingAccountMessage =
       'Houve um erro ao criar sua conta.';
   static String errorListStoresMessage = 'Houve um erro ao listar as lojas.';
+  static String errorListCartItemsMessage =
+      'Houve um erro ao listar os produtos no carrinho.';
   static String errorListProductsMessage =
       'Houve um erro ao listar os produtos.';
   static String errorCreatingAddressMessage =
@@ -162,6 +166,7 @@ final class TextConstant {
   static String minCaractersPhone = 'O mínimo de caracters é 11!';
   static String maxCaractersPhone = 'O máximo de caracters é 11!';
   static String productNotFound = 'Produto não encontrado!';
+  static String cartItemEmpty = 'Carrinho vazio!';
   static String storeNotFound = 'Loja não encontrada!';
   static String name = 'Nome';
   static String description = 'Descrição';

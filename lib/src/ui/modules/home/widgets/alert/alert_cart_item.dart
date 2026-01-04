@@ -283,27 +283,31 @@ class AlertCartItem extends StatelessWidget {
       ),
       actionsPadding: EdgeInsets.zero,
       actions: [
-        ButtonLarge(
-          key: const Key("finalizeOrder"),
-          text: TextConstant.placeOrder,
-          icon: IconConstant.success,
-          onPressed: () async {
-            CartItemRegisterDto model = CartItemRegisterDto(
-              productId: product.id,
-              userId: userId,
-              amount: cartItemCounterController.value,
-            );
+        Observer(builder: (_) {
+          return ButtonLarge(
+            key: const Key("finalizeOrder"),
+            text: TextConstant.placeOrder,
+            icon: IconConstant.success,
+            isLoading: cartItemController.isLoading,
+            onPressed: () async {
+              CartItemRegisterDto model = CartItemRegisterDto(
+                productId: product.id,
+                userId: userId,
+                amount: cartItemCounterController.value,
+              );
 
-            try {
-              await cartItemController.register(model);
-            } finally {
-              if (cartItemController.isLoading == false) {
-                cartItemCounterController.cleanValue();
-                context.pop();
+              try {
+                await authController.load();
+                await cartItemController.register(model);
+              } finally {
+                if (cartItemController.isLoading == false) {
+                  cartItemCounterController.cleanValue();
+                  context.pop();
+                }
               }
-            }
-          },
-        ),
+            },
+          );
+        }),
       ],
     );
   }
