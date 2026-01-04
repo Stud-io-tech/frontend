@@ -206,7 +206,7 @@ class _HomePageState extends State<HomePage> {
           secoundIcon: IconConstant.search,
           thirdIcon: IconConstant.store,
           fourthIcon: IconConstant.cart,
-          fourthCount: cartItemController.cartItems?.length ?? 0,
+          fourthCount: cartItemController.amountItemCart,
         );
       }),
     );

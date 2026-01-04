@@ -22,6 +22,16 @@ abstract class CartItemControllerBase with Store {
   List<CartItemGroupStoreDto>? get cartItems =>
       cartItemViewModel.cartItemGroupStoreDto;
 
+  @computed
+  int get amountItemCart {
+    List<CartItemGroupStoreDto>? groups = cartItemViewModel.cartItemGroupStoreDto;
+    if (groups == null || groups.isEmpty) return 0;
+    return groups.fold(
+      0,
+      (total, group) => total + group.cartItems.length,
+    );
+  }
+
   @action
   Future<void> register(CartItemRegisterDto data) async {
     await cartItemViewModel.register(data);

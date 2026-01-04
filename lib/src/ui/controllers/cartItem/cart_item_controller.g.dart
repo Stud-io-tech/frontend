@@ -30,6 +30,13 @@ mixin _$CartItemController on CartItemControllerBase, Store {
           Computed<List<CartItemGroupStoreDto>?>(() => super.cartItems,
               name: 'CartItemControllerBase.cartItems'))
       .value;
+  Computed<int>? _$amountItemCartComputed;
+
+  @override
+  int get amountItemCart =>
+      (_$amountItemCartComputed ??= Computed<int>(() => super.amountItemCart,
+              name: 'CartItemControllerBase.amountItemCart'))
+          .value;
 
   late final _$registerAsyncAction =
       AsyncAction('CartItemControllerBase.register', context: context);
@@ -54,7 +61,8 @@ mixin _$CartItemController on CartItemControllerBase, Store {
     return '''
 isLoading: ${isLoading},
 isServerError: ${isServerError},
-cartItems: ${cartItems}
+cartItems: ${cartItems},
+amountItemCart: ${amountItemCart}
     ''';
   }
 }
