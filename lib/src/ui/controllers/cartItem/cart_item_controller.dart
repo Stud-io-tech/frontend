@@ -24,7 +24,8 @@ abstract class CartItemControllerBase with Store {
 
   @computed
   int get amountItemCart {
-    List<CartItemGroupStoreDto>? groups = cartItemViewModel.cartItemGroupStoreDto;
+    List<CartItemGroupStoreDto>? groups =
+        cartItemViewModel.cartItemGroupStoreDto;
     if (groups == null || groups.isEmpty) return 0;
     return groups.fold(
       0,
@@ -40,6 +41,12 @@ abstract class CartItemControllerBase with Store {
 
   @action
   Future<void> getByGroupStoreByUser(String userId) async {
+    await cartItemViewModel.getByGroupStoreByUser(userId);
+  }
+
+  @action
+  Future<void> updateAmount(int amount, String id, String userId) async {
+    await cartItemViewModel.updateAmount(amount, id);
     await cartItemViewModel.getByGroupStoreByUser(userId);
   }
 

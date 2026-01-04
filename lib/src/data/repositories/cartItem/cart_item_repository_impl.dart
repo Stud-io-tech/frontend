@@ -48,7 +48,8 @@ class CartItemRepositoryImpl implements CartItemRepository {
       );
       final List<dynamic> resultList = response.data;
       final List<CartItemGroupStoreDto> resultCartItems = resultList
-          .map((item) => CartItemGroupStoreDto.fromMap(item as Map<String, dynamic>))
+          .map((item) =>
+              CartItemGroupStoreDto.fromMap(item as Map<String, dynamic>))
           .toList();
       return Success(resultCartItems);
     } on DioException catch (e) {
@@ -56,6 +57,27 @@ class CartItemRepositoryImpl implements CartItemRepository {
         RestException(
             message: TextConstant.errorListStoresMessage,
             statusCode: e.response?.statusCode ?? 500),
+      );
+    }
+  }
+
+  @override
+  AsyncResult<CartItemDetailDto> updateAmount(int amount, String id) async {
+    try {
+      final Response response = await clientService.patch(
+        "${ApiConstant.cartItem}/$id",
+        {'amount': amount},
+        requiresAuth: true,
+      );
+      final CartItemDetailDto cartItemUpdate =
+          CartItemDetailDto.fromMap(response.data);
+      return Success(cartItemUpdate);
+    } on DioException catch (e) {
+      return Failure(
+        RestException(
+          message: TextConstant.errorUpdatingCartItemMessage,
+          statusCode: e.response?.statusCode ?? 500,
+        ),
       );
     }
   }

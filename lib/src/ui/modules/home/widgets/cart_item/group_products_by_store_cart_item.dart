@@ -1,14 +1,17 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:my_fome/src/ui/controllers/cartItem/cart_item_controller.dart';
+import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:uikit/uikit.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/cartItem/cart_item_group_store_dto.dart';
-import 'package:my_fome/src/ui/modules/home/controllers/counter/cartItem/cart_item_counter_controller.dart';
 import 'package:my_fome/src/ui/modules/home/controllers/freight/freight_controller.dart';
 
 class GroupProductsByStoreCartItem extends StatefulWidget {
+  final String user;
   final double userLatitude;
   final double userLongitude;
   final CartItemGroupStoreDto cartItem;
@@ -22,6 +25,7 @@ class GroupProductsByStoreCartItem extends StatefulWidget {
     required this.cartItem,
     required this.ontapOrder,
     required this.onTapStore,
+    required this.user,
   });
 
   @override
@@ -31,7 +35,9 @@ class GroupProductsByStoreCartItem extends StatefulWidget {
 
 class _GroupProductsByStoreCartItemState
     extends State<GroupProductsByStoreCartItem> {
-  final cartItemCounterController = CartItemCounterController();
+  final cartItemController = Injector.get<CartItemController>();
+
+  final productController = Injector.get<ProductController>();
 
   final freightController = FreightController();
 
@@ -99,9 +105,9 @@ class _GroupProductsByStoreCartItemState
                 ),
               ],
             ),
-            widget.cartItem.storeIsDelivered ? TextBodyB2SemiDark(
-                text:  TextConstant.freigthValue(freight))
-                    : TextBodyB2Danger(text: TextConstant.storeDontDelivery)
+            widget.cartItem.storeIsDelivered
+                ? TextBodyB2SemiDark(text: TextConstant.freigthValue(freight))
+                : TextBodyB2Danger(text: TextConstant.storeDontDelivery)
           ],
         ),
         ListView.separated(
@@ -109,25 +115,41 @@ class _GroupProductsByStoreCartItemState
           shrinkWrap: true,
           itemCount: widget.cartItem.cartItems.length,
           itemBuilder: (context, index) {
-            final product = widget.cartItem.cartItems[index];
+            final cartItem = widget.cartItem.cartItems[index];
 
             return CartItemItem(
-                name: product.name.toString(),
-                price: TextConstant.monetaryValue(double.parse(product.price!)),
-                image: product.image.toString(),
+                name: cartItem.name.toString(),
+                price:
+                    TextConstant.monetaryValue(double.parse(cartItem.price!)),
+                image: cartItem.image.toString(),
                 iconRemove: IconConstant.remove,
                 iconIncrement: IconConstant.keyboardArrowUp,
                 iconDecrement: IconConstant.keyboardArrowDown,
-                amount: product.amount,
+                amount: cartItem.amount,
                 onTapItem: () {},
                 onTapRemove: () {},
-                onTapIcrement: () {
-/*                   cartItemCounterController.incrementCart(product.amount, amount + 1);
- */
+                onTapIcrement: () async {
+                  await productController.detailProduct(cartItem.productId);
+
+                  if ((cartItem.amount + 1) <=
+                      productController.product!.amount) {
+                    try {
+                      await cartItemController.updateAmount(
+                        (cartItem.amount + 1),
+                        cartItem.id,  widget.user
+                      );
+                    } finally {}
+                  }
                 },
-                onTapDecrement: () {
-/*                   cartItemCounterController.decrementCart(amount);
- */
+                onTapDecrement: () async {
+                  if ((cartItem.amount - 1) > 0) {
+                    try {
+                      await cartItemController.updateAmount(
+                        (cartItem.amount - 1),
+                        cartItem.id, widget.user
+                      );
+                    } finally {}
+                  }
                 });
           },
           separatorBuilder: (context, index) => Padding(

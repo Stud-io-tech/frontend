@@ -268,6 +268,7 @@ class _CartScreenState extends State<CartScreen> {
                     final cartItem = cartItemController.cartItems![index];
                     return ContentDefault(
                       child: GroupProductsByStoreCartItem(
+                        user: authController.user!.id,
                         userLatitude:
                             double.parse(addressController.address!.latitude!),
                         userLongitude:

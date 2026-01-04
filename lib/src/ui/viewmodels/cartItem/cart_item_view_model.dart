@@ -48,6 +48,20 @@ abstract class CartItemViewModelBase with Store {
   }
 
   @action
+  Future updateAmount(int amount, String id) async {
+    isLoading = true;
+    final result = await cartItemRepository.updateAmount(amount, id);
+    result.fold((success) {
+      serverError = false;
+    }, (failure) {
+      serverError = true;
+      resultMessageService
+          .showMessageError(TextConstant.errorCreatingCartItemMessage);
+    });
+    isLoading = false;
+  }
+
+  @action
   Future getByGroupStoreByUser(String userId) async {
     isLoading = true;
     final result = await cartItemRepository.getByGroupStoreByUser(userId);

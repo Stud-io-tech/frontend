@@ -56,6 +56,15 @@ mixin _$CartItemController on CartItemControllerBase, Store {
         .run(() => super.getByGroupStoreByUser(userId));
   }
 
+  late final _$updateAmountAsyncAction =
+      AsyncAction('CartItemControllerBase.updateAmount', context: context);
+
+  @override
+  Future<void> updateAmount(int amount, String id, String userId) {
+    return _$updateAmountAsyncAction
+        .run(() => super.updateAmount(amount, id, userId));
+  }
+
   @override
   String toString() {
     return '''

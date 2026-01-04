@@ -66,6 +66,14 @@ mixin _$CartItemViewModel on CartItemViewModelBase, Store {
     return _$registerAsyncAction.run(() => super.register(data));
   }
 
+  late final _$updateAmountAsyncAction =
+      AsyncAction('CartItemViewModelBase.updateAmount', context: context);
+
+  @override
+  Future<dynamic> updateAmount(int amount, String id) {
+    return _$updateAmountAsyncAction.run(() => super.updateAmount(amount, id));
+  }
+
   late final _$getByGroupStoreByUserAsyncAction = AsyncAction(
       'CartItemViewModelBase.getByGroupStoreByUser',
       context: context);

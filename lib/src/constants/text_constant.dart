@@ -71,8 +71,12 @@ final class TextConstant {
       'Houve um erro ao listar os produtos.';
   static String errorCreatingAddressMessage =
       'Houve um erro ao criar o endereço.';
+
   static String errorCreatingCartItemMessage =
       'Houve um erro ao adicionar um produto no carrinho.';
+
+  static String errorUpdatingCartItemMessage =
+      'Houve um erro ao atualizar um produto no carrinho.';
   static String errorCreatingStoreMessage = 'Houve um erro ao criar a loja.';
   static String errorCreatingProductMessage =
       'Houve um erro ao criar o produto.';
@@ -89,6 +93,7 @@ final class TextConstant {
       'Houve um erro ao encontrar o endereço.';
 
   static String errorDetailsStoreMessage = 'Houve um erro ao encontrar a loja.';
+  
   static String errorDetailsProductMessage =
       'Houve um erro ao encontrar o produto.';
   static String errorExecutingProductMessage =

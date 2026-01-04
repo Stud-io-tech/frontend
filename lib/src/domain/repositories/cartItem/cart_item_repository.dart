@@ -6,4 +6,5 @@ import 'package:result_dart/result_dart.dart';
 abstract interface class CartItemRepository {
   AsyncResult<CartItemDetailDto> register(CartItemRegisterDto data);
   AsyncResult<List<CartItemGroupStoreDto>> getByGroupStoreByUser(String userId);
+  AsyncResult<CartItemDetailDto> updateAmount(int amount, String id);
 }
