@@ -1,8 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/ui/controllers/cartItem/cart_item_controller.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
+import 'package:my_fome/src/ui/modules/home/widgets/screens/product_detail_screen_widget.dart';
 import 'package:uikit/uikit.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
@@ -116,7 +118,7 @@ class _GroupProductsByStoreCartItemState
           itemCount: widget.cartItem.cartItems.length,
           itemBuilder: (context, index) {
             final cartItem = widget.cartItem.cartItems[index];
-
+                        
             return CartItemItem(
                 name: cartItem.name.toString(),
                 price:
@@ -126,29 +128,49 @@ class _GroupProductsByStoreCartItemState
                 iconIncrement: IconConstant.keyboardArrowUp,
                 iconDecrement: IconConstant.keyboardArrowDown,
                 amount: cartItem.amount,
-                onTapItem: () {},
-                onTapRemove: () {},
+                onTapItem: () async {
+                  await productController.detailProduct(cartItem.productId);
+
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ProductDetailScreenWidget(
+                          productModel: productController.product),
+                    ),
+                  );
+                },
+                onTapRemove: () async {
+                  showCustomModalBottomSheet(
+                    context: context,
+                    builder: (context) => ModalSheet(
+                      isLoading: cartItemController.isLoading,
+                      iconBack: IconConstant.arrowLeft,
+                      title: TextConstant.logoutAccountTitle,
+                      description: TextConstant.removeCartItemMessage(
+                        cartItem.name.toString(),
+                      ),
+                      cancelText: TextConstant.no,
+                      continueText: TextConstant.yes,
+                      continueOnTap: () async {
+                        await cartItemController.delete(
+                            cartItem.id, widget.user);
+                        context.pop();
+                      },
+                    ),
+                  );
+                },
                 onTapIcrement: () async {
                   await productController.detailProduct(cartItem.productId);
 
                   if ((cartItem.amount + 1) <=
                       productController.product!.amount) {
-                    try {
-                      await cartItemController.updateAmount(
-                        (cartItem.amount + 1),
-                        cartItem.id,  widget.user
-                      );
-                    } finally {}
+                    await cartItemController.updateAmount(
+                        (cartItem.amount + 1), cartItem.id, widget.user);
                   }
                 },
                 onTapDecrement: () async {
                   if ((cartItem.amount - 1) > 0) {
-                    try {
-                      await cartItemController.updateAmount(
-                        (cartItem.amount - 1),
-                        cartItem.id, widget.user
-                      );
-                    } finally {}
+                    await cartItemController.updateAmount(
+                        (cartItem.amount - 1), cartItem.id, widget.user);
                   }
                 });
           },

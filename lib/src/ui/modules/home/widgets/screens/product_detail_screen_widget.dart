@@ -234,7 +234,7 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
       }),
       bottomNavigationBar: ButtonLarge(
           key: const Key("openAlertOrder"),
-          text: TextConstant.placeOrder,
+          text: TextConstant.addCart,
           icon: IconConstant.cart,
           onPressed: () async {
             if (authController.user != null) {

@@ -50,6 +50,12 @@ abstract class CartItemControllerBase with Store {
     await cartItemViewModel.getByGroupStoreByUser(userId);
   }
 
+  @action
+  Future<void> delete(String id, String userId) async {
+    await cartItemViewModel.delete(id);
+    await cartItemViewModel.getByGroupStoreByUser(userId);
+  }
+
   void clean() {
     cartItemViewModel.cartItemGroupStoreDto = [];
   }

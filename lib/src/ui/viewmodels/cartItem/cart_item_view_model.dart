@@ -76,4 +76,10 @@ abstract class CartItemViewModelBase with Store {
     isLoading = false;
   }
 
+  @action
+  Future delete(String id) async {
+    isLoading = true;
+    await cartItemRepository.delete(id);
+    isLoading = false;
+  }
 }

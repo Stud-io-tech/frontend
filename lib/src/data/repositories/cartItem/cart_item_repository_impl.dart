@@ -81,4 +81,17 @@ class CartItemRepositoryImpl implements CartItemRepository {
       );
     }
   }
+
+  @override
+  Future<void> delete(String id) async {
+    try {
+      return await clientService.delete("${ApiConstant.cartItem}/$id",
+          requiresAuth: true);
+    } on DioException catch (e) {
+      throw RestException(
+        message: TextConstant.errorDeleteCartItemMessage,
+        statusCode: e.hashCode,
+      );
+    }
+  }
 }

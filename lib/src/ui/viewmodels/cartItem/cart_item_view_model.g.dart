@@ -84,6 +84,14 @@ mixin _$CartItemViewModel on CartItemViewModelBase, Store {
         .run(() => super.getByGroupStoreByUser(userId));
   }
 
+  late final _$deleteAsyncAction =
+      AsyncAction('CartItemViewModelBase.delete', context: context);
+
+  @override
+  Future<dynamic> delete(String id) {
+    return _$deleteAsyncAction.run(() => super.delete(id));
+  }
+
   @override
   String toString() {
     return '''

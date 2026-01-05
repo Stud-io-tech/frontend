@@ -31,6 +31,9 @@ final class TextConstant {
   static String close = "• FECHADO";
 
   static String logoutAccountTitle = 'Sair da Conta?';
+
+  static String removeCartItem = 'Remover o Produto no Carrinho?';
+
   static String suspendProductTitle = 'Suspender o Produto?';
   static String reactivedProductTitle = 'Reativar o Produto?';
   static String reactivedStoreTitle = 'Reativar o Loja?';
@@ -93,9 +96,12 @@ final class TextConstant {
       'Houve um erro ao encontrar o endereço.';
 
   static String errorDetailsStoreMessage = 'Houve um erro ao encontrar a loja.';
-  
+
   static String errorDetailsProductMessage =
       'Houve um erro ao encontrar o produto.';
+
+  static String errorDeleteCartItemMessage =
+      'Houve um erro ao apagar o produto no carrinho.';
   static String errorExecutingProductMessage =
       'Houve um erro de execeução! Tente novamente.';
 
@@ -149,6 +155,9 @@ final class TextConstant {
       'R\$ ${value.toStringAsFixed(2).replaceAll('.', ',')}';
   static String logoutAccountMessage(String userEmail) =>
       'Ao confirmar, a conta com o email "$userEmail" será desvinculada do sistema até que seja realizado um novo login.';
+
+  static String removeCartItemMessage(String productName) =>
+      'Ao confirmar, o "$productName" será removido do carrinho.';
   static String suspendProductMessage(String productName) =>
       'Ao confirmar a suspensão, o produto "$productName" não será apagado permanentemente!\nO produto será apenas arquivado ao público até que seja reativado novamente.\nVocê poderá editar o produto sem problemas enquanto isso.';
   static String suspendStoreMessage(String productName) =>
@@ -184,6 +193,8 @@ final class TextConstant {
   static String image = 'Imagem';
   static String uploadImage = 'Upload da Imagem';
   static String placeOrder = 'Fazer Pedido';
+  static String addCart = 'Adicionar ao Carrinho';
+
   static String addQuantity = 'Adicionar quantidade';
 
   static String requiredLogin = 'Você precisa fazer login!';

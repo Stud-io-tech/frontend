@@ -113,7 +113,7 @@ class AlertCartItem extends StatelessWidget {
         Observer(builder: (_) {
           return ButtonLarge(
             key: const Key("finalizeOrder"),
-            text: TextConstant.placeOrder,
+            text: TextConstant.addCart,
             icon: IconConstant.success,
             isLoading: cartItemController.isLoading,
             onPressed: () async {

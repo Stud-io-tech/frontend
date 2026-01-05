@@ -16,7 +16,7 @@ class CartItemItem extends StatelessWidget {
   final void Function() onTapIcrement;
   final void Function() onTapDecrement;
 
-  const CartItemItem({
+  CartItemItem({
     super.key,
     required this.name,
     required this.price,
@@ -41,7 +41,7 @@ class CartItemItem extends StatelessWidget {
         children: [
           Expanded(
             child: InkWell(
-              onTap: () => onTapItem,
+              onTap: onTapItem,
               borderRadius: BorderRadius.circular(
                 SizeToken.xxs,
               ),
