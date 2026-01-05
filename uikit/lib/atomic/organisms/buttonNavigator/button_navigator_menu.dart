@@ -1,9 +1,14 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:uikit/uikit.dart';
 
 class ButtonNavigatorMenu extends StatelessWidget {
   final int currentIndex;
   final void Function(int) onTap;
+  final void Function()? firstonOnTap;
+  final void Function()? secoundOnTap;
+  final void Function()? thirdOnTap;
+  final void Function()? fourthOnTap;
   final String firstLabel;
   final String secoundLabel;
   final String thirdLabel;
@@ -18,6 +23,10 @@ class ButtonNavigatorMenu extends StatelessWidget {
     super.key,
     required this.currentIndex,
     required this.onTap,
+    this.firstonOnTap,
+    this.secoundOnTap,
+    this.thirdOnTap,
+    this.fourthOnTap,
     required this.firstLabel,
     required this.secoundLabel,
     required this.thirdLabel,
@@ -44,24 +53,30 @@ class ButtonNavigatorMenu extends StatelessWidget {
         items: [
           BottomNavigationBarItem(
               icon: currentIndex != 0
-                  ? IconLargeDark(icon: firstIcon)
+                  ? IconLargeDark(icon: firstIcon, onTap: firstonOnTap,)
                   : const SizedBox.shrink(),
               label: firstLabel),
           BottomNavigationBarItem(
               icon: currentIndex != 1
-                  ? IconLargeDark(icon: secoundIcon)
+                  ? IconLargeDark(icon: secoundIcon, onTap: secoundOnTap,)
                   : const SizedBox.shrink(),
               label: secoundLabel),
           BottomNavigationBarItem(
               icon: currentIndex != 2
-                  ? IconLargeDark(icon: thirdIcon)
+                  ? IconLargeDark(icon: thirdIcon, onTap: thirdOnTap,)
                   : const SizedBox.shrink(),
               label: thirdLabel),
           BottomNavigationBarItem(
             icon: currentIndex != 3
                 ? IconLargeDark(
+                  
                     icon: fourthIcon,
-                    count: fourthCount == 0 ? null: fourthCount! > 99? '99+': fourthCount.toString(),
+                    count: fourthCount == 0
+                        ? null
+                        : fourthCount! > 99
+                            ? '99+'
+                            : fourthCount.toString(),
+                            onTap: fourthOnTap,
                   )
                 : const SizedBox.shrink(),
             label: fourthLabel,

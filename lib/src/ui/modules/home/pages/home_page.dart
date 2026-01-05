@@ -9,6 +9,7 @@ import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/enum/login_redirect_enum.dart';
 import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
 import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
+import 'package:my_fome/src/ui/controllers/cartItem/cart_item_controller.dart';
 import 'package:my_fome/src/ui/modules/home/controllers/button_navigator/button_navigator_menu_controller.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/cart_screen.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/home_screen_widget.dart';
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage> {
 
   final authController = Injector.get<AuthGoogleController>();
   final addressController = Injector.get<AddressController>();
+  final cartItemController = Injector.get<CartItemController>();
 
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
   @override
@@ -43,6 +45,7 @@ class _HomePageState extends State<HomePage> {
     await authController.load();
     if (authController.user?.id != null) {
       await addressController.detailAddressUser(authController.user!.id);
+      await cartItemController.getByGroupStoreByUser(authController.user!.id);
     }
   }
 
@@ -85,6 +88,8 @@ class _HomePageState extends State<HomePage> {
                         if (authController.user?.id != null) {
                           await addressController
                               .detailAddressUser(authController.user!.id);
+                          await cartItemController
+                              .getByGroupStoreByUser(authController.user!.id);
                         }
                       },
                     );
@@ -155,6 +160,7 @@ class _HomePageState extends State<HomePage> {
                 continueOnTap: () {
                   authController.logout();
                   addressController.clean();
+                  cartItemController.clean();
                   context.pop();
                   context.pop();
                 },
@@ -180,7 +186,7 @@ class _HomePageState extends State<HomePage> {
       body: Observer(builder: (_) {
         return IndexedStack(
           index: controller.currentIndex,
-          children: const [
+          children: [
             ContentDefault(child: HomeScreenWidget()),
             ContentDefault(child: ProductScreen()),
             ContentDefault(child: StoreScreen()),
@@ -200,7 +206,7 @@ class _HomePageState extends State<HomePage> {
           secoundIcon: IconConstant.search,
           thirdIcon: IconConstant.store,
           fourthIcon: IconConstant.cart,
-          fourthCount: 1,
+          fourthCount: cartItemController.amountItemCart,
         );
       }),
     );

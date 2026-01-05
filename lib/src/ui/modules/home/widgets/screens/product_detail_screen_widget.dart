@@ -7,6 +7,7 @@ import 'package:my_fome/src/constants/deep_link_constant.dart';
 import 'package:my_fome/src/constants/image_error_constant.dart';
 import 'package:my_fome/src/data/services/share/share_service.dart';
 import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
+import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
 import 'package:uikit/uikit.dart';
 
 import 'package:my_fome/src/constants/icon_constant.dart';
@@ -14,7 +15,7 @@ import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
 import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
-import 'package:my_fome/src/ui/modules/home/widgets/alert/alert_order.dart';
+import 'package:my_fome/src/ui/modules/home/widgets/alert/alert_cart_item.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/store_detail_screen_widget.dart';
 
 class ProductDetailScreenWidget extends StatefulWidget {
@@ -35,6 +36,8 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
   final productController = Injector.get<ProductController>();
   final storeController = Injector.get<StoreController>();
   final shareService = Injector.get<ShareService>();
+  final authController = Injector.get<AuthGoogleController>();
+
   late ProductDetailDto product;
   static final GlobalKey repaintKey = GlobalKey();
   final bool isOpen = false;
@@ -45,6 +48,7 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
     if (widget.id != null) {
       productController.detailProduct(widget.id!);
     }
+    authController.load();
   }
 
   final addressController = Injector.get<AddressController>();
@@ -229,21 +233,28 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
         );
       }),
       bottomNavigationBar: ButtonLarge(
-        key: const Key("openAlertOrder"),
-        text: TextConstant.placeOrder,
-        icon: IconConstant.cart,
-        onPressed: () => storeController.store != null
-            ? showDialog(
-                context: context,
-                builder: (context) => Observer(builder: (_) {
-                  return AlertOrder(
-                    product: product,
-                    store: storeController.store!,
-                  );
-                }),
-              )
-            : null,
-      ),
+          key: const Key("openAlertOrder"),
+          text: TextConstant.addCart,
+          icon: IconConstant.cart,
+          onPressed: () async {
+            if (authController.user != null) {
+              if (storeController.store != null) {
+                showDialog(
+                  context: context,
+                  builder: (context) => Observer(
+                    builder: (_) {
+                      return AlertCartItem(
+                        userId: authController.user!.id,
+                        product: product,
+                      );
+                    },
+                  ),
+                );
+                return;
+              }
+            }
+            return await authController.login();
+          }),
     );
   }
 }

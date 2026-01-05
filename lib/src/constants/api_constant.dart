@@ -5,6 +5,7 @@ final class ApiConstant {
   static const String basePix = "https://gerarqrcodepix.com.br/api/v1";
   static const String baseOpenStreetMap = 'https://nominatim.openstreetmap.org';
   static final String baseUrl = Env.baseUrl;
+  static final String cartItem = "$baseUrl/cart-item";
   static final String login = "$baseUrl/login";
   static final String product = "$baseUrl/product";
   static final String refreshToken = "$baseUrl/refresh-token";

@@ -6,6 +6,7 @@ export 'text/text_body_b1_dark.dart';
 export 'text/text_body_b1_semi_dark.dart';
 export 'text/text_body_b2_dark.dart';
 export 'text/text_body_b2_semi_dark.dart';
+export 'text/text_body_b2_danger.dart';
 export 'text/text_headline_h1.dart';
 export 'text/text_headline_h2.dart';
 export 'text/text_label_l1_dark.dart';
@@ -47,6 +48,7 @@ export 'icon/icon_large_semi_dark.dart';
 export 'icon/icon_semi_large_semi_dark.dart';
 export 'icon/icon_larger_circular_danger.dart';
 export 'icon/icon_larger_circular_neutral.dart';
+export 'icon/icon_larger_circular_success.dart';
 export 'icon/icon_medium_semi_dark.dart';
 
 export 'images/image_detail.dart';

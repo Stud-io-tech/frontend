@@ -6,7 +6,10 @@ import 'package:my_fome/src/constants/image_error_constant.dart';
 import 'package:my_fome/src/constants/text_constant.dart';
 import 'package:my_fome/src/ui/controllers/address/address_controller.dart';
 import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
+import 'package:my_fome/src/ui/controllers/cartItem/cart_item_controller.dart';
+import 'package:my_fome/src/ui/controllers/store/store_controller.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/cart_item/group_products_by_store_cart_item.dart';
+import 'package:my_fome/src/ui/modules/home/widgets/screens/store_detail_screen_widget.dart';
 import 'package:uikit/uikit.dart';
 
 class CartScreen extends StatefulWidget {
@@ -17,8 +20,10 @@ class CartScreen extends StatefulWidget {
 }
 
 class _CartScreenState extends State<CartScreen> {
+  final cartItemController = Injector.get<CartItemController>();
   final addressController = Injector.get<AddressController>();
   final authController = Injector.get<AuthGoogleController>();
+  final storeController = Injector.get<StoreController>();
 
   @override
   void initState() {
@@ -29,6 +34,7 @@ class _CartScreenState extends State<CartScreen> {
   void load() async {
     if (authController.user?.id != null) {
       await addressController.detailAddressUser(authController.user!.id);
+      await cartItemController.getByGroupStoreByUser(authController.user!.id);
     }
   }
 
@@ -51,7 +57,7 @@ class _CartScreenState extends State<CartScreen> {
               );
             }
 
-            if (addressController.isLoading) {
+            if (cartItemController.isLoading || addressController.isLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -79,7 +85,15 @@ class _CartScreenState extends State<CartScreen> {
                                 )
                               : LinkSeeMore(
                                   text: TextConstant.createAddress,
-                                  onTap: () {
+                                  onTap: () async {
+                                    await authController.load();
+                                    if (authController.user?.id != null) {
+                                      await addressController.detailAddressUser(
+                                          authController.user!.id);
+                                      await cartItemController
+                                          .getByGroupStoreByUser(
+                                              authController.user!.id);
+                                    }
                                     if (addressController.isLoading == false) {
                                       context.push('/address/register/delivery',
                                           extra: authController.user!.id);
@@ -98,6 +112,12 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ),
                 DividerDefault(),
+                if (cartItemController.cartItems == null ||
+                    cartItemController.cartItems!.isEmpty)
+                  BannerError(
+                    image: ImageErrorConstant.empty,
+                    text: TextConstant.cartItemEmpty,
+                  ),
                 ListView.separated(
                   separatorBuilder: (context, index) => Padding(
                     padding: const EdgeInsets.symmetric(vertical: SizeToken.lg),
@@ -105,20 +125,31 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 2,
-                  itemBuilder: (context, index) => ContentDefault(
-                    child: GroupProductsByStoreCartItem(
-                      dynamicFreightKm: 0.5,
-                      storeLatitude: -6.526858391660521,
-                      storeLongitude: -35.612261806913914,
-                      userLatitude: -6.476603791117846,
-                      userLongitude: -35.428223619859764,
-                      storeName: "Pastelaria Favorita",
-                      total: 10,
-                      onTapStore: () {},
-                      ontapOrder: () {},
-                    ),
-                  ),
+                  itemCount: cartItemController.cartItems?.length ?? 0,
+                  itemBuilder: (context, index) {
+                    final cartItem = cartItemController.cartItems![index];
+                    return ContentDefault(
+                      child: GroupProductsByStoreCartItem(
+                        user: authController.user!.id,
+                        userLatitude:
+                            double.parse(addressController.address!.latitude!),
+                        userLongitude:
+                            double.parse(addressController.address!.longitude!),
+                        cartItem: cartItem,
+                        onTapStore: () async {
+                          await storeController.detailStore(cartItem.storeId);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => StoreDetailScreenWidget(
+                                storeModel: storeController.store,
+                              ),
+                            ),
+                          );
+                        },
+                        ontapOrder: () {},
+                      ),
+                    );
+                  },
                 ),
               ],
             );

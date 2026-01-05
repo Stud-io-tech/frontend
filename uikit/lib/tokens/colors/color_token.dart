@@ -6,7 +6,7 @@ final class ColorToken {
   static const Color semiDark = Color(0xff8f959e);
   static const Color neutral = Color(0xfff5f6fa);
   static const Color light = Color(0xfffefefe);
-  static const Color success = Color(0xff3fc661);
+  static const Color success = Color(0xff38b257);
 
   static String colorToHex(Color color) {
     return '#${color.toARGB32().toRadixString(16).padLeft(6, '0').toUpperCase().substring(2)}';

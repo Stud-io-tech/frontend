@@ -22,6 +22,7 @@ class ResultMessageServiceImpl implements ResultMessageService {
           iconLeading: IconConstant.error,
           iconTrailing: IconConstant.close,
           context: navigatorKey.currentContext!,
+          isSuccess: false,
         ),
       );
     }

@@ -86,17 +86,6 @@ mixin _$CartItemCounterController on CartItemCounterControllerBase, Store {
   }
 
   @override
-  void incrementCart(int newValue, int amount) {
-    final _$actionInfo = _$CartItemCounterControllerBaseActionController
-        .startAction(name: 'CartItemCounterControllerBase.incrementCart');
-    try {
-      return super.incrementCart(newValue, amount);
-    } finally {
-      _$CartItemCounterControllerBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 value: ${value},
