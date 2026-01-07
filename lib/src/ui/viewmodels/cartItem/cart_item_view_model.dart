@@ -82,4 +82,11 @@ abstract class CartItemViewModelBase with Store {
     await cartItemRepository.delete(id);
     isLoading = false;
   }
+
+  @action
+  Future approve(String userId, String storeId) async {
+    isLoading = true;
+    await cartItemRepository.approve(userId, storeId);
+    isLoading = false;
+  }
 }

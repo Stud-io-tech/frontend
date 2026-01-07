@@ -94,4 +94,18 @@ class CartItemRepositoryImpl implements CartItemRepository {
       );
     }
   }
+
+  @override
+  Future<void> approve(String userId, String storeId) async {
+    try {
+      return await clientService.patch(
+          "${ApiConstant.cartItem}/approve/$userId/$storeId", {},
+          requiresAuth: true);
+    } on DioException catch (e) {
+      throw RestException(
+        message: TextConstant.errorApproveCartItemMessage,
+        statusCode: e.hashCode,
+      );
+    }
+  }
 }

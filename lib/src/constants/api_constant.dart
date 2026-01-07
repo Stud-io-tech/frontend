@@ -15,6 +15,8 @@ final class ApiConstant {
       'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
   static final String user = "$baseUrl/user";
   static const String userAgent = 'br.com.caprichaai.app';
+  static String baseOpenMapLinkGoogle(double latitude, double longitude) =>
+      "https://www.google.com/maps?q=$latitude,$longitude";
   static String baseViaCep(String? cep) =>
       'https://viacep.com.br/ws/$cep/json/';
   static String searchOSM(String? query) =>

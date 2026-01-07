@@ -6,14 +6,12 @@ class PaymentPixDto extends Equatable {
   final String name;
   final String city;
   final String value;
-  final double bring;
   const PaymentPixDto({
     required this.keyPix,
     required this.name,
-    required this.bring,
     required this.city,
     required this.value,
   });
   @override
-  List<Object?> get props => [keyPix, name, city, value, bring];
+  List<Object?> get props => [keyPix, name, city, value];
 }

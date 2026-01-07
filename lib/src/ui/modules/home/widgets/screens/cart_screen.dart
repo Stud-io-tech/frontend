@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -67,6 +69,7 @@ class _CartScreenState extends State<CartScreen> {
               children: [
                 ContentDefault(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: SizeToken.sm,
                     children: [
                       Row(
@@ -118,39 +121,43 @@ class _CartScreenState extends State<CartScreen> {
                     image: ImageErrorConstant.empty,
                     text: TextConstant.cartItemEmpty,
                   ),
-                ListView.separated(
-                  separatorBuilder: (context, index) => Padding(
-                    padding: const EdgeInsets.symmetric(vertical: SizeToken.lg),
-                    child: DividerDefault(),
-                  ),
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: cartItemController.cartItems?.length ?? 0,
-                  itemBuilder: (context, index) {
-                    final cartItem = cartItemController.cartItems![index];
-                    return ContentDefault(
-                      child: GroupProductsByStoreCartItem(
-                        user: authController.user!.id,
-                        userLatitude:
-                            double.parse(addressController.address!.latitude!),
-                        userLongitude:
-                            double.parse(addressController.address!.longitude!),
-                        cartItem: cartItem,
-                        onTapStore: () async {
-                          await storeController.detailStore(cartItem.storeId);
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => StoreDetailScreenWidget(
-                                storeModel: storeController.store,
-                              ),
+                addressController.address?.userId == null
+                    ? BannerError(
+                        image: ImageErrorConstant.empty,
+                        text: TextConstant.cartItemEmpty,
+                      )
+                    : ListView.separated(
+                        separatorBuilder: (context, index) => Padding(
+                          padding: const EdgeInsets.symmetric(
+                              vertical: SizeToken.lg),
+                          child: DividerDefault(),
+                        ),
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: cartItemController.cartItems?.length ?? 0,
+                        itemBuilder: (context, index) {
+                          final cartItem = cartItemController.cartItems![index];
+                          return ContentDefault(
+                            child: GroupProductsByStoreCartItem(
+                              addressUser: addressController.address!,
+                              user: authController.user!.id,
+                              cartItem: cartItem,
+                              onTapStore: () async {
+                                await storeController
+                                    .detailStore(cartItem.storeId);
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        StoreDetailScreenWidget(
+                                      storeModel: storeController.store,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           );
                         },
-                        ontapOrder: () {},
                       ),
-                    );
-                  },
-                ),
               ],
             );
           }),

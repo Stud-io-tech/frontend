@@ -24,6 +24,8 @@ final class TextConstant {
   static String sucessUpdatingProductTitle = 'Produto Atualizado!';
   static String sucessUpdatingAddressTitle = 'Endereço Atualizado!';
 
+  static String errorGenerateOrderPdf = 'Erro ao gerar PDF! Volte e tente novamente.';
+
   static String sucessSuspendingProductTitle = 'Produto Suspenso!';
   static String sucessRestoreProductTitle = 'Produto Restaurado!';
 
@@ -102,6 +104,10 @@ final class TextConstant {
 
   static String errorDeleteCartItemMessage =
       'Houve um erro ao apagar o produto no carrinho.';
+
+  static String errorApproveCartItemMessage =
+      'Houve um erro ao aprovar o pedido.';
+
   static String errorExecutingProductMessage =
       'Houve um erro de execeução! Tente novamente.';
 
@@ -271,8 +277,7 @@ final class TextConstant {
   static String payment = "Pagamento:";
 
   static String paymentOnDelivery = "Pagamento na Entrega.";
-  static String bringChange(double bring) =>
-      "Traga ${monetaryValue(bring)} de troco!";
+
   static String formatDateTime(DateTime dateTime) =>
       "${DateFormat('dd/MM/yyyy | HH:mm').format(dateTime)}h";
 }

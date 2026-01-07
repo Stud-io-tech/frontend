@@ -56,6 +56,12 @@ abstract class CartItemControllerBase with Store {
     await cartItemViewModel.getByGroupStoreByUser(userId);
   }
 
+    @action
+  Future<void> approve(String userId, String storeId) async {
+    await cartItemViewModel.approve(userId, storeId);
+    await cartItemViewModel.getByGroupStoreByUser(userId);
+  }
+
   void clean() {
     cartItemViewModel.cartItemGroupStoreDto = [];
   }

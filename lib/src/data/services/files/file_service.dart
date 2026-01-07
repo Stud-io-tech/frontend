@@ -1,9 +1,9 @@
-/* import 'dart:typed_data';
+import 'dart:typed_data';
 
-import 'package:my_fome/src/domain/dtos/order/order_dto.dart';
+import 'package:my_fome/src/domain/dtos/address/address_detail_dto.dart';
+import 'package:my_fome/src/domain/dtos/cartItem/cart_item_group_store_dto.dart';
 
 abstract interface class FileService {
-  Future<String> generatePDFOrder(OrderDto data,
-      {Uint8List? pixQrCode, double? bring});
+  Future<String> generatePDFOrder(CartItemGroupStoreDto data, AddressDetailDto addressUser, String code, String userName,String whatsappLink, 
+      {Uint8List? pixQrCode, String? addressLinkMap});
 }
- */

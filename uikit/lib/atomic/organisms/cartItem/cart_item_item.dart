@@ -16,7 +16,7 @@ class CartItemItem extends StatelessWidget {
   final void Function() onTapIcrement;
   final void Function() onTapDecrement;
 
-  CartItemItem({
+  const CartItemItem({
     super.key,
     required this.name,
     required this.price,
