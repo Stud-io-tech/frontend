@@ -31,8 +31,9 @@ class FileServiceImpl implements FileService {
       String code,
       String userName,
       String whatsappLink,
-      {Uint8List? pixQrCode,
-      String? addressLinkMap}) async {
+      {String? addressLinkMap,
+      String? pixCopyPast,
+      Uint8List? pixQrCode}) async {
     final regularFont =
         pw.Font.ttf(await rootBundle.load('assets/fonts/Inter-Regular.ttf'));
     final boldFont =
@@ -74,7 +75,7 @@ class FileServiceImpl implements FileService {
                   textLabelSmNormal("Olá, ", regularFont),
                   textLabelSmBold(userName, boldFont),
                   textLabelSmNormal(
-                      "! O pedido será entregue em ", regularFont),
+                      "! O seu pedido será entregue entre ", regularFont),
                   textLabelSmBold(
                       "${cartItemsGroupStore.minPreparationTime} a ${cartItemsGroupStore.maxPreparationTime} minutos.",
                       boldFont),
@@ -83,21 +84,26 @@ class FileServiceImpl implements FileService {
               pw.SizedBox(
                 height: 15,
               ),
-              textLabelSmBold(
-                  "Não esqueça de enviar este comprovante! Veja os dados de pedido abaixo:",
+              textLabelSmBoldDanger(
+                  "Espere um pouco após clicar no botão de confirmar!",
                   boldFont),
               pw.SizedBox(
-                height: 15,
+                height: 8,
               ),
-              textLabelSmNormal(
-                  "Veja os dados de pedido abaixo:",
-                  regularFont),
+              textLabelSmBoldDanger(
+                  "Não altere o link deste comprovante após o redirecionamento para o WhatsApp!",
+                  boldFont),
               pw.SizedBox(
                 height: 28,
               ),
-              textLabelMdBold(
-                  "${cartItemsGroupStore.storeName} - ${cartItemsGroupStore.total}",
-                  boldFont),
+              textLabelLgBoldDark(
+                "Lista de Pedidos:",
+                boldFont,
+              ),
+              pw.SizedBox(
+                height: 28,
+              ),
+              textLabelMdBold(cartItemsGroupStore.storeName, boldFont),
               pw.SizedBox(
                 height: 23,
               ),
@@ -192,9 +198,37 @@ class FileServiceImpl implements FileService {
                       pw.Container(
                         padding: const pw.EdgeInsets.all(12),
                         alignment: pw.Alignment.centerRight,
-                        child: textLabelMdBold(
-                            "Total do pedido: ${TextConstant.monetaryValue(double.parse(cartItemsGroupStore.total))}",
-                            boldFont),
+                        child: pw.Column(
+                          crossAxisAlignment: pw.CrossAxisAlignment.end,
+                          mainAxisAlignment: pw.MainAxisAlignment.end,
+                          children: [
+                            textLabelSmNormal(
+                                "Frete: ${TextConstant.monetaryValue(
+                                  double.parse(
+                                    cartItemsGroupStore.storeFreight.toString(),
+                                  ),
+                                )}",
+                                regularFont),
+                            pw.SizedBox(
+                              height: 3,
+                            ),
+                            textLabelSmNormal(
+                                "Produtos: ${TextConstant.monetaryValue(
+                                  (double.parse(cartItemsGroupStore.total) -
+                                      double.parse(
+                                        cartItemsGroupStore.storeFreight
+                                            .toString(),
+                                      )),
+                                )}",
+                                regularFont),
+                            pw.SizedBox(
+                              height: 8,
+                            ),
+                            textLabelMdBold(
+                                "Total do pedido: ${TextConstant.monetaryValue(double.parse(cartItemsGroupStore.total))}",
+                                boldFont),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -223,27 +257,55 @@ class FileServiceImpl implements FileService {
               pw.SizedBox(
                 height: 15,
               ),
-              textLabelSmNormal(
-                  "Whatsapp: ${addressUser.whatsapp}", regularFont,
-                  link: whatsappLink),
-              if (addressLinkMap != null)
-                pw.Column(
+              if (addressUser.complement != null)
+                textLabelSmNormal(
+                  addressUser.complement.toString(),
+                  regularFont,
+                ),
+              pw.SizedBox(
+                height: 15,
+              ),
+              pw.Row(
+                  mainAxisAlignment: pw.MainAxisAlignment.start,
                   crossAxisAlignment: pw.CrossAxisAlignment.start,
                   children: [
-                    pw.SizedBox(
-                      height: 15,
-                    ),
                     textLabelSmNormal(
-                        "Whatsapp: ${addressUser.whatsapp}", regularFont,
+                      "WhatsApp: ",
+                      regularFont,
+                    ),
+                    textLabelSmNormalDanger(
+                        MaskToken.formatPhoneNumber(
+                          addressUser.whatsapp.replaceFirst("+55", ""),
+                        ),
+                        regularFont,
                         link: whatsappLink),
-                  ],
-                ),
+                  ])
             ],
           ),
+          if (addressLinkMap != null)
+            pw.Column(
+              crossAxisAlignment: pw.CrossAxisAlignment.start,
+              children: [
+                pw.SizedBox(
+                  height: 15,
+                ),
+                pw.Row(
+                    mainAxisAlignment: pw.MainAxisAlignment.start,
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      textLabelSmNormal(
+                        "Localização no Mapa: ",
+                        regularFont,
+                      ),
+                      textLabelSmNormalDanger("clique neste link", regularFont,
+                          link: addressLinkMap),
+                    ])
+              ],
+            ),
           pw.SizedBox(
             height: 28,
           ),
-          if (pixQrCode != null)
+          if (pixQrCode != null && pixCopyPast != null)
             pw.Column(
               crossAxisAlignment: pw.CrossAxisAlignment.start,
               mainAxisAlignment: pw.MainAxisAlignment.start,
@@ -255,7 +317,7 @@ class FileServiceImpl implements FileService {
                 pw.SizedBox(
                   height: 23,
                 ),
-                pixWidget(pixQrCode, regularFont),
+                pixWidget(pixQrCode, pixCopyPast, regularFont),
                 pw.SizedBox(
                   height: 28,
                 ),
@@ -264,9 +326,8 @@ class FileServiceImpl implements FileService {
           pw.Row(
             mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
             children: [
-              textLabelMdBoldDanger(TextConstant.thanks, boldFont),
-              textLabelMdBoldDanger(
-                  TextConstant.formatDateTime(dateTime), boldFont),
+              textLabelMdBold(TextConstant.thanks, boldFont),
+              textLabelMdBold(TextConstant.formatDateTime(dateTime), boldFont),
             ],
           ),
         ],
@@ -309,6 +370,36 @@ class FileServiceImpl implements FileService {
           );
   }
 
+  pw.Widget textLabelSmNormalDanger(String value, pw.Font font,
+      {String? link}) {
+    return link != null
+        ? pw.UrlLink(
+            child: pw.Text(
+              value,
+              style: pw.TextStyle(
+                color: PdfColor.fromHex(
+                  ColorToken.colorToHex(ColorToken.danger),
+                ),
+                font: font,
+                fontWeight: pw.FontWeight.normal,
+                fontSize: 15,
+                decoration: pw.TextDecoration.underline,
+              ),
+            ),
+            destination: link)
+        : pw.Text(
+            value,
+            style: pw.TextStyle(
+              color: PdfColor.fromHex(
+                ColorToken.colorToHex(ColorToken.danger),
+              ),
+              font: font,
+              fontWeight: pw.FontWeight.normal,
+              fontSize: 15,
+            ),
+          );
+  }
+
   pw.Text textLabelSmBold(
     String value,
     pw.Font font,
@@ -318,6 +409,22 @@ class FileServiceImpl implements FileService {
       style: pw.TextStyle(
         color: PdfColor.fromHex(
           ColorToken.colorToHex(ColorToken.dark),
+        ),
+        fontWeight: pw.FontWeight.bold,
+        fontSize: 15,
+      ),
+    );
+  }
+
+  pw.Text textLabelSmBoldDanger(
+    String value,
+    pw.Font font,
+  ) {
+    return pw.Text(
+      value,
+      style: pw.TextStyle(
+        color: PdfColor.fromHex(
+          ColorToken.colorToHex(ColorToken.danger),
         ),
         fontWeight: pw.FontWeight.bold,
         fontSize: 15,
@@ -389,25 +496,40 @@ class FileServiceImpl implements FileService {
     );
   }
 
-  pw.Widget pixWidget(Uint8List qrcode, pw.Font font) {
+  pw.Widget pixWidget(Uint8List qrcode, String linkPixCopyPast, pw.Font font) {
     final image = pw.MemoryImage(qrcode);
-    return pw.Row(
-      children: [
-        pw.Expanded(
-          child: pw.Container(
-            decoration: pw.BoxDecoration(
-              color: PdfColor.fromHex(
-                ColorToken.colorToHex(ColorToken.neutral),
+    return pw.UrlLink(
+      destination: linkPixCopyPast,
+      child: pw.Row(
+        children: [
+          pw.Expanded(
+            child: pw.Container(
+              decoration: pw.BoxDecoration(
+                color: PdfColor.fromHex(
+                  ColorToken.colorToHex(ColorToken.neutral),
+                ),
+                borderRadius: pw.BorderRadius.circular(10),
               ),
-              borderRadius: pw.BorderRadius.circular(10),
+              padding: const pw.EdgeInsets.all(15),
+              child: pw.Column(
+                  mainAxisAlignment: pw.MainAxisAlignment.start,
+                  crossAxisAlignment: pw.CrossAxisAlignment.start,
+                  children: [
+                    textLabelSmNormal(TextConstant.pixPayment, font),
+                    pw.SizedBox(
+                      height: 15,
+                    ),
+                    textLabelSmNormalDanger(
+                        'Selecione aqui e depois clique na opção de "copiar link" para copiar o código do "Pix Copia e Cola"',
+                        font,
+                        link: linkPixCopyPast)
+                  ]),
             ),
-            padding: const pw.EdgeInsets.all(15),
-            child: textLabelSmNormal(TextConstant.pixPayment, font),
           ),
-        ),
-        pw.SizedBox(width: 15),
-        pw.Image(image, height: 125),
-      ],
+          pw.SizedBox(width: 15),
+          pw.Image(image, height: 125),
+        ],
+      ),
     );
   }
 }

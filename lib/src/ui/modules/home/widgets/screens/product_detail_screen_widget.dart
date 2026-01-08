@@ -40,7 +40,6 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
 
   late ProductDetailDto product;
   static final GlobalKey repaintKey = GlobalKey();
-  final bool isOpen = false;
 
   @override
   void initState() {
@@ -128,9 +127,13 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        isOpen
-                            ? TextLabelL4Success(text: TextConstant.open)
-                            : TextLabelL4Info(text: TextConstant.close),
+                        storeController.store?.isOpen != null
+                            ? storeController.store!.isOpen
+                                ? TextLabelL4Success(text: TextConstant.open)
+                                : TextLabelL4Info(text: TextConstant.close)
+                            : TextLabelL4Secondary(
+                                text: TextConstant.wait,
+                              ),
                         TextLabelL4Dark(
                           text:
                               " | ${TextConstant.quantityAvailableUpperCase(product.amount)}",

@@ -60,6 +60,7 @@ abstract class OrderPdfControllerBase with Store {
     );
 
     final pixQrCode = await paymentService.generateQRCode(pixDto);
+    final pixCopyPast = await paymentService.generateCopyPast(pixDto);
 
     pdfPath = await fileService.generatePDFOrder(
       cart,
@@ -67,8 +68,9 @@ abstract class OrderPdfControllerBase with Store {
       code.toString(),
       userName,
       whatsappLink,
-      addressLinkMap: addressLinkMap,
+      pixCopyPast: pixCopyPast,
       pixQrCode: pixQrCode,
+      addressLinkMap: addressLinkMap,
     );
 
     isLoading = false;

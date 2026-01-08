@@ -20,7 +20,7 @@ class CartItemGroupStoreDto {
   final String? storeOwnerName;
   final String? storeCity;
   final String storePix;
-
+  final bool storeIsOpen;
   final List<CartItemDetailDto> cartItems;
   CartItemGroupStoreDto({
     required this.storeId,
@@ -37,6 +37,7 @@ class CartItemGroupStoreDto {
     this.storeOwnerName,
     this.storeCity,
     required this.storePix,
+    required this.storeIsOpen,
     required this.cartItems,
   });
 
@@ -74,6 +75,7 @@ class CartItemGroupStoreDto {
           ? map['store_longitude'] as String
           : null,
       storeIsDelivered: map['store_is_delivered'] as bool,
+      storeIsOpen: map['store_is_open'] as bool,
       minPreparationTime: map['min_preparation_time'] as int,
       maxPreparationTime: map['max_preparation_time'] as int,
       storeDeliveryTimeKm: map['store_delivery_time_km'] as int,
@@ -113,6 +115,7 @@ class CartItemGroupStoreDto {
         other.storePix == storePix &&
         other.storeOwnerName == storeOwnerName &&
         other.storeCity == storeCity &&
+        other.storeIsOpen == storeIsOpen &&
         listEquals(other.cartItems, cartItems);
   }
 
@@ -131,11 +134,12 @@ class CartItemGroupStoreDto {
         storeWhatsapp.hashCode ^
         storePix.hashCode ^
         storeCity.hashCode ^
+        storeIsOpen.hashCode ^
         cartItems.hashCode;
   }
 
   @override
   String toString() {
-    return 'CartItemGroupStoreDto(storeId: $storeId, storeName: $storeName, total: $total, storeFreight: $storeFreight, storeLatitude: $storeLatitude, storeLongitude: $storeLongitude, cartItems: $cartItems, store_is_delivered: $storeIsDelivered, minPreparationTime: $maxPreparationTime, maxPreparationTime: $maxPreparationTime, storeDeliveryTimeKm: $storeDeliveryTimeKm, storeWhatsapp: $storeWhatsapp, storeOwnerName: $storeOwnerName, storePix: $storePix, storeCity: $storeCity)';
+    return 'CartItemGroupStoreDto(storeId: $storeId, storeName: $storeName, total: $total, storeFreight: $storeFreight, storeLatitude: $storeLatitude, storeLongitude: $storeLongitude, cartItems: $cartItems, store_is_delivered: $storeIsDelivered, minPreparationTime: $maxPreparationTime, maxPreparationTime: $maxPreparationTime, storeDeliveryTimeKm: $storeDeliveryTimeKm, storeWhatsapp: $storeWhatsapp, storeOwnerName: $storeOwnerName, storePix: $storePix, storeCity: $storeCity, storeIsOpen: $storeIsOpen)';
   }
 }

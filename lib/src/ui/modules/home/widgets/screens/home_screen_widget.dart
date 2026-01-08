@@ -48,7 +48,6 @@ class _HomeScreenWidgetState extends State<HomeScreenWidget> {
             onChanged: productController.filterProducts,
             hintText: TextConstant.search,
             prefixIcon: IconConstant.search,
-            sufixIcon: IconConstant.filter,
             sufixOnTap: () {
               resultMessageService.showMessageSuccess(
                   TextConstant.sucessCreatingProductTitle,

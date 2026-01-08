@@ -41,7 +41,6 @@ class _StoreScreenState extends State<StoreScreen> {
             onChanged: storeController.filterStores,
             hintText: TextConstant.search,
             prefixIcon: IconConstant.search,
-            sufixIcon: IconConstant.filter,
             sufixOnTap: () {},
           ),
           const SizedBox(

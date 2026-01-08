@@ -24,13 +24,15 @@ final class TextConstant {
   static String sucessUpdatingProductTitle = 'Produto Atualizado!';
   static String sucessUpdatingAddressTitle = 'Endereço Atualizado!';
 
-  static String errorGenerateOrderPdf = 'Erro ao gerar PDF! Volte e tente novamente.';
+  static String errorGenerateOrderPdf =
+      'Erro ao gerar PDF! Volte e tente novamente.';
 
   static String sucessSuspendingProductTitle = 'Produto Suspenso!';
   static String sucessRestoreProductTitle = 'Produto Restaurado!';
 
   static String open = "• ABERTO";
   static String close = "• FECHADO";
+  static String wait = "• AGUARDE";
 
   static String logoutAccountTitle = 'Sair da Conta?';
 
@@ -269,7 +271,7 @@ final class TextConstant {
   static String successLinkCopiedMessage = "Link copiado com sucesso!";
 
   static String pixPayment =
-      "Escaneie o QRCode de pagamento pix ao lado! Você também pode usar o Pix Copia e Cola ao copiar o código no painel de pedidos no aplicativo.";
+      'Escaneie o QR Code de pagamento pix ao lado ou selecione o link de "Pix Copia e Cola" abaixo:';
 
   static String orderConfirmation = "Confirmação de pedido";
 
@@ -277,6 +279,8 @@ final class TextConstant {
   static String payment = "Pagamento:";
 
   static String paymentOnDelivery = "Pagamento na Entrega.";
+
+  static String storeIsNotOpen = "Loja Fechada no Momento";
 
   static String formatDateTime(DateTime dateTime) =>
       "${DateFormat('dd/MM/yyyy | HH:mm').format(dateTime)}h";

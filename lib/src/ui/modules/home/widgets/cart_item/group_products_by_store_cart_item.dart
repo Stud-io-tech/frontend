@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first, use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/data/services/files/file_service.dart';
 import 'package:my_fome/src/domain/dtos/address/address_detail_dto.dart';
@@ -206,44 +207,45 @@ class _GroupProductsByStoreCartItemState
         ),
         SizedBox(
           width: double.infinity,
-          child: ButtonSmallDark(
-            text: TextConstant.placeOrder,
-            onPressed: () {
-              CartItemGroupStoreDto newCartItem = CartItemGroupStoreDto(
-                storePix: widget.cartItem.storePix,
-                storeWhatsapp: widget.cartItem.storeWhatsapp,
-                storeDeliveryTimeKm: widget.cartItem.storeDeliveryTimeKm,
-                storeId: widget.cartItem.storeId,
-                storeName: widget.cartItem.storeName,
-                total: (widget.cartItem.storeIsDelivered ||
-                        (widget.cartItem.storeLatitude != null &&
-                            widget.cartItem.storeLongitude != null))
-                    ? (double.parse(widget.cartItem.total) + freight).toString()
-                    : widget.cartItem.total.toString(),
-                minPreparationTime: minEstimateTimeDelivery,
-                storeFreight: (widget.cartItem.storeIsDelivered ||
-                        (widget.cartItem.storeLatitude != null &&
-                            widget.cartItem.storeLongitude != null))
-                    ? TextConstant.monetaryValue(
-                        double.parse(widget.cartItem.total) + freight)
-                    : TextConstant.monetaryValue(
-                        double.parse(widget.cartItem.total),
-                      ),
-                maxPreparationTime: maxEstimateTimeDelivery,
-                storeIsDelivered: widget.cartItem.storeIsDelivered,
-                cartItems: widget.cartItem.cartItems,
-              );
+          child: Observer(builder: (context) {
+            return widget.cartItem.storeIsOpen
+                ? ButtonSmallDark(
+                    text: TextConstant.placeOrder,
+                    onPressed: () {
+                      CartItemGroupStoreDto newCartItem = CartItemGroupStoreDto(
+                        storeIsOpen: widget.cartItem.storeIsOpen,
+                        storePix: widget.cartItem.storePix,
+                        storeWhatsapp: widget.cartItem.storeWhatsapp,
+                        storeDeliveryTimeKm:
+                            widget.cartItem.storeDeliveryTimeKm,
+                        storeId: widget.cartItem.storeId,
+                        storeName: widget.cartItem.storeName,
+                        total: (widget.cartItem.storeIsDelivered ||
+                                (widget.cartItem.storeLatitude != null &&
+                                    widget.cartItem.storeLongitude != null))
+                            ? (double.parse(widget.cartItem.total) + freight)
+                                .toString()
+                            : widget.cartItem.total.toString(),
+                        minPreparationTime: minEstimateTimeDelivery,
+                        maxPreparationTime: maxEstimateTimeDelivery == minEstimateTimeDelivery ? maxEstimateTimeDelivery + 5 : maxEstimateTimeDelivery,
+                        storeFreight: freight.toString(),
+                        storeIsDelivered: widget.cartItem.storeIsDelivered,
+                        cartItems: widget.cartItem.cartItems,
+                      );
 
-              context.push(
-                '/order-pdf',
-                extra: {
-                  'cart': newCartItem,
-                  'address': widget.addressUser,
-                  'userName': authGoogleController.user?.name.toString(),
-                },
-              );
-            },
-          ),
+                      context.push(
+                        '/order-pdf',
+                        extra: {
+                          'cart': newCartItem,
+                          'address': widget.addressUser,
+                          'userName':
+                              authGoogleController.user?.name.toString(),
+                        },
+                      );
+                    },
+                  )
+                : ButtonSmallSemiDark(text: TextConstant.storeIsNotOpen);
+          }),
         )
       ],
     );

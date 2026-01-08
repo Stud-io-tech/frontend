@@ -63,7 +63,6 @@ class _ProductByStorePageState extends State<ProductByStorePage> {
                     onChanged: productController.filterProducts,
                     hintText: TextConstant.search,
                     prefixIcon: IconConstant.search,
-                    sufixIcon: IconConstant.filter,
                     sufixOnTap: () {},
                   ),
                   const SizedBox(

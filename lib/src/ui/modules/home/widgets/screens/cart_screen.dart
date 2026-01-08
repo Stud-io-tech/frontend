@@ -59,7 +59,7 @@ class _CartScreenState extends State<CartScreen> {
               );
             }
 
-            if (cartItemController.isLoading || addressController.isLoading) {
+            if (cartItemController.isLoading && addressController.isLoading) {
               return const Center(
                 child: CircularProgressIndicator(),
               );
@@ -93,13 +93,15 @@ class _CartScreenState extends State<CartScreen> {
                                     if (authController.user?.id != null) {
                                       await addressController.detailAddressUser(
                                           authController.user!.id);
-                                      await cartItemController
-                                          .getByGroupStoreByUser(
-                                              authController.user!.id);
-                                    }
-                                    if (addressController.isLoading == false) {
-                                      context.push('/address/register/delivery',
-                                          extra: authController.user!.id);
+                                           await cartItemController.getByGroupStoreByUser(
+                                          authController.user!.id);
+                                      if ((addressController.isLoading == false && addressController.isLoading == false) &&
+                                          addressController.address?.userId ==
+                                              null) {
+                                        context.push(
+                                            '/address/register/delivery',
+                                            extra: authController.user!.id);
+                                      }
                                     }
                                   },
                                 ),
