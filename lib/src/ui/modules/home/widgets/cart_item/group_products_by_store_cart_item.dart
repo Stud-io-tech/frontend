@@ -1,9 +1,14 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: public_member_api_docs, sort_constructors_first, use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_fome/src/data/services/files/file_service.dart';
+import 'package:my_fome/src/domain/dtos/address/address_detail_dto.dart';
+import 'package:my_fome/src/ui/controllers/auth/auth_google_controller.dart';
 import 'package:my_fome/src/ui/controllers/cartItem/cart_item_controller.dart';
 import 'package:my_fome/src/ui/controllers/product/product_controller.dart';
+import 'package:my_fome/src/ui/controllers/order/code/code_order_random_controller.dart';
 import 'package:my_fome/src/ui/modules/home/widgets/screens/product_detail_screen_widget.dart';
 import 'package:uikit/uikit.dart';
 
@@ -14,20 +19,16 @@ import 'package:my_fome/src/ui/modules/home/controllers/freight/freight_controll
 
 class GroupProductsByStoreCartItem extends StatefulWidget {
   final String user;
-  final double userLatitude;
-  final double userLongitude;
   final CartItemGroupStoreDto cartItem;
-  final void Function() ontapOrder;
+  final AddressDetailDto addressUser;
   final void Function() onTapStore;
 
   const GroupProductsByStoreCartItem({
     super.key,
-    required this.userLatitude,
-    required this.userLongitude,
     required this.cartItem,
-    required this.ontapOrder,
     required this.onTapStore,
     required this.user,
+    required this.addressUser,
   });
 
   @override
@@ -37,25 +38,46 @@ class GroupProductsByStoreCartItem extends StatefulWidget {
 
 class _GroupProductsByStoreCartItemState
     extends State<GroupProductsByStoreCartItem> {
+  final fileService = Injector.get<FileService>();
+
   final cartItemController = Injector.get<CartItemController>();
 
   final productController = Injector.get<ProductController>();
 
   final freightController = FreightController();
 
-  late double freight = 0;
+  final codeOrderRandomController = CodeOrderRandomController();
+
+  final authGoogleController = Injector.get<AuthGoogleController>();
+
+  late List<double> freightAndDistance;
+
+  late double freight = 0.00;
+
+  late int maxEstimateTimeDelivery = 0;
+  late int minEstimateTimeDelivery = 0;
 
   @override
   void initState() {
     super.initState();
     if (widget.cartItem.storeIsDelivered) {
-      freight = freightController.getFreight(
-        widget.userLatitude,
-        widget.userLongitude,
-        double.parse(widget.cartItem.storeLatitude!),
-        double.parse(widget.cartItem.storeLongitude!),
-        double.parse(widget.cartItem.storeFreight!),
+      freightAndDistance = freightController.getFreight(
+        double.parse(widget.addressUser.latitude.toString()),
+        double.parse(widget.addressUser.longitude.toString()),
+        double.parse(widget.cartItem.storeLatitude.toString()),
+        double.parse(widget.cartItem.storeLongitude.toString()),
+        double.parse(widget.cartItem.storeFreight.toString()),
       );
+
+      maxEstimateTimeDelivery = (freightAndDistance.first.round() *
+              widget.cartItem.storeDeliveryTimeKm) +
+          widget.cartItem.maxPreparationTime;
+
+      minEstimateTimeDelivery = (freightAndDistance.first.round() *
+              widget.cartItem.storeDeliveryTimeKm) +
+          widget.cartItem.minPreparationTime;
+
+      freight = freightAndDistance.last;
     }
   }
 
@@ -98,7 +120,9 @@ class _GroupProductsByStoreCartItemState
                   ),
                 ),
                 TextLabelL2Dark(
-                  text: widget.cartItem.storeIsDelivered
+                  text: (widget.cartItem.storeIsDelivered ||
+                          (widget.cartItem.storeLatitude != null &&
+                              widget.cartItem.storeLongitude != null))
                       ? TextConstant.totalValue(
                           double.parse(widget.cartItem.total) + freight)
                       : TextConstant.totalValue(
@@ -108,7 +132,9 @@ class _GroupProductsByStoreCartItemState
               ],
             ),
             widget.cartItem.storeIsDelivered
-                ? TextBodyB2SemiDark(text: TextConstant.freigthValue(freight))
+                ? TextBodyB2SemiDark(
+                    text:
+                        "${TextConstant.freigthValue(freight)} | ⏱︎ $minEstimateTimeDelivery - ${maxEstimateTimeDelivery == minEstimateTimeDelivery ? maxEstimateTimeDelivery + 5 : maxEstimateTimeDelivery} min")
                 : TextBodyB2Danger(text: TextConstant.storeDontDelivery)
           ],
         ),
@@ -118,7 +144,7 @@ class _GroupProductsByStoreCartItemState
           itemCount: widget.cartItem.cartItems.length,
           itemBuilder: (context, index) {
             final cartItem = widget.cartItem.cartItems[index];
-                        
+
             return CartItemItem(
                 name: cartItem.name.toString(),
                 price:
@@ -181,10 +207,45 @@ class _GroupProductsByStoreCartItemState
         ),
         SizedBox(
           width: double.infinity,
-          child: ButtonSmallDark(
-            text: TextConstant.placeOrder,
-            onPressed: widget.ontapOrder,
-          ),
+          child: Observer(builder: (context) {
+            return widget.cartItem.storeIsOpen
+                ? ButtonSmallDark(
+                    text: TextConstant.placeOrder,
+                    onPressed: () {
+                      CartItemGroupStoreDto newCartItem = CartItemGroupStoreDto(
+                        storeIsOpen: widget.cartItem.storeIsOpen,
+                        storePix: widget.cartItem.storePix,
+                        storeWhatsapp: widget.cartItem.storeWhatsapp,
+                        storeDeliveryTimeKm:
+                            widget.cartItem.storeDeliveryTimeKm,
+                        storeId: widget.cartItem.storeId,
+                        storeName: widget.cartItem.storeName,
+                        total: (widget.cartItem.storeIsDelivered ||
+                                (widget.cartItem.storeLatitude != null &&
+                                    widget.cartItem.storeLongitude != null))
+                            ? (double.parse(widget.cartItem.total) + freight)
+                                .toString()
+                            : widget.cartItem.total.toString(),
+                        minPreparationTime: minEstimateTimeDelivery,
+                        maxPreparationTime: maxEstimateTimeDelivery == minEstimateTimeDelivery ? maxEstimateTimeDelivery + 5 : maxEstimateTimeDelivery,
+                        storeFreight: freight.toString(),
+                        storeIsDelivered: widget.cartItem.storeIsDelivered,
+                        cartItems: widget.cartItem.cartItems,
+                      );
+
+                      context.push(
+                        '/order-pdf',
+                        extra: {
+                          'cart': newCartItem,
+                          'address': widget.addressUser,
+                          'userName':
+                              authGoogleController.user?.name.toString(),
+                        },
+                      );
+                    },
+                  )
+                : ButtonSmallSemiDark(text: TextConstant.storeIsNotOpen);
+          }),
         )
       ],
     );

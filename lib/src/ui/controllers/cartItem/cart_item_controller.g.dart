@@ -73,6 +73,14 @@ mixin _$CartItemController on CartItemControllerBase, Store {
     return _$deleteAsyncAction.run(() => super.delete(id, userId));
   }
 
+  late final _$approveAsyncAction =
+      AsyncAction('CartItemControllerBase.approve', context: context);
+
+  @override
+  Future<void> approve(String userId, String storeId) {
+    return _$approveAsyncAction.run(() => super.approve(userId, storeId));
+  }
+
   @override
   String toString() {
     return '''

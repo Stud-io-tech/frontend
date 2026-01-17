@@ -26,6 +26,7 @@ export 'text/text_label_l5_info.dart';
 export 'button/button_large.dart';
 export 'button/button_small_dark.dart';
 export 'button/button_small_light.dart';
+export 'button/button_small_semi_dark.dart';
 export 'button/button_cancel.dart';
 export 'button/button_progress.dart';
 

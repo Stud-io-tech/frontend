@@ -82,4 +82,9 @@ class MapServiceImpl implements MapService {
       return null;
     }
   }
+
+  @override
+  String getLocalOpenMapLink(double latitude, double longitude) {
+    return ApiConstant.baseOpenMapLinkGoogle(latitude, longitude);
+  }
 }

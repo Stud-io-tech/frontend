@@ -37,7 +37,6 @@ class _ProductScreenState extends State<ProductScreen> {
             onChanged: productController.filterProducts,
             hintText: TextConstant.search,
             prefixIcon: IconConstant.search,
-            sufixIcon: IconConstant.filter,
             sufixOnTap: () {},
           ),
           const SizedBox(

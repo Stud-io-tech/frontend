@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:my_fome/src/constants/navigator/navigator_global.dart';
 import 'package:my_fome/src/domain/dtos/address/address_detail_dto.dart';
+import 'package:my_fome/src/domain/dtos/cartItem/cart_item_group_store_dto.dart';
 import 'package:my_fome/src/domain/dtos/products/product_detail_dto.dart';
 import 'package:my_fome/src/domain/dtos/stores/store_detail_dto.dart';
 import 'package:my_fome/src/domain/enum/login_redirect_enum.dart';
@@ -80,11 +81,12 @@ sealed class AppRoutes {
     GoRoute(
       path: '/order-pdf',
       builder: (context, state) {
-        final extras = state.extra as Map<String, String>;
+        final extras = state.extra as Map<String, dynamic>;
+
         return OrderPdfScreenWidget(
-          path: extras['path']!,
-          whatsapp: extras['whatsapp']!,
-          code: extras['code']!,
+          cartItemGroupStoreDto: extras['cart'] as CartItemGroupStoreDto,
+          addressUser: extras['address'] as AddressDetailDto,
+          userName: extras['userName'] as String,
         );
       },
     ),

@@ -36,15 +36,14 @@ class CartItemDetailDto {
 
   factory CartItemDetailDto.fromMap(Map<String, dynamic> map) {
     return CartItemDetailDto(
-      id: map['id'] as String,
-      userId: map['user_id'] != null ? map['user_id'] as String : null,
-      productId: map['product_id'] as String,
-      amount: map['amount'] as int,
-      active: map['active'] != null ? map['active'] as bool : null,
-      price: map['price'] != null ? map['price'] as String : null,
-      image: map['image'] != null ? map['image'] as String : null,
-      name: map['name'] != null ? map['name'] as String : null,
-    );
+        id: map['id'] as String,
+        userId: map['user_id'] != null ? map['user_id'] as String : null,
+        productId: map['product_id'] as String,
+        amount: map['amount'] as int,
+        active: map['active'] != null ? map['active'] as bool : null,
+        price: map['price'] != null ? map['price'] as String : null,
+        image: map['image'] != null ? map['image'] as String : null,
+        name: map['name'] != null ? map['name'] as String : null);
   }
 
   String toJson() => json.encode(toMap());

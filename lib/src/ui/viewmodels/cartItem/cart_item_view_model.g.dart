@@ -92,6 +92,14 @@ mixin _$CartItemViewModel on CartItemViewModelBase, Store {
     return _$deleteAsyncAction.run(() => super.delete(id));
   }
 
+  late final _$approveAsyncAction =
+      AsyncAction('CartItemViewModelBase.approve', context: context);
+
+  @override
+  Future<dynamic> approve(String userId, String storeId) {
+    return _$approveAsyncAction.run(() => super.approve(userId, storeId));
+  }
+
   @override
   String toString() {
     return '''

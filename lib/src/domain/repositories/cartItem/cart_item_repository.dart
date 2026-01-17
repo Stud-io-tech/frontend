@@ -8,4 +8,5 @@ abstract interface class CartItemRepository {
   AsyncResult<List<CartItemGroupStoreDto>> getByGroupStoreByUser(String userId);
   AsyncResult<CartItemDetailDto> updateAmount(int amount, String id);
   Future<void> delete(String id);
+  Future<void> approve(String userId, String storeId);
 }

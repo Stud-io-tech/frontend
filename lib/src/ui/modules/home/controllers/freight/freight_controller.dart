@@ -6,13 +6,15 @@ class FreightController = FreightControllerBase with _$FreightController;
 
 abstract class FreightControllerBase with Store {
   @action
-  double getFreight(double userLatitude, double userLongitude,
+  List<double> getFreight(double userLatitude, double userLongitude,
       double storeLatitude, double storeLongitude, double valueKM) {
     double distanceInMeters = Geolocator.distanceBetween(
         userLatitude, userLongitude, storeLatitude, storeLongitude);
 
-    double freight = valueKM * (distanceInMeters / 1000);
+    double distanceKm = distanceInMeters / 1000;
 
-    return freight;
+    double freight = valueKM * distanceKm;
+
+    return [distanceKm, freight];
   }
 }

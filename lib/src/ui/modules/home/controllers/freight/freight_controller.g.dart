@@ -13,7 +13,7 @@ mixin _$FreightController on FreightControllerBase, Store {
       ActionController(name: 'FreightControllerBase', context: context);
 
   @override
-  double getFreight(double userLatitude, double userLongitude,
+  List<double> getFreight(double userLatitude, double userLongitude,
       double storeLatitude, double storeLongitude, double valueKM) {
     final _$actionInfo = _$FreightControllerBaseActionController.startAction(
         name: 'FreightControllerBase.getFreight');
