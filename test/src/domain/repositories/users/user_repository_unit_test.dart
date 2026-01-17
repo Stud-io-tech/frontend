@@ -1,11 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:my_fome/src/domain/dtos/users/user_login_dto.dart';
-import 'package:my_fome/src/domain/dtos/users/user_register_dto.dart';
-import 'package:my_fome/src/data/repositories/users/user_repository_impl.dart';
-import 'package:my_fome/src/data/services/client/client_service.dart';
-import 'package:my_fome/src/domain/repositories/users/user_repository.dart';
+import 'package:my_fome/app/data/repositories/users/user_repository_impl.dart';
+import 'package:my_fome/app/data/services/client/client_service.dart';
+import 'package:my_fome/app/domain/dtos/users/user_login_dto.dart';
+import 'package:my_fome/app/domain/dtos/users/user_register_dto.dart';
+import 'package:my_fome/app/domain/repositories/users/user_repository.dart';
+
 
 class ClientMock extends Mock implements ClientService {}
 

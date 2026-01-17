@@ -1,0 +1,263 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first, use_build_context_synchronously
+import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
+import 'package:my_fome/app/utils/constants/deep_link_constant.dart';
+import 'package:my_fome/app/utils/constants/image_constant.dart';
+import 'package:my_fome/app/data/services/share/share_service.dart';
+import 'package:my_fome/app/presentation/controllers/address/address_controller.dart';
+import 'package:my_fome/app/presentation/controllers/auth/auth_google_controller.dart';
+import 'package:uikit/uikit.dart';
+
+import 'package:my_fome/app/utils/constants/icon_constant.dart';
+import 'package:my_fome/app/utils/constants/text_constant.dart';
+import 'package:my_fome/app/domain/dtos/products/product_detail_dto.dart';
+import 'package:my_fome/app/presentation/controllers/product/product_controller.dart';
+import 'package:my_fome/app/presentation/controllers/store/store_controller.dart';
+import 'package:my_fome/app/presentation/modules/home/widgets/alert/alert_cart_item.dart';
+import 'package:my_fome/app/presentation/modules/home/widgets/screens/store_detail_screen_widget.dart';
+
+class ProductDetailScreenWidget extends StatefulWidget {
+  final ProductDetailDto? productModel;
+  final String? id;
+  const ProductDetailScreenWidget({
+    super.key,
+    this.productModel,
+    this.id,
+  });
+
+  @override
+  State<ProductDetailScreenWidget> createState() =>
+      _ProductDetailScreenWidgetState();
+}
+
+class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
+  final productController = Injector.get<ProductController>();
+  final storeController = Injector.get<StoreController>();
+  final shareService = Injector.get<ShareService>();
+  final authController = Injector.get<AuthGoogleController>();
+
+  late ProductDetailDto product;
+  static final GlobalKey repaintKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.id != null) {
+      productController.detailProduct(widget.id!);
+    }
+    authController.load();
+  }
+
+  final addressController = Injector.get<AddressController>();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Observer(builder: (context) {
+        if (widget.id != null && productController.isLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (widget.id != null) {
+          product = productController.product!;
+        } else {
+          product = widget.productModel!;
+        }
+
+        storeController.detailStore(product.storeId);
+        return SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ImageDetail(
+                image: product.image,
+                iconLeft: IconConstant.arrowLeft,
+                onTapIconLeft: () =>
+                    widget.id != null ? context.push('/') : context.pop(),
+                widgetRigth: PopUpMenuShare(
+                  menuIcon: IconConstant.share,
+                  secoundIcon: IconConstant.qrcode,
+                  secoundLabel: TextConstant.shareQRCode,
+                  secoundOnTap: () {
+                    showCustomModalBottomSheet(
+                      barrierColor: Colors.transparent,
+                      context: context,
+                      builder: (context) => ModalSheetQrCode(
+                        repaintKey: repaintKey,
+                        linkQrCode:
+                            "${DeepLinkConstant.productDetail}/${product.id}",
+                        iconBack: IconConstant.arrowLeft,
+                        title: product.name,
+                        cancelText: TextConstant.cancel,
+                        continueText: TextConstant.share,
+                        isLoading: productController.isLoading,
+                        continueOnTap: () => shareService.shareQrAsImage(
+                            title: product.name, repaintKey: repaintKey),
+                        sufixOnTap: () => shareService.copyTextLink(
+                          "${DeepLinkConstant.productDetail}/${product.id}",
+                        ),
+                        sufixIcon: IconConstant.contentCopy,
+                      ),
+                    );
+                  },
+                  firstIcon: IconConstant.media,
+                  firstLabel: TextConstant.shareMidia,
+                  firtOnTap: () async => await shareService.shareImageTextLink(
+                    product.image,
+                    TextConstant.shareTextProduct(
+                      product.id,
+                      product.name,
+                      product.amount,
+                      product.price,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: SizeToken.lg,
+              ),
+              ContentDefault(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        storeController.store?.isOpen != null
+                            ? storeController.store!.isOpen
+                                ? TextLabelL4Success(text: TextConstant.open)
+                                : TextLabelL4Info(text: TextConstant.close)
+                            : TextLabelL4Secondary(
+                                text: TextConstant.wait,
+                              ),
+                        TextLabelL4Dark(
+                          text:
+                              " | ${TextConstant.quantityAvailableUpperCase(product.amount)}",
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: SizeToken.sm,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: TextHeadlineH1(text: product.name),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: SizeToken.sm),
+                          child: TextHeadlineH1(
+                            text: TextConstant.monetaryValue(
+                              double.parse(product.price),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: SizeToken.md,
+                    ),
+                    Row(
+                      spacing: SizeToken.xs,
+                      children: [
+                        IconMediumSemiDark(
+                          icon: IconConstant.timer,
+                          padding: SizeToken.xs,
+                          isBackgroundColor: true,
+                          onTap: () {},
+                        ),
+                        Flexible(
+                          child: TextLabelL4Secondary(
+                            text: TextConstant.preparationTime(
+                                product.preparationTime),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: SizeToken.md,
+                    ),
+                    TextBodyB1SemiDark(
+                      text: product.description,
+                    ),
+                    const SizedBox(
+                      height: SizeToken.md,
+                    ),
+                    TextHeadlineH2(text: TextConstant.store),
+                    const SizedBox(
+                      height: SizeToken.sm,
+                    ),
+                    Observer(
+                      builder: (_) {
+                        final store = storeController.store;
+                        if (storeController.isLoading || store == null) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        if (productController.isServerError) {
+                          return BannerDefault(
+                            image: ImageConstant.serverError,
+                            text: TextConstant.serverError,
+                          );
+                        }
+                        return StoreItem(
+                          name: store.name,
+                          description: store.description,
+                          image: store.image,
+                          icon: IconConstant.chevronRigth,
+                          onTap: () async {
+                            await addressController
+                                .detailAddressStore(store.id);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => StoreDetailScreenWidget(
+                                  storeModel: store,
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
+                    const SizedBox(
+                      height: SizeToken.md,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        );
+      }),
+      bottomNavigationBar: ButtonLarge(
+          key: const Key("openAlertOrder"),
+          text: TextConstant.addCart,
+          icon: IconConstant.cart,
+          onPressed: () async {
+            if (authController.user != null) {
+              if (storeController.store != null) {
+                showDialog(
+                  context: context,
+                  builder: (context) => Observer(
+                    builder: (_) {
+                      return AlertCartItem(
+                        userId: authController.user!.id,
+                        product: product,
+                      );
+                    },
+                  ),
+                );
+                return;
+              }
+            }
+            return await authController.login();
+          }),
+    );
+  }
+}
