@@ -6,11 +6,10 @@ ThemeData get theme => ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
       appBarTheme: const AppBarTheme(
-        titleSpacing: 0,
-        toolbarHeight: kToolbarHeight,
-        backgroundColor: ColorToken.light,
-        surfaceTintColor: ColorToken.light
-      ),
+          titleSpacing: 0,
+          toolbarHeight: kToolbarHeight,
+          backgroundColor: ColorToken.light,
+          surfaceTintColor: ColorToken.light),
     );
 
 void showCustomModalBottomSheet({
@@ -20,11 +19,13 @@ void showCustomModalBottomSheet({
   bool isDismissible = true,
   ShapeBorder? shape,
   EdgeInsetsGeometry? padding,
+  Color? barrierColor,
 }) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: isScrollControlled,
     isDismissible: isDismissible,
+    barrierColor: barrierColor,
     shape: shape ??
         const RoundedRectangleBorder(
           borderRadius: BorderRadiusDirectional.only(

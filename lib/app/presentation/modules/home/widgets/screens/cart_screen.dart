@@ -1,0 +1,193 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
+import 'package:my_fome/app/utils/constants/image_constant.dart';
+import 'package:my_fome/app/utils/constants/text_constant.dart';
+import 'package:my_fome/app/presentation/controllers/address/address_controller.dart';
+import 'package:my_fome/app/presentation/controllers/auth/auth_google_controller.dart';
+import 'package:my_fome/app/presentation/controllers/cartItem/cart_item_controller.dart';
+import 'package:my_fome/app/presentation/controllers/store/store_controller.dart';
+import 'package:my_fome/app/presentation/modules/home/widgets/cart_item/group_products_by_store_cart_item.dart';
+import 'package:my_fome/app/presentation/modules/home/widgets/screens/store_detail_screen_widget.dart';
+import 'package:uikit/uikit.dart';
+
+class CartScreen extends StatefulWidget {
+  const CartScreen({super.key});
+
+  @override
+  State<CartScreen> createState() => _CartScreenState();
+}
+
+class _CartScreenState extends State<CartScreen> {
+  final cartItemController = Injector.get<CartItemController>();
+
+  final addressController = Injector.get<AddressController>();
+
+  final authController = Injector.get<AuthGoogleController>();
+
+  final storeController = Injector.get<StoreController>();
+
+  Future<void> init() async {
+    if (authController.user?.id != null) {
+      await addressController.detailAddressUser(authController.user!.id);
+      await cartItemController.getByGroupStoreByUser(authController.user!.id);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return RefreshIndicator(
+      onRefresh: () async => init(),
+      child: LayoutBuilder(
+        builder: (context, constraints) => ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: SizeToken.md,
+                ),
+                Observer(builder: (context) {
+                  if (authController.user == null) {
+                    return Center(
+                      child: BannerDefault(
+                        image: ImageConstant.login,
+                        text: TextConstant.requiredLogin,
+                      ),
+                    );
+                  }
+
+                  if (cartItemController.isLoading &&
+                      addressController.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  return Column(
+                    spacing: SizeToken.md,
+                    children: [
+                      ContentDefault(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: SizeToken.sm,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                TextHeadlineH2(text: TextConstant.address),
+                                addressController.addressUser != null
+                                    ? LinkSeeMore(
+                                        text: TextConstant.editAddress,
+                                        onTap: () {
+                                          context.push(
+                                            '/address/update/delivery',
+                                            extra:
+                                                addressController.addressUser,
+                                          );
+                                        },
+                                      )
+                                    : LinkSeeMore(
+                                        text: TextConstant.createAddress,
+                                        onTap: () async {
+                                          await authController.load();
+                                          if (authController.user?.id != null) {
+                                            await addressController
+                                                .detailAddressUser(
+                                                    authController.user!.id);
+                                            await cartItemController
+                                                .getByGroupStoreByUser(
+                                                    authController.user!.id);
+                                            if ((addressController.isLoading ==
+                                                        false &&
+                                                    addressController
+                                                            .isLoading ==
+                                                        false) &&
+                                                addressController.addressUser ==
+                                                    null) {
+                                              context.push(
+                                                  '/address/register/delivery',
+                                                  extra:
+                                                      authController.user!.id);
+                                            }
+                                          }
+                                        },
+                                      ),
+                              ],
+                            ),
+                            if (addressController.addressUser != null)
+                              TextLabelL4Secondary(
+                                text:
+                                    "${addressController.addressUser?.number}, ${addressController.addressUser?.street}, ${addressController.addressUser?.district}, ${addressController.addressUser?.city}, ${addressController.addressUser?.state}",
+                              ),
+                          ],
+                        ),
+                      ),
+                      DividerDefault(),
+                      ((cartItemController.cartItems == null ||
+                                  cartItemController.cartItems!.isEmpty) ||
+                              addressController.addressUser == null)
+                          ? BannerDefault(
+                              image: ImageConstant.empty,
+                              text: TextConstant.cartItemEmpty,
+                            )
+                          : Observer(builder: (_) {
+                              return ListView.separated(
+                                separatorBuilder: (context, index) => Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: SizeToken.lg),
+                                  child: DividerDefault(),
+                                ),
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount:
+                                    cartItemController.cartItems?.length ?? 0,
+                                itemBuilder: (context, index) {
+                                  final cartItem =
+                                      cartItemController.cartItems![index];
+                                  return ContentDefault(
+                                    child: GroupProductsByStoreCartItem(
+                                      addressUser:
+                                          addressController.addressUser!,
+                                      user: authController.user!.id,
+                                      cartItem: cartItem,
+                                      onTapStore: () async {
+                                        await storeController
+                                            .detailStore(cartItem.storeId);
+
+                             
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder: (context) =>
+                                                StoreDetailScreenWidget(
+                                              storeModel: storeController.store,
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                              );
+                            }),
+                    ],
+                  );
+                }),
+                const SizedBox(height: SizeToken.lg),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

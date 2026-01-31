@@ -1,3 +1,4 @@
+// ignore: unnecessary_library_name
 library token;
 
 export 'typhography/style.dart';

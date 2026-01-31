@@ -4,21 +4,27 @@ import 'package:uikit/uikit.dart';
 
 class InputSearch extends StatelessWidget {
   final void Function(String)? onChanged;
+  final void Function()? sufixOnTap;
   final String hintText;
-  final String icon;
+  final String prefixIcon;
+  final String? sufixIcon;
   const InputSearch({
     super.key,
     this.onChanged,
     required this.hintText,
-    required this.icon,
+    required this.prefixIcon,
+    this.sufixIcon,
+    this.sufixOnTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return InputDefault(
       hintText: hintText,
-      icon: icon,
+      prefixIcon: prefixIcon,
+      sufixIcon: sufixIcon,
       onChanged: onChanged,
+      sufixOnTap: sufixOnTap,
     );
   }
 }

@@ -1,0 +1,93 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'cart_item_controller.dart';
+
+// **************************************************************************
+// StoreGenerator
+// **************************************************************************
+
+// ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
+
+mixin _$CartItemController on CartItemControllerBase, Store {
+  Computed<bool>? _$isLoadingComputed;
+
+  @override
+  bool get isLoading =>
+      (_$isLoadingComputed ??= Computed<bool>(() => super.isLoading,
+              name: 'CartItemControllerBase.isLoading'))
+          .value;
+  Computed<bool>? _$isServerErrorComputed;
+
+  @override
+  bool get isServerError =>
+      (_$isServerErrorComputed ??= Computed<bool>(() => super.isServerError,
+              name: 'CartItemControllerBase.isServerError'))
+          .value;
+  Computed<List<CartItemGroupStoreDto>?>? _$cartItemsComputed;
+
+  @override
+  List<CartItemGroupStoreDto>? get cartItems => (_$cartItemsComputed ??=
+          Computed<List<CartItemGroupStoreDto>?>(() => super.cartItems,
+              name: 'CartItemControllerBase.cartItems'))
+      .value;
+  Computed<int>? _$amountItemCartComputed;
+
+  @override
+  int get amountItemCart =>
+      (_$amountItemCartComputed ??= Computed<int>(() => super.amountItemCart,
+              name: 'CartItemControllerBase.amountItemCart'))
+          .value;
+
+  late final _$registerAsyncAction =
+      AsyncAction('CartItemControllerBase.register', context: context);
+
+  @override
+  Future<void> register(CartItemRegisterDto data) {
+    return _$registerAsyncAction.run(() => super.register(data));
+  }
+
+  late final _$getByGroupStoreByUserAsyncAction = AsyncAction(
+      'CartItemControllerBase.getByGroupStoreByUser',
+      context: context);
+
+  @override
+  Future<void> getByGroupStoreByUser(String userId) {
+    return _$getByGroupStoreByUserAsyncAction
+        .run(() => super.getByGroupStoreByUser(userId));
+  }
+
+  late final _$updateAmountAsyncAction =
+      AsyncAction('CartItemControllerBase.updateAmount', context: context);
+
+  @override
+  Future<void> updateAmount(int amount, String id, String userId) {
+    return _$updateAmountAsyncAction
+        .run(() => super.updateAmount(amount, id, userId));
+  }
+
+  late final _$deleteAsyncAction =
+      AsyncAction('CartItemControllerBase.delete', context: context);
+
+  @override
+  Future<void> delete(String id, String userId) {
+    return _$deleteAsyncAction.run(() => super.delete(id, userId));
+  }
+
+  late final _$approveAsyncAction =
+      AsyncAction('CartItemControllerBase.approve', context: context);
+
+  @override
+  Future<void> approve(String userId, String storeId) {
+    return _$approveAsyncAction.run(() => super.approve(userId, storeId));
+  }
+
+  @override
+  String toString() {
+    return '''
+isLoading: ${isLoading},
+isServerError: ${isServerError},
+cartItems: ${cartItems},
+amountItemCart: ${amountItemCart}
+    ''';
+  }
+}

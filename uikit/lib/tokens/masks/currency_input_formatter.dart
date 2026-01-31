@@ -6,7 +6,6 @@ class CurrencyInputFormatter extends TextInputFormatter {
     TextEditingValue oldValue,
     TextEditingValue newValue,
   ) {
-    // Remove todos os caracteres não numéricos
     String cleanedText = newValue.text.replaceAll(RegExp(r'\D'), '');
 
     if (cleanedText.isEmpty) {

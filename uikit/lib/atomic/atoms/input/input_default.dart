@@ -4,8 +4,9 @@ import 'package:flutter/services.dart';
 import 'package:uikit/uikit.dart';
 
 class InputDefault extends StatelessWidget {
-  final String? icon;
+  final String? prefixIcon;
   final String? prefix;
+  final String? sufixIcon;
   final void Function()? onTap;
   final TextInputType? keyBoardType;
   final String hintText;
@@ -16,11 +17,16 @@ class InputDefault extends StatelessWidget {
   final String? Function(String?)? validator;
   final TextEditingController? controller;
   final void Function(String)? onChanged;
+  final void Function()? sufixOnTap;
   final double? paddingLeftPrefix;
+  final double? paddingLeftSufix;
+  final bool isTextActive;
+  final bool enable;
   const InputDefault({
     super.key,
-    this.icon,
+    this.prefixIcon,
     this.prefix,
+    this.sufixIcon,
     this.onTap,
     this.keyBoardType,
     required this.hintText,
@@ -31,12 +37,17 @@ class InputDefault extends StatelessWidget {
     this.validator,
     this.controller,
     this.onChanged,
+    this.sufixOnTap,
     this.paddingLeftPrefix,
+    this.paddingLeftSufix,
+    this.isTextActive = false,
+    this.enable = true,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: enable,
       focusNode: focusNode,
       onTap: onTap,
       readOnly: onTap != null ? true : false,
@@ -52,17 +63,36 @@ class InputDefault extends StatelessWidget {
         fillColor: ColorToken.neutral,
         contentPadding: const EdgeInsets.all(SizeToken.sm),
         isDense: true,
-        prefix: prefix != null ? TextBodyB1Dark(text: prefix!) : null,
+        prefixText: prefix,
+        prefixStyle: Style.b1(color: ColorToken.dark),
         prefixIconConstraints: const BoxConstraints(),
-        prefixIcon: Padding(
+        suffixIconConstraints: const BoxConstraints(),
+        suffixIcon: Padding(
+          padding: EdgeInsets.only(
+              right: sufixIcon != null ? SizeToken.xs : SizeToken.sm,
+              left: sufixIcon != null ? 0 : SizeToken.xxs),
+          child: sufixIcon != null
+              ? isTextActive?  IconLargeDark(
+                  onTap: sufixOnTap,
+                  icon: sufixIcon!,
+                  isNarrow: true,
+                ):  IconLargeSemiDark(
+                  onTap: sufixOnTap,
+                  icon: sufixIcon!,
+                  padding: SizeToken.xs,
+                )
+              : const SizedBox.shrink(),
+        ),
+        prefixIcon: isTextActive? const Padding(padding: EdgeInsetsGeometry.only(right: SizeToken.sm)) : Padding(
           padding: EdgeInsets.only(
               right: paddingLeftPrefix != null ? paddingLeftPrefix! : 0,
               left: SizeToken.xxs),
-          child: icon != null
-              ? IconLargeSemiDark(
-                  icon: icon!,
-                  padding: SizeToken.xs,
-                )
+          child: prefixIcon != null
+              ?
+                   IconLargeSemiDark(
+                      icon: prefixIcon!,
+                      padding: SizeToken.xs,
+                    )
               : const SizedBox.shrink(),
         ),
         focusedBorder: const OutlineInputBorder(
@@ -102,7 +132,8 @@ class InputDefault extends StatelessWidget {
           borderSide: BorderSide.none,
         ),
         hintText: hintText,
-        hintStyle: Style.b1(color: ColorToken.semiDark),
+        hintStyle: Style.b1(
+            color: isTextActive ? ColorToken.dark : ColorToken.semiDark),
       ),
       onChanged: onChanged,
     );

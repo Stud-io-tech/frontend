@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:uikit/uikit.dart';
 
-class TextLabelL1Dark  extends StatelessWidget {
+class TextLabelL1Dark extends StatelessWidget {
   final int? maxLines;
   final String text;
   final bool overflow;
@@ -22,6 +22,7 @@ class TextLabelL1Dark  extends StatelessWidget {
       textStyle: Style.l1(color: ColorToken.dark),
       overflow: overflow,
       maxLines: maxLines,
+      
     );
   }
 }

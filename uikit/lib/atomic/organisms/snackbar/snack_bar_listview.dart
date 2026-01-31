@@ -8,6 +8,7 @@ class SnackBarListview extends SnackBar {
   final String iconLeading;
   final String iconTrailing;
   final BuildContext context;
+  final bool isSuccess;
 
   SnackBarListview({
     super.key,
@@ -16,6 +17,7 @@ class SnackBarListview extends SnackBar {
     required this.iconLeading,
     required this.iconTrailing,
     required this.context,
+    this.isSuccess = true,
   }) : super(
           elevation: 0,
           padding: const EdgeInsets.symmetric(horizontal: 1, vertical: 1),
@@ -34,10 +36,9 @@ class SnackBarListview extends SnackBar {
           content: Container(
             padding: const EdgeInsets.symmetric(horizontal: SizeToken.sm),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(SizeToken.xs),
-              color: ColorToken.light,
-              border: Border.all(color: ColorToken.neutral, width: 1.5)
-            ),
+                borderRadius: BorderRadius.circular(SizeToken.xs),
+                color: ColorToken.light,
+                border: Border.all(color: ColorToken.neutral, width: 1.5)),
             child: ListTile(
               minVerticalPadding: 0,
               contentPadding: EdgeInsets.zero,
@@ -46,9 +47,11 @@ class SnackBarListview extends SnackBar {
                 text: subtitle,
                 overflow: true,
               ),
-              leading: IconCircular(
-                icon: iconLeading,
-              ),
+              leading: isSuccess
+                  ? IconLargerCircularSuccess(icon: iconLeading)
+                  : IconLargerCircularDanger(
+                      icon: iconLeading,
+                    ),
               trailing: IconButtonMediumDark(
                 isBackgroundColor: false,
                 onTap: () {

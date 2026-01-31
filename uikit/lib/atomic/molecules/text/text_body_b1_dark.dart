@@ -7,13 +7,14 @@ class TextBodyB1Dark extends StatelessWidget {
   final String text;
   final bool overflow;
   final Color? color;
-  const TextBodyB1Dark({
-    super.key,
-    this.maxLines,
-    required this.text,
-    this.overflow = false,
-    this.color,
-  });
+  final bool center;
+  const TextBodyB1Dark(
+      {super.key,
+      this.maxLines,
+      required this.text,
+      this.overflow = false,
+      this.color,
+      this.center = false});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +23,7 @@ class TextBodyB1Dark extends StatelessWidget {
       textStyle: Style.b1(color: ColorToken.dark),
       overflow: overflow,
       maxLines: maxLines,
+      center: center,
     );
   }
 }

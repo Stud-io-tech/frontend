@@ -3,7 +3,7 @@ name: Flutter Unit Tests
 on:
   push:
     branches:
-      - feat/product
+      - dev
 
 jobs:
   Flutter_Tests:
@@ -26,9 +26,10 @@ jobs:
       - name: Run Flutter Pub Get
         run: flutter pub get
 
-      - name: Run Specific Unit Tests
-        run: |
-          set -e  # Para parar caso algum teste falhe
-          flutter test test/src/domain/repositories/products/product_repository_unit_test.dart
-          flutter test test/src/domain/repositories/stores/store_repository_unit_test.dart
-          flutter test test/src/domain/repositories/users/user_repository_unit_test.dart
+      - name: Run Build Runner
+        run: flutter pub run build_runner build --delete-conflicting-outputs
+        env:
+          BASE_URL: ${{ secrets.BASE_URL }}
+
+      - name: Run All Unit Tests
+        run: flutter test

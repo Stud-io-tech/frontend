@@ -1,3 +1,4 @@
+// ignore: unnecessary_library_name
 library uikit;
 
 export 'visual_identity/visual_identity.dart';
