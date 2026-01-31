@@ -45,6 +45,7 @@ dependencies:
   flutter_map: ^8.2.2
   latlong2: ^0.9.1
   geolocator: ^14.0.2
+  cached_network_image: ^3.4.1
 
 flutter_native_splash:
   color: "#fe0019"
@@ -84,6 +85,7 @@ flutter:
     - assets/icons/
     - assets/images/logos/
     - assets/images/error/
+    - assets/images/members/
 
   
   fonts:

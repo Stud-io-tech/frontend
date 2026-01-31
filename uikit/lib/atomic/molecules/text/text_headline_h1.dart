@@ -7,12 +7,14 @@ class TextHeadlineH1 extends StatelessWidget {
   final String text;
   final bool overflow;
   final Color? color;
+  final bool center;
   const TextHeadlineH1({
     super.key,
     this.maxLines,
     required this.text,
     this.overflow = false,
     this.color,
+    this.center = false,
   });
 
   @override
@@ -22,6 +24,7 @@ class TextHeadlineH1 extends StatelessWidget {
       textStyle: Style.h1(color: ColorToken.dark),
       overflow: overflow,
       maxLines: maxLines,
+      center: center,
     );
   }
 }

@@ -1,3 +1,4 @@
+// ignore: unnecessary_library_name
 library atom;
 
 export 'text/text_default.dart';

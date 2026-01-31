@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:uikit/uikit.dart';
 
@@ -36,11 +37,28 @@ class ImageDetail extends StatelessWidget {
           minWidth: double.infinity),
       child: Stack(
         children: [
-          Image.network(
-            image != null ? image! : '',
-            fit: BoxFit.cover,
-            width: double.infinity,
-            height: MediaQuery.of(context).size.width,
+          Container(
+            color: ColorToken.neutral,
+            child: Image(
+              image: CachedNetworkImageProvider(
+                image != null ? image! : '',
+                maxHeight: 1080,
+                maxWidth: 1080,
+              ),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: MediaQuery.of(context).size.width,
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) {
+                  return child;
+                }
+                return const Center(
+                  child: CircularProgressIndicator(
+                    color: ColorToken.danger,
+                  ),
+                );
+              },
+            ),
           ),
           Positioned(
             top: SizeToken.xl3,

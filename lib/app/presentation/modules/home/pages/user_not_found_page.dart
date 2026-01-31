@@ -1,0 +1,122 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:flutter/material.dart';
+import 'package:flutter_getit/flutter_getit.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:go_router/go_router.dart';
+import 'package:my_fome/app/presentation/controllers/address/address_controller.dart';
+import 'package:uikit/uikit.dart';
+
+import 'package:my_fome/app/utils/constants/icon_constant.dart';
+import 'package:my_fome/app/utils/constants/image_constant.dart';
+import 'package:my_fome/app/utils/constants/text_constant.dart';
+import 'package:my_fome/app/domain/enum/login_redirect_enum.dart';
+import 'package:my_fome/app/presentation/controllers/auth/auth_google_controller.dart';
+
+class UserNotFoundPage extends StatefulWidget {
+  final LoginRedirectEnum loginRedirectEnum;
+
+  const UserNotFoundPage({
+    super.key,
+    required this.loginRedirectEnum,
+  });
+
+  @override
+  State<UserNotFoundPage> createState() => _UserNotFoundPageState();
+}
+
+class _UserNotFoundPageState extends State<UserNotFoundPage> {
+  final authController = Injector.get<AuthGoogleController>();
+  final addressController = Injector.get<AddressController>();
+
+  @override
+  void initState() {
+    super.initState();
+    authController.load();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ContentDefault(
+        child: Column(
+          children: [
+            const SizedBox(
+              height: SizeToken.xl3,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    IconButtonLargeDark(
+                        onTap: () => context.go('/home'),
+                        icon: IconConstant.arrowLeft),
+                    const SizedBox(
+                      width: SizeToken.sm,
+                    ),
+                    TextHeadlineH2(text: TextConstant.loggin)
+                  ],
+                ),
+              ],
+            ),
+            const Spacer(),
+            Observer(builder: (_) {
+              if (authController.isServerError) {
+                return BannerDefault(
+                  image: ImageConstant.serverError,
+                  text: TextConstant.serverError,
+                );
+              }
+              return BannerDefault(
+                image: ImageConstant.login,
+                text: TextConstant.requiredLogin,
+              );
+            }),
+            const Spacer(),
+            const Spacer()
+          ],
+        ),
+      ),
+      bottomNavigationBar: Observer(builder: (_) {
+        return ButtonLarge(
+          text: TextConstant.loggin,
+          icon: IconConstant.user,
+          onPressed: () async {
+            await authController.login();
+            await authController.load();
+            if (authController.user != null) {
+              switch (widget.loginRedirectEnum) {
+                case LoginRedirectEnum.STORE:
+                  if (authController.store != null) {
+                    await addressController
+                        .detailAddressStore(authController.store!.id);
+                    context.push('/store/my/${authController.store!.id}');
+                  } else {
+                    context.push('/store/register');
+                  }
+                  break;
+                case LoginRedirectEnum.ADDRESS:
+                  await addressController
+                      .detailAddressUser(authController.user!.id);
+                  if (addressController.addressUser == null) {
+                    context.push('/address/register/delivery',
+                        extra: authController.user!.id);
+                    return;
+                  } else {
+                    context.push(
+                      '/address/update/delivery',
+                      extra: addressController.addressUser,
+                    );
+                    return;
+                  }
+              }
+            }
+          },
+        );
+      }),
+    );
+  }
+}

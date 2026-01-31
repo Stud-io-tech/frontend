@@ -10,18 +10,21 @@ class DrawerMenu extends StatelessWidget {
   final void Function() thirdOnPressed;
   final void Function() fourthOnPressed;
   final void Function() fifthOnPressed;
+  final void Function() aboutOnPressed;
   final void Function() logoutOnPressed;
   final String firstText;
   final String secoundText;
   final String thirdText;
   final String fourthText;
   final String fifthText;
+  final String aboutText;
   final String logoutText;
   final String firstIcon;
   final String secoundIcon;
   final String thirdIcon;
   final String fourthIcon;
   final String fifthIcon;
+  final String aboutIcon;
   final String logoutIcon;
   final String menuIcon;
   final String logo;
@@ -32,18 +35,21 @@ class DrawerMenu extends StatelessWidget {
     required this.thirdOnPressed,
     required this.fourthOnPressed,
     required this.fifthOnPressed,
+    required this.aboutOnPressed,
     required this.logoutOnPressed,
     required this.firstText,
     required this.secoundText,
     required this.thirdText,
     required this.fourthText,
     required this.fifthText,
+    required this.aboutText,
     required this.logoutText,
     required this.firstIcon,
     required this.secoundIcon,
     required this.thirdIcon,
     required this.fourthIcon,
     required this.fifthIcon,
+    required this.aboutIcon,
     required this.logoutIcon,
     required this.menuIcon,
     required this.logo,
@@ -95,6 +101,12 @@ class DrawerMenu extends StatelessWidget {
                       icon: thirdIcon,
                       onPressed: thirdOnPressed,
                     ),
+                        MenuItem(
+                      text: aboutText,
+                      icon: aboutIcon,
+                      onPressed: aboutOnPressed,
+                      key: const Key('myAboutNavigator'),
+                    ),
                     const SizedBox(
                       height: SizeToken.sm,
                     ),
@@ -112,6 +124,7 @@ class DrawerMenu extends StatelessWidget {
                       key: const Key('myDelieveryAddressNavigator'),
                       paddinIcon: 2.5,
                     ),
+                 
                   ],
                 ),
               ],

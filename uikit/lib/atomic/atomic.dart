@@ -1,3 +1,4 @@
+// ignore: unnecessary_library_name
 library atomic;
 
 export 'atoms/atom.dart';
