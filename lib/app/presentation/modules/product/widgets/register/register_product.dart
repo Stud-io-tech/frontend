@@ -74,7 +74,7 @@ class _RegisterStoreState extends State<RegisterProduct> {
                     children: [
                       IconButtonLargeDark(
                         onTap: () =>
-                            context.push('/product/my', extra: widget.store),
+                            context.pop(),
                         icon: IconConstant.arrowLeft,
                       ),
                       const SizedBox(width: SizeToken.sm),
@@ -127,7 +127,7 @@ class _RegisterStoreState extends State<RegisterProduct> {
               } finally {
                 if (productController.isLoading == false) {
                   uploadController.removeImage();
-                  context.push('/product/my', extra: widget.store);
+                  context.go('/product/my', extra: widget.store);
                 }
               }
             }

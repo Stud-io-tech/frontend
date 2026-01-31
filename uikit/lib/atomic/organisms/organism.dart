@@ -14,3 +14,4 @@ export 'banner/banner_default.dart';
 export 'popup/pop_up_menu_share.dart';
 export 'address/address_details_map.dart';
 export 'address/address_select_map.dart';
+export 'members/member_card.dart';

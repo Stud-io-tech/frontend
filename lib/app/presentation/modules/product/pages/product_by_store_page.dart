@@ -29,7 +29,11 @@ class _ProductByStorePageState extends State<ProductByStorePage> {
   @override
   void initState() {
     super.initState();
-    productController.listProductsActiveByStore(widget.store.id);
+    init();
+  }
+
+  Future<void> init() async {
+    await productController.listProductsActiveByStore(widget.store.id);
   }
 
   @override
@@ -45,98 +49,105 @@ class _ProductByStorePageState extends State<ProductByStorePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 IconButtonLargeDark(
-                    onTap: () => context.push('/'),
-                    icon: IconConstant.arrowLeft),
+                    onTap: () => context.pop(), icon: IconConstant.arrowLeft),
                 const SizedBox(
                   width: SizeToken.sm,
                 ),
                 TextHeadlineH2(text: widget.store.name)
               ],
             ),
-            SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: SizeToken.lg,
-                  ),
-                  InputSearch(
-                    onChanged: productController.filterProducts,
-                    hintText: TextConstant.search,
-                    prefixIcon: IconConstant.search,
-                    sufixOnTap: () {},
-                  ),
-                  const SizedBox(
-                    height: SizeToken.xxs,
-                  ),
-                  Observer(builder: (_) {
-                    return Container(
-                      padding: const EdgeInsets.only(right: SizeToken.xs),
-                      alignment: Alignment.centerRight,
-                      child: TextBodyB2SemiDark(
-                        text: TextConstant.found(
-                            productController.activeFoundsByStore),
+            Flexible(
+              child: RefreshIndicator(
+                onRefresh: () async => await init(),
+                child: SingleChildScrollView(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: SizeToken.lg,
                       ),
-                    );
-                  }),
-                  const SizedBox(
-                    height: SizeToken.md,
-                  ),
-                  Observer(
-                    builder: (_) {
-                      if (productController.isLoading) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
+                      InputSearch(
+                        onChanged: productController.filterProducts,
+                        hintText: TextConstant.search,
+                        prefixIcon: IconConstant.search,
+                        sufixOnTap: () {},
+                      ),
+                      const SizedBox(
+                        height: SizeToken.xxs,
+                      ),
+                      Observer(builder: (_) {
+                        return Container(
+                          padding: const EdgeInsets.only(right: SizeToken.xs),
+                          alignment: Alignment.centerRight,
+                          child: TextBodyB2SemiDark(
+                            text: TextConstant.found(
+                                productController.activeFoundsByStore),
+                          ),
                         );
-                      }
-                      if (productController.isServerError) {
-                        return BannerDefault(
-                          image: ImageConstant.serverError,
-                          text: TextConstant.serverError,
-                        );
-                      }
-                      if (productController
-                          .productFilterListActiveByStore!.isEmpty) {
-                        return BannerDefault(
-                            image: ImageConstant.empty,
-                            text: TextConstant.productNotFound);
-                      }
-                      return GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent:
-                              MediaQuery.of(context).size.width < 375
-                                  ? double.infinity
-                                  : 175,
-                          mainAxisSpacing: 20,
-                          crossAxisSpacing: 15,
-                          mainAxisExtent: 270,
-                        ),
-                        itemCount: productController
-                                .productFilterListActiveByStore?.length ??
-                            0,
-                        itemBuilder: (context, index) {
-                          final product = productController
-                              .productFilterListActiveByStore?[index];
-                          return ProductItem(
-                            image: product!.image,
-                            name: product.name,
-                            quantity:
-                                TextConstant.quantityAvailable(product.amount),
-                            price: TextConstant.monetaryValue(
-                                double.parse(product.price)),
-                            onTap: () => Navigator.of(context).push(
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ProductDetailScreenWidget(
-                                          id: product.id)),
+                      }),
+                      const SizedBox(
+                        height: SizeToken.md,
+                      ),
+                      Observer(
+                        builder: (_) {
+                          if (productController.isLoading) {
+                            return const Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          if (productController.isServerError) {
+                            return BannerDefault(
+                              image: ImageConstant.serverError,
+                              text: TextConstant.serverError,
+                            );
+                          }
+                          if (productController
+                              .productFilterListActiveByStore!.isEmpty) {
+                            return BannerDefault(
+                                image: ImageConstant.empty,
+                                text: TextConstant.productNotFound);
+                          }
+                          return GridView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                SliverGridDelegateWithMaxCrossAxisExtent(
+                              maxCrossAxisExtent:
+                                  MediaQuery.of(context).size.width < 375
+                                      ? double.infinity
+                                      : 175,
+                              mainAxisSpacing: 20,
+                              crossAxisSpacing: 15,
+                              mainAxisExtent: 270,
                             ),
+                            itemCount: productController
+                                        .productFilterListActiveByStore
+                                        ?.length ??
+                                0,
+                            itemBuilder: (context, index) {
+                              final product = productController
+                                  .productFilterListActiveByStore?[index];
+                              return ProductItem(
+                                image: product!.image,
+                                name: product.name,
+                                quantity: TextConstant.quantityAvailable(
+                                    product.amount),
+                                price: TextConstant.monetaryValue(
+                                    double.parse(product.price)),
+                                onTap: () => Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          ProductDetailScreenWidget(
+                                              id: product.id)),
+                                ),
+                              );
+                            },
                           );
                         },
-                      );
-                    },
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ],

@@ -1,5 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -20,34 +21,18 @@ import 'package:uikit/uikit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class HomePage extends StatelessWidget {
+  HomePage({super.key});
 
-  @override
-  State<HomePage> createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
   final controller = ButtonNavigatorMenuController();
 
   final authController = Injector.get<AuthGoogleController>();
+
   final addressController = Injector.get<AddressController>();
+
   final cartItemController = Injector.get<CartItemController>();
 
   final GlobalKey<ScaffoldState> drawerKey = GlobalKey<ScaffoldState>();
-  @override
-  void initState() {
-    super.initState();
-    load();
-  }
-
-  void load() async {
-    await authController.load();
-    if (authController.user?.id != null) {
-      await addressController.detailAddressUser(authController.user!.id);
-      await cartItemController.getByGroupStoreByUser(authController.user!.id);
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,9 +62,42 @@ class _HomePageState extends State<HomePage> {
                   child: Observer(builder: (_) {
                     if (authController.user?.image != null) {
                       return ClipRRect(
-                          borderRadius: BorderRadius.circular(SizeToken.lg),
-                          child: Image.network(authController.user!.image!));
+                        borderRadius: BorderRadius.circular(SizeToken.lg),
+                        child: Image(
+                            image: CachedNetworkImageProvider(
+                              authController.user!.image!,
+                              maxHeight: 150,
+                              maxWidth: 150,
+                            ),
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: ColorToken.danger,
+                                ),
+                              );
+                            },
+                          ),
+                      );
                     }
+                    if (authController.user != null) {
+                      return Container(
+                        height: SizeToken.xl4,
+                        width: SizeToken.xl4,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: ColorToken.danger,
+                        ),
+                        alignment: Alignment.center,
+                        child: TextLabelL1Light(
+                          text: authController.user!.name[0].toUpperCase(),
+                        ),
+                      );
+                    }
+
                     return IconButtonLargeDark(
                       key: const Key('loginButton'),
                       icon: IconConstant.user,
@@ -133,19 +151,20 @@ class _HomePageState extends State<HomePage> {
             return;
           } else {
             await addressController.detailAddressUser(authController.user!.id);
-            if (addressController.address?.userId == null) {
+            if (addressController.addressUser == null) {
               context.push('/address/register/delivery',
                   extra: authController.user!.id);
               return;
             } else {
               context.push(
                 '/address/update/delivery',
-                extra: addressController.address,
+                extra: addressController.addressUser,
               );
               return;
             }
           }
         },
+        aboutOnPressed: () => context.push('/about'),
         logoutOnPressed: () {
           if (authController.user?.email != null) {
             showCustomModalBottomSheet(
@@ -173,12 +192,14 @@ class _HomePageState extends State<HomePage> {
         thirdText: TextConstant.stores,
         fourthText: TextConstant.myStore,
         fifthText: TextConstant.deliveryAddress,
+        aboutText: TextConstant.about,
         logoutText: TextConstant.logout,
         firstIcon: IconConstant.home,
         secoundIcon: IconConstant.search,
         thirdIcon: IconConstant.store,
         fourthIcon: IconConstant.storeAdd,
         fifthIcon: IconConstant.address,
+        aboutIcon: IconConstant.about,
         logoutIcon: IconConstant.logout,
         menuIcon: IconConstant.menu,
         logo: ImageConstant.horizontalLogo,

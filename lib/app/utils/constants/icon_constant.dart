@@ -1,4 +1,5 @@
 final class IconConstant {
+  static const String about = 'assets/icons/about.svg';
   static const String add = 'assets/icons/add.svg';
   static const String address = 'assets/icons/address.svg';
   static const String alarm = 'assets/icons/alarm.svg';

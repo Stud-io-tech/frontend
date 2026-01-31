@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:go_router/go_router.dart';
+import 'package:my_fome/app/presentation/controllers/address/address_controller.dart';
 import 'package:my_fome/app/presentation/controllers/switch/switch_controller.dart';
 import 'package:my_fome/app/presentation/controllers/upload/local/local_upload_controller.dart';
 import 'package:uikit/uikit.dart';
@@ -39,6 +40,8 @@ class _UpdateStoreState extends State<UpdateStore> {
   final dynamicFreightKmEC = TextEditingController();
 
   final storeController = Injector.get<StoreController>();
+  final addressController = Injector.get<AddressController>();
+
   final uploadController = Injector.get<LocalUploadController>();
 
   final swicthController = Injector.get<SwitchController>();
@@ -88,51 +91,64 @@ class _UpdateStoreState extends State<UpdateStore> {
                       TextHeadlineH2(text: TextConstant.updateStore),
                     ],
                   ),
-                  Observer(
-                    builder: (_) {
-                      return widget.store.active? IconButtonLargeLight(
-                        backgroundColor: ColorToken.danger,
-                        isSquareBorderRadius: true,
-                        onTap: () {
-                          showCustomModalBottomSheet(
-                            context: context,
-                            builder: (context) => ModalSheet(
-                              iconBack: IconConstant.arrowLeft,
-                              title: TextConstant.suspendStoreTitle,
-                              description: TextConstant.suspendStoreMessage(widget.store.name),
-                              cancelText: TextConstant.no,
-                              continueText: TextConstant.yes,
-                              continueOnTap: () async{
-                                await storeController.toggleActive(widget.store.id);
-                                context.push('/store/my/${widget.store.id}');
-                              },
-                            ),
+                  Observer(builder: (_) {
+                    return widget.store.active
+                        ? IconButtonLargeLight(
+                            backgroundColor: ColorToken.danger,
+                            isSquareBorderRadius: true,
+                            onTap: () {
+                              showCustomModalBottomSheet(
+                                context: context,
+                                builder: (context) => ModalSheet(
+                                  iconBack: IconConstant.arrowLeft,
+                                  title: TextConstant.suspendStoreTitle,
+                                  description: TextConstant.suspendStoreMessage(
+                                      widget.store.name),
+                                  cancelText: TextConstant.no,
+                                  continueText: TextConstant.yes,
+                                  continueOnTap: () async {
+                                    await storeController
+                                        .toggleActive(widget.store.id);
+                                    await addressController
+                                        .detailAddressStore(widget.store.id);
+
+                                    if (storeController.isLoading == false &&
+                                        addressController.isLoading == false) {
+                                      context
+                                          .go('/store/my/${widget.store.id}');
+                                    }
+                                  },
+                                ),
+                              );
+                            },
+                            icon: IconConstant.remove,
+                          )
+                        : IconButtonLargeLight(
+                            backgroundColor: ColorToken.dark,
+                            isSquareBorderRadius: true,
+                            onTap: () {
+                              showCustomModalBottomSheet(
+                                context: context,
+                                builder: (context) => ModalSheet(
+                                  iconBack: IconConstant.arrowLeft,
+                                  title: TextConstant.reactivedStoreTitle,
+                                  description:
+                                      TextConstant.reactivedStoreMessage(
+                                          widget.store.name),
+                                  cancelText: TextConstant.no,
+                                  continueText: TextConstant.yes,
+                                  continueOnTap: () async {
+                                    await storeController
+                                        .toggleActive(widget.store.id);
+                                    context
+                                        .go('/store/my/${widget.store.id}');
+                                  },
+                                ),
+                              );
+                            },
+                            icon: IconConstant.restore,
                           );
-                        },
-                        icon: IconConstant.remove,
-                      ): IconButtonLargeLight(
-                        backgroundColor: ColorToken.dark,
-                        isSquareBorderRadius: true,
-                        onTap: () {
-                          showCustomModalBottomSheet(
-                            context: context,
-                            builder: (context) => ModalSheet(
-                              iconBack: IconConstant.arrowLeft,
-                              title: TextConstant.reactivedStoreTitle,
-                              description: TextConstant.reactivedStoreMessage(widget.store.name),
-                              cancelText: TextConstant.no,
-                              continueText: TextConstant.yes,
-                              continueOnTap: () async{
-                                await storeController.toggleActive(widget.store.id);
-                                context.push('/store/my/${widget.store.id}');
-                              },
-                            ),
-                          );
-                        },
-                        icon: IconConstant.restore,
-                      );
-                    }
-                  )
+                  })
                 ],
               ),
               const SizedBox(height: SizeToken.lg),
@@ -175,10 +191,12 @@ class _UpdateStoreState extends State<UpdateStore> {
               try {
                 await storeController.update(widget.store.id, model,
                     image: uploadController.imageFile);
+                await addressController.detailAddressStore(widget.store.id);
               } finally {
-                if (storeController.isLoading == false) {
+                if (storeController.isLoading == false &&
+                    addressController.isLoading == false) {
                   uploadController.removeImage();
-                  context.push('/store/my/${widget.store.id}');
+                  context.go('/store/my/${widget.store.id}');
                 }
               }
             }

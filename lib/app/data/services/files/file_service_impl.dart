@@ -74,13 +74,22 @@ class FileServiceImpl implements FileService {
                 children: [
                   textLabelSmNormal("Olá, ", regularFont),
                   textLabelSmBold(userName, boldFont),
-                  textLabelSmNormal(
-                      "! O seu pedido será entregue entre ", regularFont),
-                  textLabelSmBold(
-                      "${cartItemsGroupStore.minPreparationTime} a ${cartItemsGroupStore.maxPreparationTime} minutos.",
-                      boldFont),
+                  cartItemsGroupStore.storeIsDelivered
+                      ? textLabelSmNormal(
+                          "! O seu pedido será entregue entre ", regularFont)
+                      : textLabelSmNormal(
+                          "! A loja não está fazendo entregas no momento.",
+                          regularFont),
+                  if (cartItemsGroupStore.storeIsDelivered)
+                    textLabelSmBold(
+                        "${cartItemsGroupStore.minPreparationTime} a ${cartItemsGroupStore.maxPreparationTime} minutos.",
+                        boldFont),
                 ],
               ),
+              if (cartItemsGroupStore.storeIsDelivered == false)
+                textLabelSmNormal(
+                    "Nesse caso, você terá que ir ao endereço da loja para receber o pedido.",
+                    regularFont),
               pw.SizedBox(
                 height: 15,
               ),
@@ -202,28 +211,36 @@ class FileServiceImpl implements FileService {
                           crossAxisAlignment: pw.CrossAxisAlignment.end,
                           mainAxisAlignment: pw.MainAxisAlignment.end,
                           children: [
-                            textLabelSmNormal(
-                                "Frete: ${TextConstant.monetaryValue(
-                                  double.parse(
-                                    cartItemsGroupStore.storeFreight.toString(),
-                                  ),
-                                )}",
-                                regularFont),
-                            pw.SizedBox(
-                              height: 3,
-                            ),
-                            textLabelSmNormal(
-                                "Produtos: ${TextConstant.monetaryValue(
-                                  (double.parse(cartItemsGroupStore.total) -
-                                      double.parse(
-                                        cartItemsGroupStore.storeFreight
-                                            .toString(),
-                                      )),
-                                )}",
-                                regularFont),
-                            pw.SizedBox(
-                              height: 8,
-                            ),
+                            if (cartItemsGroupStore.storeIsDelivered)
+                              pw.Column(
+                                  crossAxisAlignment: pw.CrossAxisAlignment.end,
+                                  mainAxisAlignment: pw.MainAxisAlignment.end,
+                                  children: [
+                                    textLabelSmNormal(
+                                        "Frete: ${TextConstant.monetaryValue(
+                                          double.parse(
+                                            cartItemsGroupStore.storeFreight
+                                                .toString(),
+                                          ),
+                                        )}",
+                                        regularFont),
+                                    pw.SizedBox(
+                                      height: 3,
+                                    ),
+                                    textLabelSmNormal(
+                                        "Produtos: ${TextConstant.monetaryValue(
+                                          (double.parse(
+                                                  cartItemsGroupStore.total) -
+                                              double.parse(
+                                                cartItemsGroupStore.storeFreight
+                                                    .toString(),
+                                              )),
+                                        )}",
+                                        regularFont),
+                                    pw.SizedBox(
+                                      height: 8,
+                                    ),
+                                  ]),
                             textLabelMdBold(
                                 "Total do pedido: ${TextConstant.monetaryValue(double.parse(cartItemsGroupStore.total))}",
                                 boldFont),
@@ -244,7 +261,9 @@ class FileServiceImpl implements FileService {
             mainAxisAlignment: pw.MainAxisAlignment.start,
             children: [
               textLabelLgBoldDark(
-                "Endereço:",
+                cartItemsGroupStore.storeIsDelivered
+                    ? "Endereço de Entrega:"
+                    : "Endereço da Loja:",
                 boldFont,
               ),
               pw.SizedBox(

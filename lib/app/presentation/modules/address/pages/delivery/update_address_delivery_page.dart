@@ -89,9 +89,7 @@ class _UpdateAddressDeliveryPageState extends State<UpdateAddressDeliveryPage> {
                       IconButtonLargeDark(
                         onTap: () {
                           addressMapController.cleanAddress();
-                          context.push(
-                            '/',
-                          );
+                          context.pop();
                         },
                         icon: IconConstant.arrowLeft,
                       ),
@@ -149,7 +147,7 @@ class _UpdateAddressDeliveryPageState extends State<UpdateAddressDeliveryPage> {
                 } finally {
                   if (addressController.isLoading == false) {
                     addressMapController.cleanAddress();
-                    context.push('/');
+                    context.pop();
                   }
                 }
               }

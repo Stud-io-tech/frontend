@@ -57,7 +57,7 @@ class _MyProductDetailScreenState extends State<MyProductDetailScreen> {
             ImageDetail(
               image: widget.product.image,
               iconLeft: IconConstant.arrowLeft,
-              onTapIconLeft: () => context.pop(),
+              onTapIconLeft: () => context.go('/product/my', extra: storeController.store),
               widgetRigth: PopUpMenuShare(
                 menuIcon: IconConstant.share,
                 secoundIcon: IconConstant.qrcode,

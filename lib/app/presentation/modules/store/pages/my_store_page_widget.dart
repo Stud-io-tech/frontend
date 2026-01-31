@@ -16,7 +16,6 @@ import 'package:my_fome/app/utils/constants/text_constant.dart';
 import 'package:my_fome/app/domain/dtos/stores/store_detail_dto.dart';
 import 'package:my_fome/app/presentation/controllers/product/product_controller.dart';
 import 'package:my_fome/app/presentation/controllers/store/store_controller.dart';
-import 'package:my_fome/app/presentation/modules/product/widgets/screen/my_product_detail_screen.dart';
 
 class MyStorePage extends StatefulWidget {
   final String? id;
@@ -41,7 +40,7 @@ class _MyStorePageState extends State<MyStorePage> {
     super.initState();
     load();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (addressController.address?.storeId == null) {
+      if (addressController.addressStore == null) {
         context.push('/address/register/store', extra: widget.id);
       }
     });
@@ -76,7 +75,7 @@ class _MyStorePageState extends State<MyStorePage> {
                       return ImageDetail(
                         image: store.image,
                         iconLeft: IconConstant.arrowLeft,
-                        onTapIconLeft: () => context.push('/'),
+                        onTapIconLeft: () => context.go('/home'),
                         widgetRigth: PopUpMenuShare(
                           menuIcon: IconConstant.share,
                           secoundIcon: IconConstant.qrcode,
@@ -144,7 +143,7 @@ class _MyStorePageState extends State<MyStorePage> {
                                     builder: (_) {
                                       return IconButtonLargeDark(
                                         onTap: () => launchUrlString(
-                                          'https://wa.me/${addressController.address?.whatsapp}?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?',
+                                          'https://wa.me/${addressController.addressStore?.whatsapp}?text=${Uri.encodeComponent("Olá, ${store.name}!\n\nEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?")}',
                                         ),
                                         icon: IconConstant.whatsapp,
                                       );
@@ -215,14 +214,15 @@ class _MyStorePageState extends State<MyStorePage> {
                         const SizedBox(height: SizeToken.sm),
                         Observer(
                           builder: (context) {
-                            final products = productController
-                                .productFilterListActiveByStore;
                             if (productController.isLoading) {
                               return const Center(
                                 child: CircularProgressIndicator(),
                               );
                             }
-                            if (products == null) {
+
+                            if (productController
+                                    .productFilterListActiveByStore ==
+                                []) {
                               return TextLabelL2Dark(
                                 text: TextConstant.productNotFound,
                               );
@@ -285,19 +285,17 @@ class _MyStorePageState extends State<MyStorePage> {
                                     price: TextConstant.monetaryValue(
                                       double.parse(product.price),
                                     ),
-                                    onTap: () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            MyProductDetailScreen(
-                                          product: product,
-                                        ),
-                                      ),
-                                    ),
+                                    onTap: () => context.go(
+                                        '/my-product-detail',
+                                        extra: product),
                                   );
                                 },
                               ),
                             );
                           },
+                        ),
+                        const SizedBox(
+                          height: SizeToken.md,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -308,28 +306,32 @@ class _MyStorePageState extends State<MyStorePage> {
                               onTap: () {
                                 context.push(
                                   '/address/update/store',
-                                  extra: addressController.address,
+                                  extra: addressController.addressStore,
                                 );
                               },
                             ),
                           ],
                         ),
                         const SizedBox(height: SizeToken.sm),
-                        AddressDetailsMap(
-                          urlTemplate: ApiConstant.tileOpenStreetMap,
-                          userAgentPackageName: ApiConstant.userAgent,
-                          fullAddress:
-                              "${addressController.address?.number}, ${addressController.address?.street}, ${addressController.address?.district}, ${addressController.address?.city}, ${addressController.address?.state}",
-                          latitude: addressController.address?.latitude != null
-                              ? double.parse(
-                                  addressController.address!.latitude!)
-                              : null,
-                          longitude:
-                              addressController.address?.longitude != null
-                                  ? double.parse(
-                                      addressController.address!.longitude!)
-                                  : null,
-                        ),
+                        if (addressController.addressStore != null)
+                          AddressDetailsMap(
+                            urlTemplate: ApiConstant.tileOpenStreetMap,
+                            userAgentPackageName: ApiConstant.userAgent,
+                            fullAddress:
+                                "${addressController.addressStore?.number}, ${addressController.addressStore?.street}, ${addressController.addressStore?.district}, ${addressController.addressStore?.city}, ${addressController.addressStore?.state}",
+                            latitude: addressController
+                                        .addressStore?.latitude !=
+                                    null
+                                ? double.parse(
+                                    addressController.addressStore!.latitude!)
+                                : null,
+                            longitude: addressController
+                                        .addressStore?.longitude !=
+                                    null
+                                ? double.parse(
+                                    addressController.addressStore!.longitude!)
+                                : null,
+                          ),
                         const SizedBox(height: SizeToken.lg),
                       ],
                     ),

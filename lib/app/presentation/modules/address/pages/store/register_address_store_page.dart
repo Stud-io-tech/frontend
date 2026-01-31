@@ -105,7 +105,7 @@ class _RegisterAddressStorePageState extends State<RegisterAddressStorePage> {
                       IconButtonLargeDark(
                         onTap: () {
                           addressMapController.cleanAddress();
-                          context.push('/');
+                          context.pop();
                         },
                         icon: IconConstant.arrowLeft,
                       ),

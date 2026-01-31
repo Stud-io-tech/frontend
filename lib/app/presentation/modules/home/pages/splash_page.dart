@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_getit/flutter_getit.dart';
+import 'package:go_router/go_router.dart';
 import 'package:my_fome/app/utils/constants/image_constant.dart';
 import 'package:my_fome/app/utils/constants/text_constant.dart';
 import 'package:my_fome/app/presentation/controllers/address/address_controller.dart';
@@ -31,33 +34,46 @@ class _SplashPageState extends State<SplashPage> {
       await addressController.detailAddressUser(authController.user!.id);
       await cartItemController.getByGroupStoreByUser(authController.user!.id);
     }
+    context.go('/home');
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: RefreshIndicator(
-        onRefresh: () async => await init(),
-        child: LayoutBuilder(
-          builder: (context, constraints) => ListView(
-            physics: const AlwaysScrollableScrollPhysics(),
-            children: [
-              ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraints.maxHeight),
-                child: Builder(
-                  builder: (context) {
-                    if (authController.isServerError) {
-                      return BannerDefault(
-                        image: ImageConstant.horizontalLogo,
-                        text: TextConstant.serverError,
-                      );
-                    }
-                    return Center(child: CircularProgressIndicator());
-                  },
-                ),
+    return RefreshIndicator(
+      onRefresh: () async => await init(),
+      child: LayoutBuilder(
+        builder: (context, constraints) => ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Builder(
+                builder: (context) {
+                  if (authController.isServerError) {
+                    return BannerDefault(
+                      image: ImageConstant.serverError,
+                      text: TextConstant.serverError,
+                    );
+                  }
+                  return Container(
+                    alignment: Alignment.center,
+                    color: ColorToken.danger,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      spacing: SizeToken.sm,
+                      children: [
+                        BannerDefault(image: ImageConstant.transparentLogo),
+                        CircularProgressIndicator(
+                          color: ColorToken.light,
+                        )
+                      ],
+                    ),
+                  );
+                },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

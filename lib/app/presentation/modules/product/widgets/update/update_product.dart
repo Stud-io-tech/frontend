@@ -84,7 +84,17 @@ class _UpdateProductState extends State<UpdateProduct> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButtonLargeDark(
-                        onTap: () => Navigator.of(context).pop(),
+                        onTap: () async {
+
+                          await storeController
+                              .detailStore(widget.product.storeId);
+                          if (storeController.store != null) {
+                            swicthController
+                                .setValue(storeController.store!.isOpen);
+                          }
+                          context.go('/my-product-detail',
+                              extra: productController.product!);
+                        },
                         icon: IconConstant.arrowLeft,
                       ),
                       const SizedBox(width: SizeToken.sm),
@@ -111,7 +121,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                                     continueOnTap: () async {
                                       await productController.toggleActive(
                                           widget.product.id, store.id);
-                                      context.push('/store/my/${store.id}');
+                                      context.go('/store/my/${store.id}');
                                     },
                                   ),
                                 );
@@ -186,9 +196,15 @@ class _UpdateProductState extends State<UpdateProduct> {
                 await productController.update(widget.product.id, model,
                     image: uploadController.imageFile);
               } finally {
+                await productController.detailProduct(widget.product.id);
                 if (productController.isLoading == false) {
                   uploadController.removeImage();
-                  context.push('/store/my/${store.id}');
+                  await storeController.detailStore(widget.product.storeId);
+                  if (storeController.store != null) {
+                    swicthController.setValue(storeController.store!.isOpen);
+                  }
+                  context.go('/my-product-detail',
+                      extra: productController.product!);
                 }
               }
             }

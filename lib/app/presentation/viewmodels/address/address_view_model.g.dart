@@ -25,19 +25,35 @@ mixin _$AddressViewModel on AddressViewModelBase, Store {
     });
   }
 
-  late final _$addressAtom =
-      Atom(name: 'AddressViewModelBase.address', context: context);
+  late final _$addressUserAtom =
+      Atom(name: 'AddressViewModelBase.addressUser', context: context);
 
   @override
-  AddressDetailDto? get address {
-    _$addressAtom.reportRead();
-    return super.address;
+  AddressDetailDto? get addressUser {
+    _$addressUserAtom.reportRead();
+    return super.addressUser;
   }
 
   @override
-  set address(AddressDetailDto? value) {
-    _$addressAtom.reportWrite(value, super.address, () {
-      super.address = value;
+  set addressUser(AddressDetailDto? value) {
+    _$addressUserAtom.reportWrite(value, super.addressUser, () {
+      super.addressUser = value;
+    });
+  }
+
+  late final _$addressStoreAtom =
+      Atom(name: 'AddressViewModelBase.addressStore', context: context);
+
+  @override
+  AddressDetailDto? get addressStore {
+    _$addressStoreAtom.reportRead();
+    return super.addressStore;
+  }
+
+  @override
+  set addressStore(AddressDetailDto? value) {
+    _$addressStoreAtom.reportWrite(value, super.addressStore, () {
+      super.addressStore = value;
     });
   }
 
@@ -95,7 +111,8 @@ mixin _$AddressViewModel on AddressViewModelBase, Store {
   String toString() {
     return '''
 isLoading: ${isLoading},
-address: ${address},
+addressUser: ${addressUser},
+addressStore: ${addressStore},
 serverError: ${serverError}
     ''';
   }

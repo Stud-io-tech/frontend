@@ -105,7 +105,7 @@ class _RegisterAddressDeliveryPageState
                       IconButtonLargeDark(
                         onTap: () {
                           addressMapController.cleanAddress();
-                          context.push('/');
+                          context.go('/home');
                         },
                         icon: IconConstant.arrowLeft,
                       ),
@@ -163,7 +163,7 @@ class _RegisterAddressDeliveryPageState
               } finally {
                 if (addressController.isLoading == false) {
                   addressMapController.cleanAddress();
-                  context.push('/');
+                  context.go('/home');
                 }
               }
             }

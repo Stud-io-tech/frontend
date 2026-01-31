@@ -23,7 +23,10 @@ abstract class AddressViewModelBase with Store {
   bool isLoading = false;
 
   @observable
-  AddressDetailDto? address;
+  AddressDetailDto? addressUser;
+
+  @observable
+  AddressDetailDto? addressStore;
 
   @observable
   bool serverError = false;
@@ -71,7 +74,7 @@ abstract class AddressViewModelBase with Store {
     result.fold((success) {
       serverError = false;
       if (success.isNotEmpty) {
-        address = success.first;
+        addressUser = success.first;
       }
     }, (failure) {
       serverError = true;
@@ -88,7 +91,7 @@ abstract class AddressViewModelBase with Store {
     result.fold((success) {
       serverError = false;
       if (success.isNotEmpty) {
-        address = success.first;
+        addressStore = success.first;
       }
     }, (failure) {
       serverError = true;

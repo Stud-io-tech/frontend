@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:uikit/uikit.dart';
 
@@ -58,9 +59,23 @@ class CartItemItem extends StatelessWidget {
                         child: SizedBox(
                           height: 60,
                           width: 60,
-                          child: Image.network(
-                            image,
+                          child: Image(
+                            image: CachedNetworkImageProvider(
+                              image,
+                              maxHeight: 150,
+                              maxWidth: 150,
+                            ),
                             fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              }
+                              return const Center(
+                                child: CircularProgressIndicator(
+                                  color: ColorToken.danger,
+                                ),
+                              );
+                            },
                           ),
                         ),
                       ),

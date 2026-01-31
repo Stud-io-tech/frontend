@@ -74,7 +74,7 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                 image: store.image,
                 iconLeft: IconConstant.arrowLeft,
                 onTapIconLeft: () =>
-                    widget.id != null ? context.push('/') : context.pop(),
+                    widget.id != null ? context.go('/home') : context.pop(),
                 widgetRigth: PopUpMenuShare(
                   menuIcon: IconConstant.share,
                   secoundIcon: IconConstant.qrcode,
@@ -147,7 +147,8 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                                   const EdgeInsets.only(left: SizeToken.sm),
                               child: IconButtonLargeDark(
                                   onTap: () => launchUrlString(
-                                      'https://wa.me/${addressController.address?.whatsapp}?text=Olá, ${store.name}!%0A%0AEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?'),
+                                        'https://wa.me/${addressController.addressStore?.whatsapp}?text=${Uri.encodeComponent("Olá, ${store.name}!\n\nEu gostaria de tirar algumas dúvidas. Você poderia me ajudar?")}',
+                                      ),
                                   icon: IconConstant.whatsapp),
                             );
                           },
@@ -242,6 +243,9 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                         ),
                       );
                     }),
+                    const SizedBox(
+                      height: SizeToken.md,
+                    ),
                     TextHeadlineH2(text: TextConstant.address),
                     const SizedBox(
                       height: SizeToken.sm,
@@ -250,13 +254,16 @@ class _StoreDetailScreenWidgetState extends State<StoreDetailScreenWidget> {
                       urlTemplate: ApiConstant.tileOpenStreetMap,
                       userAgentPackageName: ApiConstant.userAgent,
                       fullAddress:
-                          "${addressController.address?.number}, ${addressController.address?.street}, ${addressController.address?.district}, ${addressController.address?.city}, ${addressController.address?.state}",
-                      latitude: addressController.address?.latitude != null
-                          ? double.parse(addressController.address!.latitude!)
+                          "${addressController.addressStore?.number}, ${addressController.addressStore?.street}, ${addressController.addressStore?.district}, ${addressController.addressStore?.city}, ${addressController.addressStore?.state}",
+                      latitude: addressController.addressStore?.latitude != null
+                          ? double.parse(
+                              addressController.addressStore!.latitude!)
                           : null,
-                      longitude: addressController.address?.longitude != null
-                          ? double.parse(addressController.address!.longitude!)
-                          : null,
+                      longitude:
+                          addressController.addressStore?.longitude != null
+                              ? double.parse(
+                                  addressController.addressStore!.longitude!)
+                              : null,
                     ),
                     const SizedBox(
                       height: SizeToken.lg,

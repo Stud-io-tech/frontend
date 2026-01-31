@@ -23,20 +23,28 @@ mixin _$AddressController on AddressControllerBase, Store {
       (_$isServerErrorComputed ??= Computed<bool>(() => super.isServerError,
               name: 'AddressControllerBase.isServerError'))
           .value;
-  Computed<AddressDetailDto?>? _$addressComputed;
+  Computed<AddressDetailDto?>? _$addressUserComputed;
 
   @override
-  AddressDetailDto? get address =>
-      (_$addressComputed ??= Computed<AddressDetailDto?>(() => super.address,
-              name: 'AddressControllerBase.address'))
-          .value;
+  AddressDetailDto? get addressUser => (_$addressUserComputed ??=
+          Computed<AddressDetailDto?>(() => super.addressUser,
+              name: 'AddressControllerBase.addressUser'))
+      .value;
+  Computed<AddressDetailDto?>? _$addressStoreComputed;
+
+  @override
+  AddressDetailDto? get addressStore => (_$addressStoreComputed ??=
+          Computed<AddressDetailDto?>(() => super.addressStore,
+              name: 'AddressControllerBase.addressStore'))
+      .value;
 
   @override
   String toString() {
     return '''
 isLoading: ${isLoading},
 isServerError: ${isServerError},
-address: ${address}
+addressUser: ${addressUser},
+addressStore: ${addressStore}
     ''';
   }
 }

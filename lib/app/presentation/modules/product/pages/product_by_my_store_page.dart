@@ -30,92 +30,70 @@ class ProductByMyStorePage extends StatelessWidget {
     return Scaffold(
       body: ContentDefault(
         child: Observer(builder: (_) {
-          return SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: SizeToken.xl3,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        IconButtonLargeDark(
-                            onTap: () => context.push('/store/my/${store.id}'),
-                            icon: IconConstant.arrowLeft),
-                        const SizedBox(
-                          width: SizeToken.sm,
-                        ),
-                        TextHeadlineH2(text: store.name)
-                      ],
-                    ),
-                    IconButtonLargeDark(
-                      key: const Key("goToProductRegister"),
-                      isBackgroundColor: false,
-                      onTap: () =>
-                          context.push('/product/register', extra: store),
-                      icon: IconConstant.add,
-                    )
-                  ],
-                ),
-                const SizedBox(
-                  height: SizeToken.lg,
-                ),
-                InputSearch(
-                  onChanged: productController.filterProducts,
-                  hintText: TextConstant.search,
-                  prefixIcon: IconConstant.search,
-                  sufixOnTap: () {},
-                ),
-                const SizedBox(
-                  height: SizeToken.xxs,
-                ),
-                Observer(builder: (_) {
-                  return Container(
-                    padding: const EdgeInsets.only(right: SizeToken.xs),
-                    alignment: Alignment.centerRight,
-                    child: TextBodyB2SemiDark(
-                      text: controller.currentIndex == 0
-                          ? TextConstant.found(
-                              productController.activeFoundsByStore)
-                          : TextConstant.found(
-                              productController.inactiveFoundsByStore),
-                    ),
-                  );
-                }),
-                const SizedBox(
-                  height: SizeToken.md,
-                ),
-                Observer(builder: (context) {
-                  if (controller.currentIndex == 0) {
-                    return Row(
-                      children: [
-                        Expanded(
-                          child: ButtonSmallDark(
-                            key: const Key("buttonActivedProducts"),
-                            text: TextConstant.actives,
-                            onPressed: () => controller.onItemTapped(0),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: SizeToken.sm,
-                        ),
-                        Expanded(
-                          child: ButtonSmallLight(
-                            key: const Key("buttonSuspendedProducts"),
-                            text: TextConstant.suspended,
-                            onPressed: () => controller.onItemTapped(1),
-                          ),
-                        )
-                      ],
-                    );
-                  }
+          return Column(
+            children: [
+              const SizedBox(
+                height: SizeToken.xl3,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      IconButtonLargeDark(
+                          onTap: () => context.push('/store/my/${store.id}'),
+                          icon: IconConstant.arrowLeft),
+                      const SizedBox(
+                        width: SizeToken.sm,
+                      ),
+                      TextHeadlineH2(text: store.name)
+                    ],
+                  ),
+                  IconButtonLargeDark(
+                    key: const Key("goToProductRegister"),
+                    isBackgroundColor: false,
+                    onTap: () =>
+                        context.push('/product/register', extra: store),
+                    icon: IconConstant.add,
+                  )
+                ],
+              ),
+              const SizedBox(
+                height: SizeToken.lg,
+              ),
+              InputSearch(
+                onChanged: productController.filterProducts,
+                hintText: TextConstant.search,
+                prefixIcon: IconConstant.search,
+                sufixOnTap: () {},
+              ),
+              const SizedBox(
+                height: SizeToken.xxs,
+              ),
+              Observer(builder: (_) {
+                return Container(
+                  padding: const EdgeInsets.only(right: SizeToken.xs),
+                  alignment: Alignment.centerRight,
+                  child: TextBodyB2SemiDark(
+                    text: controller.currentIndex == 0
+                        ? TextConstant.found(
+                            productController.activeFoundsByStore)
+                        : TextConstant.found(
+                            productController.inactiveFoundsByStore),
+                  ),
+                );
+              }),
+              const SizedBox(
+                height: SizeToken.md,
+              ),
+              Observer(builder: (context) {
+                if (controller.currentIndex == 0) {
                   return Row(
                     children: [
                       Expanded(
-                        child: ButtonSmallLight(
+                        child: ButtonSmallDark(
+                          key: const Key("buttonActivedProducts"),
                           text: TextConstant.actives,
                           onPressed: () => controller.onItemTapped(0),
                         ),
@@ -124,18 +102,40 @@ class ProductByMyStorePage extends StatelessWidget {
                         width: SizeToken.sm,
                       ),
                       Expanded(
-                        child: ButtonSmallDark(
+                        child: ButtonSmallLight(
+                          key: const Key("buttonSuspendedProducts"),
                           text: TextConstant.suspended,
                           onPressed: () => controller.onItemTapped(1),
                         ),
                       )
                     ],
                   );
-                }),
-                const SizedBox(
-                  height: SizeToken.md,
-                ),
-                IndexedStack(
+                }
+                return Row(
+                  children: [
+                    Expanded(
+                      child: ButtonSmallLight(
+                        text: TextConstant.actives,
+                        onPressed: () => controller.onItemTapped(0),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: SizeToken.sm,
+                    ),
+                    Expanded(
+                      child: ButtonSmallDark(
+                        text: TextConstant.suspended,
+                        onPressed: () => controller.onItemTapped(1),
+                      ),
+                    )
+                  ],
+                );
+              }),
+              const SizedBox(
+                height: SizeToken.md,
+              ),
+              Expanded(
+                child: IndexedStack(
                   index: controller.currentIndex,
                   children: [
                     ProductActiveByStoreScreenWidget(
@@ -144,8 +144,8 @@ class ProductByMyStorePage extends StatelessWidget {
                     ProductInactiveByStoreScreenWidget(storeId: store.id),
                   ],
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         }),
       ),

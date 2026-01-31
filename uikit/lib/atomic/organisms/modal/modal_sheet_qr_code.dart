@@ -51,8 +51,9 @@ class ModalSheetQrCode extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    TextHeadlineH1(text: title),
+                    TextHeadlineH1(text: title, center: true,),
                     const SizedBox(height: SizeToken.xs),
                     QrImageView(
                       data: linkQrCode,

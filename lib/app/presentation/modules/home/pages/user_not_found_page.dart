@@ -52,7 +52,7 @@ class _UserNotFoundPageState extends State<UserNotFoundPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     IconButtonLargeDark(
-                        onTap: () => context.push('/'),
+                        onTap: () => context.go('/home'),
                         icon: IconConstant.arrowLeft),
                     const SizedBox(
                       width: SizeToken.sm,
@@ -101,14 +101,14 @@ class _UserNotFoundPageState extends State<UserNotFoundPage> {
                 case LoginRedirectEnum.ADDRESS:
                   await addressController
                       .detailAddressUser(authController.user!.id);
-                  if (addressController.address?.userId == null) {
+                  if (addressController.addressUser == null) {
                     context.push('/address/register/delivery',
                         extra: authController.user!.id);
                     return;
                   } else {
                     context.push(
                       '/address/update/delivery',
-                      extra: addressController.address,
+                      extra: addressController.addressUser,
                     );
                     return;
                   }

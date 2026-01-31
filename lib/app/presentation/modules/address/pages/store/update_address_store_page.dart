@@ -88,9 +88,7 @@ class _UpdateAddressStorePageState extends State<UpdateAddressStorePage> {
                       IconButtonLargeDark(
                         onTap: () {
                           addressMapController.cleanAddress();
-                          context.push(
-                            '/',
-                          );
+                          context.pop();
                         },
                         icon: IconConstant.arrowLeft,
                       ),
@@ -151,7 +149,7 @@ class _UpdateAddressStorePageState extends State<UpdateAddressStorePage> {
                 } finally {
                   if (addressController.isLoading == false) {
                     addressMapController.cleanAddress();
-                    context.push('/store/my/${widget.address.storeId}');
+                    context.go('/store/my/${widget.address.storeId}');
                   }
                 }
               }

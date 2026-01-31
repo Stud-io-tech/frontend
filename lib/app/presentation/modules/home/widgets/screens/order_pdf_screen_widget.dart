@@ -4,27 +4,29 @@ import 'package:flutter_getit/flutter_getit.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:go_router/go_router.dart';
-import 'package:my_fome/app/presentation/controllers/cartItem/cart_item_controller.dart';
-import 'package:my_fome/app/presentation/controllers/order/pdf/order_pdf_controller.dart';
 import 'package:uikit/uikit.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import 'package:my_fome/app/utils/constants/icon_constant.dart';
-import 'package:my_fome/app/utils/constants/text_constant.dart';
 import 'package:my_fome/app/domain/dtos/address/address_detail_dto.dart';
 import 'package:my_fome/app/domain/dtos/cartItem/cart_item_group_store_dto.dart';
+import 'package:my_fome/app/presentation/controllers/cartItem/cart_item_controller.dart';
+import 'package:my_fome/app/presentation/controllers/order/pdf/order_pdf_controller.dart';
 import 'package:my_fome/app/presentation/controllers/upload/remote/remote_upload_controller.dart';
+import 'package:my_fome/app/utils/constants/icon_constant.dart';
+import 'package:my_fome/app/utils/constants/text_constant.dart';
 
 class OrderPdfScreenWidget extends StatefulWidget {
   final CartItemGroupStoreDto cartItemGroupStoreDto;
   final AddressDetailDto addressUser;
   final String userName;
+  final String? userId;
 
   const OrderPdfScreenWidget({
     super.key,
     required this.cartItemGroupStoreDto,
     required this.addressUser,
     required this.userName,
+    this.userId,
   });
 
   @override
@@ -138,14 +140,22 @@ class _OrderPdfScreenWidgetState extends State<OrderPdfScreenWidget> {
                         final urlPDF =
                             await remoteUploadController.uploadOrderPDF(
                                 orderPdfController.pdfPath.toString());
-                        await cartItemController.approve(
-                            widget.addressUser.userId.toString(),
-                            widget.cartItemGroupStoreDto.storeId);
+
+                        if (widget.cartItemGroupStoreDto.storeIsDelivered) {
+                          await cartItemController.approve(
+                              widget.addressUser.userId.toString(),
+                              widget.cartItemGroupStoreDto.storeId);
+                        } else {
+                          await cartItemController.approve(
+                              widget.userId.toString(),
+                              widget.cartItemGroupStoreDto.storeId);
+                        }
 
                         if (urlPDF != null &&
                             cartItemController.isLoading == false) {
                           launchUrlString(
-                              'https://wa.me/${widget.cartItemGroupStoreDto.storeWhatsapp}?text=*Capricha AÍ*%0A%0APEDIDO ${orderPdfController.code}:%0A%0A$urlPDF');
+                            'https://wa.me/${widget.cartItemGroupStoreDto.storeWhatsapp}?text=${Uri.encodeComponent("*Capricha AÍ*\n\nPEDIDO #${orderPdfController.code}:\n\n$urlPDF")}',
+                          );
                           context.pop();
                         }
                       }

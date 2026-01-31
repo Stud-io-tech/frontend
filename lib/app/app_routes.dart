@@ -8,13 +8,16 @@ import 'package:my_fome/app/presentation/modules/address/pages/delivery/register
 import 'package:my_fome/app/presentation/modules/address/pages/delivery/update_address_delivery_page.dart';
 import 'package:my_fome/app/presentation/modules/address/pages/store/register_address_store_page.dart';
 import 'package:my_fome/app/presentation/modules/address/pages/store/update_address_store_page.dart';
+import 'package:my_fome/app/presentation/modules/home/pages/about_page.dart';
 import 'package:my_fome/app/presentation/modules/home/pages/home_page.dart';
+import 'package:my_fome/app/presentation/modules/home/pages/splash_page.dart';
 import 'package:my_fome/app/presentation/modules/home/pages/user_not_found_page.dart';
 import 'package:my_fome/app/presentation/modules/home/widgets/screens/order_pdf_screen_widget.dart';
 import 'package:my_fome/app/presentation/modules/home/widgets/screens/product_detail_screen_widget.dart';
 import 'package:my_fome/app/presentation/modules/home/widgets/screens/store_detail_screen_widget.dart';
 import 'package:my_fome/app/presentation/modules/product/pages/product_by_my_store_page.dart';
 import 'package:my_fome/app/presentation/modules/product/widgets/register/register_product.dart';
+import 'package:my_fome/app/presentation/modules/product/widgets/screen/my_product_detail_screen.dart';
 import 'package:my_fome/app/presentation/modules/product/widgets/update/update_product.dart';
 import 'package:my_fome/app/presentation/modules/store/pages/my_store_page_widget.dart';
 import 'package:my_fome/app/presentation/modules/store/widgets/register/register_store.dart';
@@ -26,7 +29,11 @@ sealed class AppRoutes {
       GoRouter(navigatorKey: NavigatorGlobal.navigatorKey, routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => const HomePage(),
+      builder: (context, state) => const SplashPage(),
+    ),
+    GoRoute(
+      path: '/home',
+      builder: (context, state) => HomePage(),
     ),
     GoRoute(
       path: '/login',
@@ -37,12 +44,20 @@ sealed class AppRoutes {
     GoRoute(
       path: '/product-detail/:id',
       builder: (context, state) => ProductDetailScreenWidget(
+        productModel: state.extra as ProductDetailDto,
         id: state.pathParameters['id'],
+      ),
+    ),
+    GoRoute(
+      path: '/my-product-detail',
+      builder: (context, state) => MyProductDetailScreen(
+        product: state.extra as ProductDetailDto,
       ),
     ),
     GoRoute(
       path: '/store-detail/:id',
       builder: (context, state) => StoreDetailScreenWidget(
+        storeModel: state.extra as StoreDetailDto,
         id: state.pathParameters['id'],
       ),
     ),
@@ -79,6 +94,10 @@ sealed class AppRoutes {
       ),
     ),
     GoRoute(
+      path: '/about',
+      builder: (context, state) => AboutPage(),
+    ),
+    GoRoute(
       path: '/order-pdf',
       builder: (context, state) {
         final extras = state.extra as Map<String, dynamic>;
@@ -87,6 +106,7 @@ sealed class AppRoutes {
           cartItemGroupStoreDto: extras['cart'] as CartItemGroupStoreDto,
           addressUser: extras['address'] as AddressDetailDto,
           userName: extras['userName'] as String,
+          userId: extras['userId'] as String,
         );
       },
     ),

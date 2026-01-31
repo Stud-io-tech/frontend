@@ -76,8 +76,7 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
               ImageDetail(
                 image: product.image,
                 iconLeft: IconConstant.arrowLeft,
-                onTapIconLeft: () =>
-                    widget.id != null ? context.push('/') : context.pop(),
+                onTapIconLeft: () =>  context.pop(),
                 widgetRigth: PopUpMenuShare(
                   menuIcon: IconConstant.share,
                   secoundIcon: IconConstant.qrcode,
@@ -242,19 +241,26 @@ class _ProductDetailScreenWidgetState extends State<ProductDetailScreenWidget> {
           onPressed: () async {
             if (authController.user != null) {
               if (storeController.store != null) {
-                showDialog(
-                  context: context,
-                  builder: (context) => Observer(
-                    builder: (_) {
-                      return AlertCartItem(
-                        userId: authController.user!.id,
-                        product: product,
-                      );
-                    },
-                  ),
-                );
-                return;
+                await addressController
+                    .detailAddressUser(authController.user!.id);
+                if (addressController.addressUser != null) {
+                  showDialog(
+                    context: context,
+                    builder: (context) => Observer(
+                      builder: (_) {
+                        return AlertCartItem(
+                          userId: authController.user!.id,
+                          product: product,
+                        );
+                      },
+                    ),
+                  );
+                } else {
+                  context.push('/address/register/delivery',
+                      extra: authController.user!.id);
+                }
               }
+              return;
             }
             return await authController.login();
           }),

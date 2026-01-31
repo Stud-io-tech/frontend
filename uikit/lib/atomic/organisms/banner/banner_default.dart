@@ -5,11 +5,11 @@ import 'package:uikit/uikit.dart';
 
 class BannerDefault extends StatelessWidget {
   final String image;
-  final String text;
+  final String? text;
   const BannerDefault({
     super.key,
     required this.image,
-    required this.text,
+    this.text,
   });
 
   @override
@@ -27,9 +27,10 @@ class BannerDefault extends StatelessWidget {
               width: 300,
               height: 300,
             ),
-            TextLabelL2Dark(
-              text: text,
-            ),
+            if (text != null)
+              TextLabelL2Dark(
+                text: text.toString(),
+              ),
           ],
         ),
       ),

@@ -6,11 +6,14 @@ class TextDefault extends StatelessWidget {
   final bool overflow;
   final TextStyle textStyle;
   final int? maxLines;
+  final bool center;
   const TextDefault({
     super.key,
     required this.text,
     this.overflow = false,
-    required this.textStyle, this.maxLines,
+    required this.textStyle,
+    this.maxLines,
+    this.center = false
   });
 
   @override
@@ -21,6 +24,7 @@ class TextDefault extends StatelessWidget {
       overflow: overflow ? TextOverflow.ellipsis : null,
       style: textStyle,
       maxLines: maxLines,
+      textAlign: center? TextAlign.center: null,
     );
   }
 }

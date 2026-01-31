@@ -20,89 +20,104 @@ class StoreScreen extends StatefulWidget {
 
 class _StoreScreenState extends State<StoreScreen> {
   final storeController = Injector.get<StoreController>();
-  @override
-  void initState() {
-    super.initState();
-    storeController.listStore();
-  }
 
   final addressController = Injector.get<AddressController>();
 
+  Future<void> init() async {
+    await storeController.listStore();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: SizeToken.md,
-          ),
-          InputSearch(
-            onChanged: storeController.filterStores,
-            hintText: TextConstant.search,
-            prefixIcon: IconConstant.search,
-            sufixOnTap: () {},
-          ),
-          const SizedBox(
-            height: SizeToken.xxs,
-          ),
-          Observer(builder: (_) {
-            return Container(
-              padding: const EdgeInsets.only(right: SizeToken.xs),
-              alignment: Alignment.centerRight,
-              child: TextBodyB2SemiDark(
-                text: TextConstant.found(storeController.founds),
-              ),
-            );
-          }),
-          const SizedBox(
-            height: SizeToken.md,
-          ),
-          Observer(builder: (_) {
-            if (storeController.isLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            }
-            if (storeController.isServerError) {
-              return BannerDefault(
-                image: ImageConstant.serverError,
-                text: TextConstant.serverError,
-              );
-            }
-            if (storeController.stores!.isEmpty) {
-              return BannerDefault(
-                  image: ImageConstant.empty, text: TextConstant.storeNotFound);
-            }
-            return ListView.separated(
-              separatorBuilder: (context, index) => const DividerDefault(),
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: storeController.stores?.length ?? 0,
-              itemBuilder: (context, index) {
-                final store = storeController.stores![index];
-                return StoreItem(
-                  name: store.name,
-                  description: store.description,
-                  image: store.image,
-                  icon: IconConstant.chevronRigth,
-                  onTap: () async {
-                    await addressController.detailAddressStore(store.id);
-                    if (addressController.address?.storeId != null) {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => StoreDetailScreenWidget(
-                            storeModel: store,
-                          ),
-                        ),
+    return RefreshIndicator(
+      onRefresh: () async => init(),
+      child: LayoutBuilder(
+        builder: (context, constraints) => ListView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(
+                  height: SizeToken.md,
+                ),
+                InputSearch(
+                  onChanged: storeController.filterStores,
+                  hintText: TextConstant.search,
+                  prefixIcon: IconConstant.search,
+                  sufixOnTap: () {},
+                ),
+                const SizedBox(
+                  height: SizeToken.xxs,
+                ),
+                Observer(builder: (_) {
+                  return Container(
+                    padding: const EdgeInsets.only(right: SizeToken.xs),
+                    alignment: Alignment.centerRight,
+                    child: TextBodyB2SemiDark(
+                      text: TextConstant.found(storeController.founds),
+                    ),
+                  );
+                }),
+                const SizedBox(
+                  height: SizeToken.md,
+                ),
+                Observer(builder: (_) {
+                  if (storeController.isLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (storeController.isServerError) {
+                    return BannerDefault(
+                      image: ImageConstant.serverError,
+                      text: TextConstant.serverError,
+                    );
+                  }
+                  if (storeController.stores!.isEmpty) {
+                    return BannerDefault(
+                        image: ImageConstant.empty,
+                        text: TextConstant.storeNotFound);
+                  }
+                  return ListView.separated(
+                    separatorBuilder: (context, index) =>
+                        const DividerDefault(),
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: storeController.stores?.length ?? 0,
+                    itemBuilder: (context, index) {
+                      final store = storeController.stores![index];
+                      return StoreItem(
+                        name: store.name,
+                        description: store.description,
+                        image: store.image,
+                        icon: IconConstant.chevronRigth,
+                        onTap: () async {
+                          await addressController.detailAddressStore(store.id);
+                          if (addressController.addressStore != null) {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => StoreDetailScreenWidget(
+                                  storeModel: store,
+                                ),
+                              ),
+                            );
+                          }
+                        },
                       );
-                    }
-                  },
-                );
-              },
-            );
-          }),
-        ],
+                    },
+                  );
+                }),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

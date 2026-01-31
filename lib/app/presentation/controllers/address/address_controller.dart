@@ -23,7 +23,10 @@ abstract class AddressControllerBase with Store {
   bool get isServerError => addressViewModel.serverError;
 
   @computed
-  AddressDetailDto? get address => addressViewModel.address;
+  AddressDetailDto? get addressUser => addressViewModel.addressUser;
+
+  @computed
+  AddressDetailDto? get addressStore => addressViewModel.addressStore;
 
   Future<void> detailAddressUser(String id) async {
     await addressViewModel.detailAddressUser(id);
@@ -42,6 +45,7 @@ abstract class AddressControllerBase with Store {
   }
 
   void clean() {
-    addressViewModel.address = null;
+    addressViewModel.addressStore = null;
+    addressViewModel.addressUser = null;
   }
 }

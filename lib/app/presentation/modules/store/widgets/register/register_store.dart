@@ -68,7 +68,7 @@ class _RegisterStoreState extends State<RegisterStore> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButtonLargeDark(
-                        onTap: () => context.push('/'),
+                        onTap: () => context.go('/home'),
                         icon: IconConstant.arrowLeft,
                       ),
                       const SizedBox(width: SizeToken.sm),
@@ -102,7 +102,7 @@ class _RegisterStoreState extends State<RegisterStore> {
             text: TextConstant.save,
             icon: IconConstant.success,
             onPressed: () async {
-              if ((formKey.currentState?.validate()    ?? false) &&
+              if ((formKey.currentState?.validate() ?? false) &&
                   uploadController.imageFile != null) {
                 final bool isDelivered = swicthController.value;
 
@@ -110,9 +110,10 @@ class _RegisterStoreState extends State<RegisterStore> {
                     ? delieveryTimeKmEC.text
                     : '0';
 
-                final double dynamicFreightKm = dynamicFreightKmEC.text.isNotEmpty
-                    ? double.parse(dynamicFreightKmEC.text)
-                    : 0;
+                final double dynamicFreightKm =
+                    dynamicFreightKmEC.text.isNotEmpty
+                        ? double.parse(dynamicFreightKmEC.text)
+                        : 0;
 
                 StoreRegisterDto model = StoreRegisterDto(
                   name: nameEC.text,
@@ -131,7 +132,7 @@ class _RegisterStoreState extends State<RegisterStore> {
                   if (storeController.isLoading == false) {
                     uploadController.removeImage();
                     await authController.load();
-                    context.push('/');
+                    context.go('/home');
                   }
                 }
               }

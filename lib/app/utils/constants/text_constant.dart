@@ -4,6 +4,9 @@ import 'package:my_fome/app/utils/constants/deep_link_constant.dart';
 final class TextConstant {
   static String welcome = 'Bem-vindo ao Capricha AÍ.';
   static String home = 'Home';
+  static String about = 'Sobre';
+  static String descriptionAbout =
+      'O Capricha AÍ é um aplicativo móvel criado para impulsionar vendedores informais e microempreendedores do ramo alimentício, levando a comercialização digital para o coração das cidades do interior. Aqui, cada prato conta uma história — e cada venda fortalece a economia local.';
   static String products = 'Produtos';
   static String stores = 'Lojas';
   static String cart = 'Carrinho';
@@ -118,8 +121,14 @@ final class TextConstant {
   static String send = 'Enviar';
   static String confirm = 'Confirmar';
   static String cancel = 'Cancelar';
+  static String members = 'Membros';
+  static String lazaroMembers = 'Lázaro Alexandre';
+  static String welenMembers = 'Welen Almeida';
+  static String engSoftwareMembers = 'ENGENHEIRO DE SOFTWARE';
+  static String linkdinMembers = 'LINKEDIN ↗';
   static String storeProducts = 'Produtos da Loja';
   static String newProduct = 'Novo Produto';
+   static String copyRight = "© ${DateTime.now().year} Capricha AÍ | Todos os direitos reservados";
   static String newStore = 'Nova Loja';
   static String newDeliveryAddress = 'Novo Endereço de Entrega';
 
