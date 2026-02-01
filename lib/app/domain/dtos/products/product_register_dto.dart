@@ -38,38 +38,38 @@ class ProductRegisterDto {
       price: map['price'] as String,
       amount: map['amount'] as String,
       storeId: map['store_id'] as String,
-      isPerishable: map['is_perishable'] as bool,
+      isPerishable: map['is_perishable'] as bool? ?? false,
       preparationTime: map['preparation_time'] as String,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory ProductRegisterDto.fromJson(String source) => ProductRegisterDto.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory ProductRegisterDto.fromJson(String source) =>
+      ProductRegisterDto.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   bool operator ==(covariant ProductRegisterDto other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.name == name &&
-      other.description == description &&
-      other.price == price &&
-      other.amount == amount &&
-      other.storeId == storeId &&
-      other.isPerishable == isPerishable &&
-      other.preparationTime == preparationTime;
+
+    return other.name == name &&
+        other.description == description &&
+        other.price == price &&
+        other.amount == amount &&
+        other.storeId == storeId &&
+        other.isPerishable == isPerishable &&
+        other.preparationTime == preparationTime;
   }
 
   @override
   int get hashCode {
     return name.hashCode ^
-      description.hashCode ^
-      price.hashCode ^
-      amount.hashCode ^
-      storeId.hashCode ^
-      isPerishable.hashCode ^
-      preparationTime.hashCode;
+        description.hashCode ^
+        price.hashCode ^
+        amount.hashCode ^
+        storeId.hashCode ^
+        isPerishable.hashCode ^
+        preparationTime.hashCode;
   }
 
   @override
