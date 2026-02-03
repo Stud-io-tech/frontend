@@ -23,7 +23,7 @@ class ButtonLarge extends StatelessWidget {
         isBorderRadio: false,
         padding: const EdgeInsets.symmetric(vertical: SizeToken.lg),
         backgroundColor: ColorToken.danger,
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         child: isLoading
             ? const SizedBox(
                 height: SizeToken.lg,

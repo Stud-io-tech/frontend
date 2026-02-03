@@ -106,7 +106,7 @@ sealed class AppRoutes {
           cartItemGroupStoreDto: extras['cart'] as CartItemGroupStoreDto,
           addressUser: extras['address'] as AddressDetailDto,
           userName: extras['userName'] as String,
-          userId: extras['userId'] as String,
+          userId: extras['userId'] as String?,
         );
       },
     ),

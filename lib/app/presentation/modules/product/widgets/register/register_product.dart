@@ -73,8 +73,7 @@ class _RegisterStoreState extends State<RegisterProduct> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       IconButtonLargeDark(
-                        onTap: () =>
-                            context.pop(),
+                        onTap: () => context.pop(),
                         icon: IconConstant.arrowLeft,
                       ),
                       const SizedBox(width: SizeToken.sm),
@@ -84,19 +83,17 @@ class _RegisterStoreState extends State<RegisterProduct> {
                 ],
               ),
               const SizedBox(height: SizeToken.lg),
-              Observer(
-                builder: (_) {
-                  return ProductRegisterForm(
-                    nameEC: nameEC,
-                    descriptionEC: descriptionEC,
-                    priceEC: priceEC,
-                    amountEC: amountEC,
-                    formKey: formKey,
-                    isPerishable: swicthController.value,
-                    preparationTimeEC: preparationTimeEC,
-                  );
-                }
-              ),
+              Observer(builder: (_) {
+                return ProductRegisterForm(
+                  nameEC: nameEC,
+                  descriptionEC: descriptionEC,
+                  priceEC: priceEC,
+                  amountEC: amountEC,
+                  formKey: formKey,
+                  isPerishable: swicthController.value,
+                  preparationTimeEC: preparationTimeEC,
+                );
+              }),
             ],
           ),
         ),
@@ -112,14 +109,13 @@ class _RegisterStoreState extends State<RegisterProduct> {
                 uploadController.imageFile != null) {
               String price = MaskToken.formatCurrency(priceEC.text);
               ProductRegisterDto model = ProductRegisterDto(
-                name: nameEC.text,
-                description: descriptionEC.text,
-                price: price,
-                amount: amountEC.text,
-                storeId: widget.store.id,
-                isPerishable: swicthController.value,
-                preparationTime: preparationTimeEC.text
-              );
+                  name: nameEC.text,
+                  description: descriptionEC.text,
+                  price: price,
+                  amount: amountEC.text,
+                  storeId: widget.store.id,
+                  isPerishable: swicthController.value,
+                  preparationTime: preparationTimeEC.text);
 
               try {
                 await productController.register(
@@ -128,6 +124,7 @@ class _RegisterStoreState extends State<RegisterProduct> {
                 if (productController.isLoading == false) {
                   uploadController.removeImage();
                   context.go('/product/my', extra: widget.store);
+                  await productController.listProductsActiveByStore(widget.store.id);
                 }
               }
             }

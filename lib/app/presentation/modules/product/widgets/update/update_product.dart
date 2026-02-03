@@ -93,7 +93,7 @@ class _UpdateProductState extends State<UpdateProduct> {
                                 .setValue(storeController.store!.isOpen);
                           }
                           context.go('/my-product-detail',
-                              extra: productController.product!);
+                              extra: widget.product);
                         },
                         icon: IconConstant.arrowLeft,
                       ),

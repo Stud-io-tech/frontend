@@ -18,7 +18,7 @@ class ButtonProgress extends StatelessWidget {
     return ButtonDefault(
       padding: const EdgeInsets.symmetric(vertical: SizeToken.md),
       backgroundColor: ColorToken.danger,
-      onPressed: onPressed,
+      onPressed: isLoading ? null : onPressed,
       child: isLoading
           ? const SizedBox(
               height: SizeToken.lg,
