@@ -44,7 +44,7 @@ sealed class AppRoutes {
     GoRoute(
       path: '/product-detail/:id',
       builder: (context, state) => ProductDetailScreenWidget(
-        productModel: state.extra as ProductDetailDto,
+        productModel: state.extra as ProductDetailDto?,
         id: state.pathParameters['id'],
       ),
     ),
@@ -57,7 +57,7 @@ sealed class AppRoutes {
     GoRoute(
       path: '/store-detail/:id',
       builder: (context, state) => StoreDetailScreenWidget(
-        storeModel: state.extra as StoreDetailDto,
+        storeModel: state.extra as StoreDetailDto?,
         id: state.pathParameters['id'],
       ),
     ),
